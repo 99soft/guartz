@@ -48,11 +48,6 @@ public class Quartz4GuiceTimerTest {
 		
 		logger.debug("Done checking task A {} ms ",stopwatch.reset());
 
-		stopwatch=new Stopwatch();
-		
-		Assert.assertEquals(5,  timedTask.getInvocationsTimedTaskB());
-		
-		logger.debug("Done checking task B  {} ms ",stopwatch.reset());
 		
 
 	}
