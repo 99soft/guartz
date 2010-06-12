@@ -39,6 +39,7 @@ public class Quartz4GuiceTimerTest {
 	@Test
 	public void minimalTest() throws InterruptedException {
 		
+		logger.debug("Timer test starting");
 		Stopwatch stopwatch=new Stopwatch();
 		
 		

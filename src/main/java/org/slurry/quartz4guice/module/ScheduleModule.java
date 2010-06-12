@@ -1,6 +1,5 @@
 package org.slurry.quartz4guice.module;
 
-import org.slurry.quartz4guice.annotation.Scheduled;
 import org.slurry.quartz4guice.aop.ScheduledTypeListener;
 
 import com.google.inject.AbstractModule;
@@ -11,8 +10,7 @@ public class ScheduleModule extends AbstractModule {
 
 		ScheduledTypeListener scheduledTypeListener = new ScheduledTypeListener();
 		requestInjection(scheduledTypeListener);
-		bindListener(Matchers.annotatedWith(Scheduled.class),
-				scheduledTypeListener);
+		bindListener(Matchers.any(), scheduledTypeListener);
 	}
 
 }

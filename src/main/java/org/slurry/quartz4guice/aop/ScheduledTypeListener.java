@@ -2,6 +2,7 @@ package org.slurry.quartz4guice.aop;
 
 import java.util.Date;
 
+import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -18,8 +19,8 @@ public class ScheduledTypeListener implements TypeListener {
 
 	public <T> void hear(TypeLiteral<T> typeLiteral,
 			TypeEncounter<T> typeEncounter) {
-		if (typeLiteral.getClass().isAnnotationPresent(Scheduled.class)) {
-			startSchedule(typeLiteral.getClass());
+		if (typeLiteral.getRawType().isAnnotationPresent(Scheduled.class)) {
+			startSchedule(typeLiteral.getRawType());
 		}
 	}
 	
@@ -41,13 +42,15 @@ public class ScheduledTypeListener implements TypeListener {
 				// to use the default group)
 				clazz); // the java class to execute
 
-		Trigger trigger = TriggerUtils.makeDailyTrigger(8, 30);
-		trigger.setStartTime(new Date());
-		trigger.setName("myTrigger");
-
+		CronTrigger trigger = new CronTrigger(clazz.getCanonicalName());
+		
+		Scheduled scheduled =(Scheduled) clazz.getAnnotation(Scheduled.class);
+		
+		String cronString=scheduled.cron();
 		try {
+			trigger.setCronExpression(cronString);
 			sched.scheduleJob(jobDetail, trigger);
-		} catch (SchedulerException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
