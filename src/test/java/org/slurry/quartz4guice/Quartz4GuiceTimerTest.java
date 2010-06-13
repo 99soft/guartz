@@ -55,9 +55,6 @@ public class Quartz4GuiceTimerTest {
 	
 
 
-	@After
-	public void afterTest() {
-
-	}
+	
 
 }
