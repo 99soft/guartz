@@ -11,12 +11,15 @@ import org.quartz.Trigger;
 import org.quartz.TriggerUtils;
 import org.slurry.quartz4guice.annotation.Scheduled;
 
+import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 
 public class ScheduledTypeListener implements TypeListener {
 
+	private SchedulerFactory schedulerFactory;
+	
 	public <T> void hear(TypeLiteral<T> typeLiteral,
 			TypeEncounter<T> typeEncounter) {
 		if (typeLiteral.getRawType().isAnnotationPresent(Scheduled.class)) {
@@ -25,11 +28,10 @@ public class ScheduledTypeListener implements TypeListener {
 	}
 	
 	private void startSchedule(Class clazz) {
-		SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 
 		Scheduler sched = null;
 		try {
-			sched = schedFact.getScheduler();
+			sched = schedulerFactory.getScheduler();
 
 			sched.start();
 		} catch (SchedulerException e) {
@@ -56,6 +58,15 @@ public class ScheduledTypeListener implements TypeListener {
 		}
 
 		
+	}
+
+	@Inject
+	public void setSchedulerFactory(SchedulerFactory schedulerFactory) {
+		this.schedulerFactory = schedulerFactory;
+	}
+
+	public SchedulerFactory getSchedulerFactory() {
+		return schedulerFactory;
 	}
 
 }
