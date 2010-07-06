@@ -29,7 +29,7 @@ import com.google.inject.spi.TypeListener;
  * 
  * @version $Id$
  */
-public class ScheduledTypeListener implements TypeListener {
+public final class ScheduledTypeListener implements TypeListener {
 
     private final static String DEFAULT = "##default";
 
