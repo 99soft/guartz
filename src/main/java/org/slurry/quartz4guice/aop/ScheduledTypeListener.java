@@ -43,10 +43,8 @@ public class ScheduledTypeListener implements TypeListener {
      */
     public <T> void hear(TypeLiteral<T> typeLiteral,
             TypeEncounter<T> typeEncounter) {
-        this.startSchedule(typeLiteral.getRawType());
-    }
+        Class<?> jobClass = typeLiteral.getRawType();
 
-    private <T> void startSchedule(Class<T> jobClass) {
         Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
 
         JobDetail jobDetail = new JobDetail(scheduled.jobName(), // job name
