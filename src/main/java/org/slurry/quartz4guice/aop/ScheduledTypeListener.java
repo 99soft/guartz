@@ -31,6 +31,8 @@ import com.google.inject.spi.TypeListener;
  */
 public class ScheduledTypeListener implements TypeListener {
 
+    private final static String DEFAULT = "##default";
+
     @Inject
     private Scheduler scheduler;
 
@@ -55,7 +57,14 @@ public class ScheduledTypeListener implements TypeListener {
                 scheduled.durability(),
                 scheduled.recover());
 
-        CronTrigger trigger = new CronTrigger(jobClass.getCanonicalName());
+        String triggerName = scheduled.triggerName();
+        if (DEFAULT.equals(triggerName)) {
+            triggerName = jobClass.getCanonicalName();
+        }
+        CronTrigger trigger = new CronTrigger(triggerName,
+                scheduled.triggerGroup(),
+                scheduled.jobName(),
+                scheduled.jobGroup());
 
         try {
             trigger.setCronExpression(scheduled.cronExpression());

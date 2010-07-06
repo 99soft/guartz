@@ -40,6 +40,10 @@ public @interface Scheduled {
 
     boolean recover() default false;
 
+    String triggerName() default "##default";
+
+    String triggerGroup() default Scheduler.DEFAULT_GROUP;
+
     String cronExpression();
 
 }
