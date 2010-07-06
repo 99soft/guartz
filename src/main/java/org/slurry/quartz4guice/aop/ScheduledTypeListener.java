@@ -57,6 +57,10 @@ public final class ScheduledTypeListener implements TypeListener {
                 scheduled.durability(),
                 scheduled.recover());
 
+        for (String jobListenerName : scheduled.jobListenerNames()) {
+            jobDetail.addJobListener(jobListenerName);
+        }
+
         String triggerName = scheduled.triggerName();
         if (DEFAULT.equals(triggerName)) {
             triggerName = jobClass.getCanonicalName();

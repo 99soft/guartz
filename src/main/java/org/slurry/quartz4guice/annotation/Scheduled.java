@@ -34,6 +34,8 @@ public @interface Scheduled {
 
     String jobGroup() default Scheduler.DEFAULT_GROUP;
 
+    String[] jobListenerNames() default {};
+
     boolean volatility() default false;
 
     boolean durability() default false;
