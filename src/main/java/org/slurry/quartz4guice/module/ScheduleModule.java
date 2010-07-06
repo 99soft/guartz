@@ -15,9 +15,11 @@
  */
 package org.slurry.quartz4guice.module;
 
+import org.quartz.Scheduler;
 import org.quartz.SchedulerFactory;
 import org.slurry.quartz4guice.aop.ScheduledTypeListener;
 import org.slurry.quartz4guice.scheduling.ScheduleFactoryProvider;
+import org.slurry.quartz4guice.scheduling.SchedulerProvider;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
@@ -41,6 +43,7 @@ public final class ScheduleModule extends AbstractModule {
 
     protected void configure() {
         bind(SchedulerFactory.class).toProvider(this.schedulerFactoryProviderClass).asEagerSingleton();
+        bind(Scheduler.class).toProvider(SchedulerProvider.class);
 
         ScheduledTypeListener scheduledTypeListener = new ScheduledTypeListener();
         requestInjection(scheduledTypeListener);

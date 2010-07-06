@@ -19,8 +19,6 @@ import org.quartz.CronTrigger;
 import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
 import org.slurry.quartz4guice.annotation.Scheduled;
 
 import com.google.inject.Inject;
@@ -35,10 +33,10 @@ import com.google.inject.spi.TypeListener;
 public final class ScheduledTypeListener implements TypeListener {
 
     @Inject
-    private SchedulerFactory schedulerFactory;
+    private Scheduler scheduler;
 
-    public void setSchedulerFactory(SchedulerFactory schedulerFactory) {
-        this.schedulerFactory = schedulerFactory;
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
     }
 
     public <T> void hear(TypeLiteral<T> typeLiteral,
@@ -59,15 +57,6 @@ public final class ScheduledTypeListener implements TypeListener {
 
         Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
 
-        Scheduler scheduler = null;
-        try {
-            scheduler = this.schedulerFactory.getScheduler();
-
-            scheduler.start();
-        } catch (SchedulerException e) {
-            throw new RuntimeException("An error occurred while retrieving a Scheduler instance", e);
-        }
-
         JobDetail jobDetail = new JobDetail(scheduled.jobName(), // job name
                 scheduled.group(), // job group (you can also specify 'null'
                                    // to use the default group)
@@ -80,7 +69,7 @@ public final class ScheduledTypeListener implements TypeListener {
 
         try {
             trigger.setCronExpression(scheduled.cronExpression());
-            scheduler.scheduleJob(jobDetail, trigger);
+            this.scheduler.scheduleJob(jobDetail, trigger);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while scheduling the Job '"
                     + jobDetail
