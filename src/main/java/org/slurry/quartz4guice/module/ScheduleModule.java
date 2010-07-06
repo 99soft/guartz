@@ -8,20 +8,24 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 import com.google.inject.matcher.Matchers;
 
-public class ScheduleModule extends AbstractModule {
-	protected void configure() {
+public final class ScheduleModule extends AbstractModule {
 
-		bind(SchedulerFactory.class).toProvider(getScheduleFactoryProvider())
-				.asEagerSingleton();
+    private final Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass;
 
-		ScheduledTypeListener scheduledTypeListener = new ScheduledTypeListener();
-		requestInjection(scheduledTypeListener);
-		bindListener(Matchers.any(), scheduledTypeListener);
-	}
+    public ScheduleModule() {
+        this(ScheduleFactoryProvider.class);
+    }
 
-	protected Class<? extends Provider<SchedulerFactory>> getScheduleFactoryProvider() {
+    public ScheduleModule(Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass) {
+        this.schedulerFactoryProviderClass = schedulerFactoryProviderClass;
+    }
 
-		return ScheduleFactoryProvider.class;
-	}
+    protected void configure() {
+        bind(SchedulerFactory.class).toProvider(this.schedulerFactoryProviderClass).asEagerSingleton();
+
+        ScheduledTypeListener scheduledTypeListener = new ScheduledTypeListener();
+        requestInjection(scheduledTypeListener);
+        bindListener(Matchers.any(), scheduledTypeListener);
+    }
 
 }
