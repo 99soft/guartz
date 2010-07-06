@@ -54,7 +54,7 @@ public class Quartz4GuiceTimerTest {
         Thread.sleep(5000);
         Assert.assertEquals(2, this.timedTask.getInvocationsTimedTaskA());
 
-        this.logger.debug("Done checking task A {} ms ",stopwatch.reset());
+        this.logger.debug("Done checking task A {} ms ", stopwatch.reset());
     }
 
 }
