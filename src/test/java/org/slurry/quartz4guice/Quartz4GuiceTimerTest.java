@@ -27,6 +27,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.internal.Stopwatch;
 
+/**
+ * 
+ * @version $Id$
+ */
 public class Quartz4GuiceTimerTest {
 	
 

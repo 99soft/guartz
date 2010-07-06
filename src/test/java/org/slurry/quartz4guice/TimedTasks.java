@@ -20,6 +20,10 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slurry.quartz4guice.annotation.Scheduled;
 
+/**
+ * 
+ * @version $Id$
+ */
 /*0/15*/
 @Scheduled(jobName = "test", cronExpression = "0/3 * * * * ?")
 public class TimedTasks implements InterfaceContainingTimedTask, Job {

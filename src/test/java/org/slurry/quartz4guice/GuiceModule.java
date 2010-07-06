@@ -17,6 +17,10 @@ package org.slurry.quartz4guice;
 
 import com.google.inject.AbstractModule;
 
+/**
+ * 
+ * @version $Id$
+ */
 public class GuiceModule extends AbstractModule {
 
 	@Override

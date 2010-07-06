@@ -20,6 +20,10 @@ import org.quartz.impl.StdSchedulerFactory;
 
 import com.google.inject.Provider;
 
+/**
+ * 
+ * @version $Id$
+ */
 public class ScheduleFactoryProvider implements Provider<SchedulerFactory> {
 
     private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();

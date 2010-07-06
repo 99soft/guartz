@@ -15,6 +15,10 @@
  */
 package org.slurry.quartz4guice;
 
+/**
+ * 
+ * @version $Id$
+ */
 public interface InterfaceContainingTimedTask {
 
 	public void timedTaskA();

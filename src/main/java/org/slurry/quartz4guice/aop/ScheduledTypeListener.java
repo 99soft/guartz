@@ -28,6 +28,10 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 
+/**
+ * 
+ * @version $Id$
+ */
 public class ScheduledTypeListener implements TypeListener {
 
 	private SchedulerFactory schedulerFactory;

@@ -22,6 +22,10 @@ import java.lang.annotation.Target;
 
 import org.quartz.Scheduler;
 
+/**
+ * 
+ * @version $Id$
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Scheduled {

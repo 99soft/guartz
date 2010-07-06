@@ -23,6 +23,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 import com.google.inject.matcher.Matchers;
 
+/**
+ * 
+ * @version $Id$
+ */
 public final class ScheduleModule extends AbstractModule {
 
     private final Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass;
