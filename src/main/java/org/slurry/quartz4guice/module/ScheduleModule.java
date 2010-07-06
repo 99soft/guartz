@@ -23,7 +23,6 @@ import org.slurry.quartz4guice.scheduling.SchedulerProvider;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
-import com.google.inject.matcher.Matchers;
 
 /**
  * 
@@ -41,13 +40,16 @@ public final class ScheduleModule extends AbstractModule {
         this.schedulerFactoryProviderClass = schedulerFactoryProviderClass;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected void configure() {
         bind(SchedulerFactory.class).toProvider(this.schedulerFactoryProviderClass).asEagerSingleton();
         bind(Scheduler.class).toProvider(SchedulerProvider.class);
 
         ScheduledTypeListener scheduledTypeListener = new ScheduledTypeListener();
         requestInjection(scheduledTypeListener);
-        bindListener(Matchers.any(), scheduledTypeListener);
+        bindListener(new JobMatcher(), scheduledTypeListener);
     }
 
 }

@@ -16,7 +16,6 @@
 package org.slurry.quartz4guice.aop;
 
 import org.quartz.CronTrigger;
-import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.slurry.quartz4guice.annotation.Scheduled;
@@ -30,7 +29,7 @@ import com.google.inject.spi.TypeListener;
  * 
  * @version $Id$
  */
-public final class ScheduledTypeListener implements TypeListener {
+public class ScheduledTypeListener implements TypeListener {
 
     @Inject
     private Scheduler scheduler;
@@ -39,22 +38,15 @@ public final class ScheduledTypeListener implements TypeListener {
         this.scheduler = scheduler;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public <T> void hear(TypeLiteral<T> typeLiteral,
             TypeEncounter<T> typeEncounter) {
-        if (typeLiteral.getRawType().isAnnotationPresent(Scheduled.class)) {
-            startSchedule(typeLiteral.getRawType());
-        }
+        this.startSchedule(typeLiteral.getRawType());
     }
 
     private <T> void startSchedule(Class<T> jobClass) {
-        if (!Job.class.isAssignableFrom(jobClass)) {
-            throw new RuntimeException("Class '"
-                    + jobClass.getName()
-                    + "' is not a '"
-                    + Job.class.getName()
-                    + "' instance");
-        }
-
         Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
 
         JobDetail jobDetail = new JobDetail(scheduled.jobName(), // job name
