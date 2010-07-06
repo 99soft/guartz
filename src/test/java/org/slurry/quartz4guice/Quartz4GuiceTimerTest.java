@@ -32,45 +32,29 @@ import com.google.inject.internal.Stopwatch;
  * @version $Id$
  */
 public class Quartz4GuiceTimerTest {
-	
 
-	private Injector injector;
+    private Injector injector;
 
-	private InterfaceContainingTimedTask timedTask;
+    private InterfaceContainingTimedTask timedTask;
 
-	
-	private Logger logger;
+    private Logger logger;
 
-	@Before
-	public void beforeTest() {
-		
-		logger=LoggerFactory.getLogger(Quartz4GuiceTimerTest.class);
+    @Before
+    public void beforeTest() {
+        this.logger = LoggerFactory.getLogger(Quartz4GuiceTimerTest.class);
+        this.injector = Guice.createInjector(new ScheduleModule(), new GuiceModule());
+        this.timedTask = injector.getInstance(InterfaceContainingTimedTask.class);
+    }
 
-		injector = Guice.createInjector(new ScheduleModule(), new GuiceModule());
+    @Test
+    public void minimalTest() throws InterruptedException {
+        this.logger.debug("Timer test starting");
 
-		timedTask = injector.getInstance(InterfaceContainingTimedTask.class);
+        Stopwatch stopwatch = new Stopwatch();
+        Thread.sleep(5000);
+        Assert.assertEquals(2, this.timedTask.getInvocationsTimedTaskA());
 
-	}
-
-	@Test
-	public void minimalTest() throws InterruptedException {
-		
-		logger.debug("Timer test starting");
-		Stopwatch stopwatch=new Stopwatch();
-		
-		
-		Thread.sleep(5000);
-
-		Assert.assertEquals(2,  timedTask.getInvocationsTimedTaskA());
-		
-		logger.debug("Done checking task A {} ms ",stopwatch.reset());
-
-		
-
-	}
-	
-
-
-	
+        this.logger.debug("Done checking task A {} ms ",stopwatch.reset());
+    }
 
 }

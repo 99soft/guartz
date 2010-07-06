@@ -23,10 +23,9 @@ import com.google.inject.AbstractModule;
  */
 public class GuiceModule extends AbstractModule {
 
-	@Override
-	protected void configure() {
-		bind(InterfaceContainingTimedTask.class).to(TimedTasks.class);
-
-	}
+    @Override
+    protected void configure() {
+        bind(InterfaceContainingTimedTask.class).to(TimedTasks.class);
+    }
 
 }
