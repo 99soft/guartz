@@ -32,68 +32,62 @@ import com.google.inject.spi.TypeListener;
  * 
  * @version $Id$
  */
-public class ScheduledTypeListener implements TypeListener {
+public final class ScheduledTypeListener implements TypeListener {
 
-	private SchedulerFactory schedulerFactory;
-	
-	public <T> void hear(TypeLiteral<T> typeLiteral,
-			TypeEncounter<T> typeEncounter) {
-		if (typeLiteral.getRawType().isAnnotationPresent(Scheduled.class)) {
-			startSchedule(typeLiteral.getRawType());
-		}
-	}
-	
-	private <T> void startSchedule(Class<T> jobClass) {
-	    if (!Job.class.isAssignableFrom(jobClass)) {
-	        throw new RuntimeException("Class '"
-	                + jobClass.getName()
-	                + "' is not a '"
-	                + Job.class.getName()
-	                + "' instance");
-	    }
+    @Inject
+    private SchedulerFactory schedulerFactory;
 
-	    Scheduled scheduled = (Scheduled) jobClass.getAnnotation(Scheduled.class);
+    public void setSchedulerFactory(SchedulerFactory schedulerFactory) {
+        this.schedulerFactory = schedulerFactory;
+    }
 
-		Scheduler sched = null;
-		try {
-			sched = schedulerFactory.getScheduler();
+    public <T> void hear(TypeLiteral<T> typeLiteral,
+            TypeEncounter<T> typeEncounter) {
+        if (typeLiteral.getRawType().isAnnotationPresent(Scheduled.class)) {
+            startSchedule(typeLiteral.getRawType());
+        }
+    }
 
-			sched.start();
-		} catch (SchedulerException e) {
-			throw new RuntimeException("An error occurred while retrieving a Scheduler instance", e);
-		}
+    private <T> void startSchedule(Class<T> jobClass) {
+        if (!Job.class.isAssignableFrom(jobClass)) {
+            throw new RuntimeException("Class '"
+                    + jobClass.getName()
+                    + "' is not a '"
+                    + Job.class.getName()
+                    + "' instance");
+        }
 
-		JobDetail jobDetail = new JobDetail(scheduled.jobName(), // job name
-		        scheduled.group(), // job group (you can also specify 'null'
-				// to use the default group)
-				jobClass,
-				scheduled.volatility(),
-				scheduled.durability(),
-				scheduled.recover()); // the java class to execute
+        Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
 
-		CronTrigger trigger = new CronTrigger(jobClass.getCanonicalName());
+        Scheduler scheduler = null;
+        try {
+            scheduler = this.schedulerFactory.getScheduler();
 
-		try {
-			trigger.setCronExpression(scheduled.cronExpression());
-			sched.scheduleJob(jobDetail, trigger);
-		} catch (Exception e) {
-		    throw new RuntimeException("An error occurred while scheduling the Job '"
-		            + jobDetail
-		            + "' instance using cron expression '"
-		            + scheduled.cronExpression()
-		            + "'", e);
-		}
+            scheduler.start();
+        } catch (SchedulerException e) {
+            throw new RuntimeException("An error occurred while retrieving a Scheduler instance", e);
+        }
 
-		
-	}
+        JobDetail jobDetail = new JobDetail(scheduled.jobName(), // job name
+                scheduled.group(), // job group (you can also specify 'null'
+                                   // to use the default group)
+                jobClass, // the java class to execute
+                scheduled.volatility(),
+                scheduled.durability(),
+                scheduled.recover());
 
-	@Inject
-	public void setSchedulerFactory(SchedulerFactory schedulerFactory) {
-		this.schedulerFactory = schedulerFactory;
-	}
+        CronTrigger trigger = new CronTrigger(jobClass.getCanonicalName());
 
-	public SchedulerFactory getSchedulerFactory() {
-		return schedulerFactory;
-	}
+        try {
+            trigger.setCronExpression(scheduled.cronExpression());
+            scheduler.scheduleJob(jobDetail, trigger);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while scheduling the Job '"
+                    + jobDetail
+                    + "' instance using cron expression '"
+                    + scheduled.cronExpression()
+                    + "'", e);
+        }
+    }
 
 }
