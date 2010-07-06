@@ -1,14 +1,11 @@
 package org.slurry.quartz4guice.aop;
 
-import java.util.Date;
-
 import org.quartz.CronTrigger;
+import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
-import org.quartz.Trigger;
-import org.quartz.TriggerUtils;
 import org.slurry.quartz4guice.annotation.Scheduled;
 
 import com.google.inject.Inject;
@@ -27,7 +24,16 @@ public class ScheduledTypeListener implements TypeListener {
 		}
 	}
 	
-	private void startSchedule(Class clazz) {
+	private <T> void startSchedule(Class<T> jobClass) {
+	    if (!Job.class.isAssignableFrom(jobClass)) {
+	        throw new RuntimeException("Class '"
+	                + jobClass.getName()
+	                + "' is not a '"
+	                + Job.class.getName()
+	                + "' instance");
+	    }
+
+	    Scheduled scheduled = (Scheduled) jobClass.getAnnotation(Scheduled.class);
 
 		Scheduler sched = null;
 		try {
@@ -35,26 +41,28 @@ public class ScheduledTypeListener implements TypeListener {
 
 			sched.start();
 		} catch (SchedulerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException("An error occurred while retrieving a Scheduler instance", e);
 		}
 
-		JobDetail jobDetail = new JobDetail("myJob", // job name
-				sched.DEFAULT_GROUP, // job group (you can also specify 'null'
+		JobDetail jobDetail = new JobDetail(scheduled.name(), // job name
+		        scheduled.group(), // job group (you can also specify 'null'
 				// to use the default group)
-				clazz); // the java class to execute
+				jobClass,
+				scheduled.volatility(),
+				scheduled.durability(),
+				scheduled.recover()); // the java class to execute
 
-		CronTrigger trigger = new CronTrigger(clazz.getCanonicalName());
-		
-		Scheduled scheduled =(Scheduled) clazz.getAnnotation(Scheduled.class);
-		
-		String cronString=scheduled.cron();
+		CronTrigger trigger = new CronTrigger(jobClass.getCanonicalName());
+
 		try {
-			trigger.setCronExpression(cronString);
+			trigger.setCronExpression(scheduled.cronExpression());
 			sched.scheduleJob(jobDetail, trigger);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    throw new RuntimeException("An error occurred while scheduling the Job '"
+		            + jobDetail
+		            + "' instance using cron expression '"
+		            + scheduled.cronExpression()
+		            + "'", e);
 		}
 
 		
