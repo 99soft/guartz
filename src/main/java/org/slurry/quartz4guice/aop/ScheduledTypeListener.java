@@ -44,7 +44,7 @@ public class ScheduledTypeListener implements TypeListener {
 			throw new RuntimeException("An error occurred while retrieving a Scheduler instance", e);
 		}
 
-		JobDetail jobDetail = new JobDetail(scheduled.name(), // job name
+		JobDetail jobDetail = new JobDetail(scheduled.jobName(), // job name
 		        scheduled.group(), // job group (you can also specify 'null'
 				// to use the default group)
 				jobClass,

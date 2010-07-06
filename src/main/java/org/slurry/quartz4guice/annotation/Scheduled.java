@@ -11,7 +11,7 @@ import org.quartz.Scheduler;
 @Target(ElementType.TYPE)
 public @interface Scheduled {
 
-    String name() default "myJob";
+    String jobName();
 
     String group() default Scheduler.DEFAULT_GROUP;
 

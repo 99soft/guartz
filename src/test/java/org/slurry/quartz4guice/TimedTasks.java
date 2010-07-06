@@ -6,7 +6,7 @@ import org.quartz.JobExecutionException;
 import org.slurry.quartz4guice.annotation.Scheduled;
 
 /*0/15*/
-@Scheduled(cronExpression = "0/3 * * * * ?")
+@Scheduled(jobName = "test", cronExpression = "0/3 * * * * ?")
 public class TimedTasks implements InterfaceContainingTimedTask, Job {
 
 	private static Integer invocationsA = 0;
