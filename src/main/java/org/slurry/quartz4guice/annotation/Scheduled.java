@@ -42,7 +42,7 @@ public @interface Scheduled {
 
     String triggerName() default "##default";
 
-    String triggerGroup() default Scheduler.DEFAULT_GROUP;
+    String triggerGroup() default Scheduler.DEFAULT_MANUAL_TRIGGERS;
 
     String cronExpression();
 
