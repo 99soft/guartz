@@ -32,7 +32,7 @@ public @interface Scheduled {
 
     String jobName();
 
-    String group() default Scheduler.DEFAULT_GROUP;
+    String jobGroup() default Scheduler.DEFAULT_GROUP;
 
     boolean volatility() default false;
 

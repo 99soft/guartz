@@ -48,7 +48,7 @@ public class ScheduledTypeListener implements TypeListener {
         Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
 
         JobDetail jobDetail = new JobDetail(scheduled.jobName(), // job name
-                scheduled.group(), // job group (you can also specify 'null'
+                scheduled.jobGroup(), // job group (you can also specify 'null'
                                    // to use the default group)
                 jobClass, // the java class to execute
                 scheduled.volatility(),
