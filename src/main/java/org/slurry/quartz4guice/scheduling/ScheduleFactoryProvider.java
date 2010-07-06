@@ -1,13 +1,16 @@
 package org.slurry.quartz4guice.scheduling;
 
 import org.quartz.SchedulerFactory;
+import org.quartz.impl.StdSchedulerFactory;
 
 import com.google.inject.Provider;
 
 public class ScheduleFactoryProvider implements Provider<SchedulerFactory> {
 
-	public SchedulerFactory get() {
-		return new org.quartz.impl.StdSchedulerFactory();
-	}
+    private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+
+    public SchedulerFactory get() {
+        return this.schedulerFactory;
+    }
 
 }
