@@ -55,7 +55,7 @@ public final class SchedulerProvider implements Provider<Scheduler> {
     @Inject(optional = true)
     public void addGlobalJobListeners(@Global Set<? extends JobListener> jobListeners) throws SchedulerException {
         for (JobListener jobListener : jobListeners) {
-            this.scheduler.addJobListener(jobListener);
+            this.scheduler.addGlobalJobListener(jobListener);
         }
     }
 
