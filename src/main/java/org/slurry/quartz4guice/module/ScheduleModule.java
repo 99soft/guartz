@@ -20,7 +20,7 @@ import org.quartz.SchedulerFactory;
 import org.quartz.spi.JobFactory;
 import org.slurry.quartz4guice.aop.ScheduledTypeListener;
 import org.slurry.quartz4guice.scheduling.InjectorJobFactory;
-import org.slurry.quartz4guice.scheduling.ScheduleFactoryProvider;
+import org.slurry.quartz4guice.scheduling.SchedulerFactoryProvider;
 import org.slurry.quartz4guice.scheduling.SchedulerProvider;
 
 import com.google.inject.AbstractModule;
@@ -35,7 +35,7 @@ public final class ScheduleModule extends AbstractModule {
     private final Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass;
 
     public ScheduleModule() {
-        this(ScheduleFactoryProvider.class);
+        this(SchedulerFactoryProvider.class);
     }
 
     public ScheduleModule(Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass) {
