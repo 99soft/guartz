@@ -22,6 +22,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.spi.JobFactory;
+import org.slurry.quartz4guice.module.Global;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -49,6 +50,13 @@ public final class SchedulerProvider implements Provider<Scheduler> {
     @Inject(optional = true)
     public void setJobFactory(JobFactory jobFactory) throws SchedulerException {
         this.scheduler.setJobFactory(jobFactory);
+    }
+
+    @Inject(optional = true)
+    public void addGlobalJobListeners(@Global Set<? extends JobListener> jobListeners) throws SchedulerException {
+        for (JobListener jobListener : jobListeners) {
+            this.scheduler.addJobListener(jobListener);
+        }
     }
 
     @Inject(optional = true)
