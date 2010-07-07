@@ -33,28 +33,25 @@ import com.google.inject.internal.Stopwatch;
  */
 public class Quartz4GuiceTimerTest {
 
-    private Injector injector;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private InterfaceContainingTimedTask timedTask;
 
-    private Logger logger;
-
     @Before
     public void beforeTest() {
-        this.logger = LoggerFactory.getLogger(Quartz4GuiceTimerTest.class);
-        this.injector = Guice.createInjector(new ScheduleModule(), new GuiceModule());
+        Injector injector = Guice.createInjector(new ScheduleModule(), new GuiceModule());
         this.timedTask = injector.getInstance(InterfaceContainingTimedTask.class);
     }
 
     @Test
     public void minimalTest() throws InterruptedException {
-        this.logger.debug("Timer test starting");
+        this.logger.info("Timer test starting");
 
         Stopwatch stopwatch = new Stopwatch();
         Thread.sleep(5000);
         Assert.assertEquals(2, this.timedTask.getInvocationsTimedTaskA());
 
-        this.logger.debug("Done checking task A {} ms ", stopwatch.reset());
+        this.logger.info("Done checking task A {} ms ", stopwatch.reset());
     }
 
 }
