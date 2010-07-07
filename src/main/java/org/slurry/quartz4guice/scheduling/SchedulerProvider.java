@@ -21,6 +21,7 @@ import org.quartz.JobListener;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
+import org.quartz.SchedulerListener;
 import org.quartz.TriggerListener;
 import org.quartz.spi.JobFactory;
 import org.slurry.quartz4guice.module.Global;
@@ -59,6 +60,13 @@ public final class SchedulerProvider implements Provider<Scheduler> {
     public void addJobListeners(Set<JobListener> jobListeners) throws SchedulerException {
         for (JobListener jobListener : jobListeners) {
             this.scheduler.addJobListener(jobListener);
+        }
+    }
+
+    @Inject(optional = true)
+    public void addSchedulerListeners(Set<SchedulerListener> schedulerListeners) throws SchedulerException {
+        for (SchedulerListener schedulerListener : schedulerListeners) {
+            this.scheduler.addSchedulerListener(schedulerListener);
         }
     }
 
