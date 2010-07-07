@@ -15,6 +15,9 @@
  */
 package org.slurry.quartz4guice.scheduling;
 
+import java.util.Set;
+
+import org.quartz.JobListener;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
@@ -46,6 +49,13 @@ public final class SchedulerProvider implements Provider<Scheduler> {
     @Inject(optional = true)
     public void setJobFactory(JobFactory jobFactory) throws SchedulerException {
         this.scheduler.setJobFactory(jobFactory);
+    }
+
+    @Inject(optional = true)
+    public void addJobListeners(Set<? extends JobListener> jobListeners) throws SchedulerException {
+        for (JobListener jobListener : jobListeners) {
+            this.scheduler.addJobListener(jobListener);
+        }
     }
 
     public Scheduler get() {
