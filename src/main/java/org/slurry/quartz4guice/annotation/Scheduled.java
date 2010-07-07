@@ -30,6 +30,8 @@ import org.quartz.Scheduler;
 @Target(ElementType.TYPE)
 public @interface Scheduled {
 
+    public static final String DEFAULT = "##default";
+
     String jobName();
 
     String jobGroup() default Scheduler.DEFAULT_GROUP;
@@ -42,10 +44,12 @@ public @interface Scheduled {
 
     boolean recover() default false;
 
-    String triggerName() default "##default";
+    String triggerName() default DEFAULT;
 
     String triggerGroup() default Scheduler.DEFAULT_MANUAL_TRIGGERS;
 
     String cronExpression();
+
+    String timeZoneId() default DEFAULT;
 
 }
