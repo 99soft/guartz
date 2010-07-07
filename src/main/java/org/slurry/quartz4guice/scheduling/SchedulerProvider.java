@@ -18,6 +18,7 @@ package org.slurry.quartz4guice.scheduling;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
+import org.quartz.spi.JobFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -33,9 +34,10 @@ public final class SchedulerProvider implements Provider<Scheduler> {
     private final Scheduler scheduler;
 
     @Inject
-    public SchedulerProvider(SchedulerFactory schedulerFactory) {
+    public SchedulerProvider(SchedulerFactory schedulerFactory, JobFactory jobFactory) {
         try {
             this.scheduler = schedulerFactory.getScheduler();
+            this.scheduler.setJobFactory(jobFactory);
             this.scheduler.start();
         } catch (SchedulerException e) {
             throw new RuntimeException("Impossible to create the Scheduler from the SchedulerFactory",
