@@ -24,7 +24,7 @@ import com.google.inject.Provider;
  * 
  * @version $Id$
  */
-public class SchedulerFactoryProvider implements Provider<SchedulerFactory> {
+public class DefaultSchedulerFactoryProvider implements Provider<SchedulerFactory> {
 
     private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
