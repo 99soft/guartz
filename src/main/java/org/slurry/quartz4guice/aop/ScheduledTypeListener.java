@@ -15,6 +15,8 @@
  */
 package org.slurry.quartz4guice.aop;
 
+import java.util.TimeZone;
+
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -61,17 +63,30 @@ public final class ScheduledTypeListener implements TypeListener {
             jobDetail.addJobListener(jobListenerName);
         }
 
-        String triggerName = scheduled.triggerName();
-        if (DEFAULT.equals(triggerName)) {
+        String triggerName = null;
+        if (DEFAULT.equals(scheduled.triggerName())) {
             triggerName = jobClass.getCanonicalName();
+        } else {
+            triggerName = scheduled.triggerName();
         }
-        CronTrigger trigger = new CronTrigger(triggerName,
-                scheduled.triggerGroup(),
-                scheduled.jobName(),
-                scheduled.jobGroup());
+
+        TimeZone timeZone = null;
+        if (DEFAULT.equals(scheduled.timeZoneId())) {
+            timeZone = TimeZone.getDefault();
+        } else {
+            timeZone = TimeZone.getTimeZone(scheduled.timeZoneId());
+            if (timeZone == null) {
+                timeZone = TimeZone.getDefault();
+            }
+        }
 
         try {
-            trigger.setCronExpression(scheduled.cronExpression());
+            CronTrigger trigger = new CronTrigger(triggerName,
+                    scheduled.triggerGroup(),
+                    scheduled.jobName(),
+                    scheduled.jobGroup(),
+                    scheduled.cronExpression(),
+                    timeZone);
             this.scheduler.scheduleJob(jobDetail, trigger);
         } catch (Exception e) {
             throw new RuntimeException("An error occurred while scheduling the Job '"
