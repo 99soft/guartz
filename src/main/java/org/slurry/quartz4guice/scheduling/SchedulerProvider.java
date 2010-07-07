@@ -34,18 +34,29 @@ public final class SchedulerProvider implements Provider<Scheduler> {
     private final Scheduler scheduler;
 
     @Inject
-    public SchedulerProvider(SchedulerFactory schedulerFactory, JobFactory jobFactory) {
+    public SchedulerProvider(SchedulerFactory schedulerFactory) {
         try {
             this.scheduler = schedulerFactory.getScheduler();
-            this.scheduler.setJobFactory(jobFactory);
-            this.scheduler.start();
         } catch (SchedulerException e) {
             throw new RuntimeException("Impossible to create the Scheduler from the SchedulerFactory",
                     e);
         }
     }
 
+    @Inject(optional = true)
+    public void setJobFactory(JobFactory jobFactory) throws SchedulerException {
+        this.scheduler.setJobFactory(jobFactory);
+    }
+
     public Scheduler get() {
+        try {
+            if (!this.scheduler.isStarted()) {
+                this.scheduler.start();
+            }
+        } catch (SchedulerException e) {
+            throw new RuntimeException("Impossible to check if the Scheduler is started",
+                    e);
+        }
         return this.scheduler;
     }
 
