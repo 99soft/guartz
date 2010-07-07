@@ -39,13 +39,8 @@ public final class SchedulerProvider implements Provider<Scheduler> {
     private final Scheduler scheduler;
 
     @Inject
-    public SchedulerProvider(SchedulerFactory schedulerFactory) {
-        try {
-            this.scheduler = schedulerFactory.getScheduler();
-        } catch (SchedulerException e) {
-            throw new RuntimeException("Impossible to create the Scheduler from the SchedulerFactory",
-                    e);
-        }
+    public SchedulerProvider(SchedulerFactory schedulerFactory) throws SchedulerException {
+        this.scheduler = schedulerFactory.getScheduler();
     }
 
     @Inject(optional = true)
@@ -54,28 +49,28 @@ public final class SchedulerProvider implements Provider<Scheduler> {
     }
 
     @Inject(optional = true)
-    public void addGlobalJobListeners(@Global Set<? extends JobListener> jobListeners) throws SchedulerException {
+    public void addGlobalJobListeners(@Global Set<JobListener> jobListeners) throws SchedulerException {
         for (JobListener jobListener : jobListeners) {
             this.scheduler.addGlobalJobListener(jobListener);
         }
     }
 
     @Inject(optional = true)
-    public void addJobListeners(Set<? extends JobListener> jobListeners) throws SchedulerException {
+    public void addJobListeners(Set<JobListener> jobListeners) throws SchedulerException {
         for (JobListener jobListener : jobListeners) {
             this.scheduler.addJobListener(jobListener);
         }
     }
 
     @Inject(optional = true)
-    public void addGlobalTriggerListeners(@Global Set<? extends TriggerListener> triggerListeners) throws SchedulerException {
+    public void addGlobalTriggerListeners(@Global Set<TriggerListener> triggerListeners) throws SchedulerException {
         for (TriggerListener triggerListener : triggerListeners) {
             this.scheduler.addGlobalTriggerListener(triggerListener);
         }
     }
 
     @Inject(optional = true)
-    public void addTriggerListeners(Set<? extends TriggerListener> triggerListeners) throws SchedulerException {
+    public void addTriggerListeners(Set<TriggerListener> triggerListeners) throws SchedulerException {
         for (TriggerListener triggerListener : triggerListeners) {
             this.scheduler.addTriggerListener(triggerListener);
         }
