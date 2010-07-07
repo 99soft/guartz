@@ -33,8 +33,6 @@ import com.google.inject.spi.TypeListener;
  */
 public final class ScheduledTypeListener implements TypeListener {
 
-    private final static String DEFAULT = "##default";
-
     @Inject
     private Scheduler scheduler;
 
@@ -64,14 +62,14 @@ public final class ScheduledTypeListener implements TypeListener {
         }
 
         String triggerName = null;
-        if (DEFAULT.equals(scheduled.triggerName())) {
+        if (Scheduled.DEFAULT.equals(scheduled.triggerName())) {
             triggerName = jobClass.getCanonicalName();
         } else {
             triggerName = scheduled.triggerName();
         }
 
         TimeZone timeZone = null;
-        if (DEFAULT.equals(scheduled.timeZoneId())) {
+        if (Scheduled.DEFAULT.equals(scheduled.timeZoneId())) {
             timeZone = TimeZone.getDefault();
         } else {
             timeZone = TimeZone.getTimeZone(scheduled.timeZoneId());
