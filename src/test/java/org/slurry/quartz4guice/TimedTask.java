@@ -15,18 +15,34 @@
  */
 package org.slurry.quartz4guice;
 
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
+import com.google.inject.Singleton;
+
 /**
  * 
  * @version $Id$
  */
-public interface InterfaceContainingTimedTask {
+/*0/15*/
+@Singleton
+@Scheduled(jobName = "test", cronExpression = "0/3 * * * * ?")
+public class TimedTask implements Job {
 
-    void timedTaskA();
+    private Integer invocationsA = 0;
 
-    /**
-     * 
-     * @return the times task a has been invoked
-     */
-    int getInvocationsTimedTaskA();
+    public void timedTaskA() {
+        this.invocationsA++;
+    }
+
+    public int getInvocationsTimedTaskA() {
+        return this.invocationsA;
+    }
+
+    public void execute(JobExecutionContext context)
+            throws JobExecutionException {
+        this.timedTaskA();
+    }
 
 }

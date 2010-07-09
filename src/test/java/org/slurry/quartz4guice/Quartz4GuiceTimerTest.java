@@ -17,13 +17,15 @@ package org.slurry.quartz4guice;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slurry.quartz4guice.module.ScheduleModule;
 
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.internal.Stopwatch;
 
@@ -35,12 +37,29 @@ public class Quartz4GuiceTimerTest {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private InterfaceContainingTimedTask timedTask;
+    @Inject
+    private TimedTask timedTask;
+
+    @Inject
+    private Scheduler scheduler;
+
+    public void setTimedTask(TimedTask timedTask) {
+        this.timedTask = timedTask;
+    }
+
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
 
     @Before
-    public void beforeTest() {
-        Injector injector = Guice.createInjector(new ScheduleModule(), new GuiceModule());
-        this.timedTask = injector.getInstance(InterfaceContainingTimedTask.class);
+    public void setUp() throws Exception {
+        Injector injector = Guice.createInjector(new QuartzModule().addJob(TimedTask.class));
+        injector.injectMembers(this);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        this.scheduler.shutdown();
     }
 
     @Test

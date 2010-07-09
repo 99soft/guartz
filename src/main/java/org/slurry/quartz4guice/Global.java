@@ -13,23 +13,24 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice.scheduling;
+package org.slurry.quartz4guice;
 
-import org.quartz.SchedulerFactory;
-import org.quartz.impl.StdSchedulerFactory;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import com.google.inject.Provider;
+import com.google.inject.ScopeAnnotation;
 
 /**
  * 
  * @version $Id$
  */
-public class DefaultSchedulerFactoryProvider implements Provider<SchedulerFactory> {
-
-    private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
-
-    public SchedulerFactory get() {
-        return this.schedulerFactory;
-    }
+@Documented
+@ScopeAnnotation
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.PARAMETER)
+public @interface Global {
 
 }

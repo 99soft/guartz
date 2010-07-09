@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice.scheduling;
+package org.slurry.quartz4guice;
 
 import org.quartz.Job;
 import org.quartz.SchedulerException;
@@ -29,7 +29,7 @@ import com.google.inject.Singleton;
  * @version $Id$
  */
 @Singleton
-public final class InjectorJobFactory implements JobFactory {
+final class InjectorJobFactory implements JobFactory {
 
     private final Injector injector;
 

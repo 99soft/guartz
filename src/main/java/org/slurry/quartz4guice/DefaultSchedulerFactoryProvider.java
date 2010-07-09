@@ -15,32 +15,21 @@
  */
 package org.slurry.quartz4guice;
 
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.slurry.quartz4guice.annotation.Scheduled;
+import org.quartz.SchedulerFactory;
+import org.quartz.impl.StdSchedulerFactory;
+
+import com.google.inject.Provider;
 
 /**
  * 
  * @version $Id$
  */
-/*0/15*/
-@Scheduled(jobName = "test", cronExpression = "0/3 * * * * ?")
-public class TimedTasks implements InterfaceContainingTimedTask, Job {
+class DefaultSchedulerFactoryProvider implements Provider<SchedulerFactory> {
 
-    private static Integer invocationsA = 0;
+    private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
-    public void timedTaskA() {
-        invocationsA++;
-    }
-
-    public int getInvocationsTimedTaskA() {
-        return invocationsA;
-    }
-
-    public void execute(JobExecutionContext context)
-            throws JobExecutionException {
-        timedTaskA();
+    public SchedulerFactory get() {
+        return this.schedulerFactory;
     }
 
 }

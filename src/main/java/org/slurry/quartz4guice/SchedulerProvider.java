@@ -13,18 +13,21 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice.scheduling;
+package org.slurry.quartz4guice;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
+import org.quartz.JobDetail;
 import org.quartz.JobListener;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.SchedulerListener;
+import org.quartz.Trigger;
 import org.quartz.TriggerListener;
 import org.quartz.spi.JobFactory;
-import org.slurry.quartz4guice.module.Global;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,13 +38,14 @@ import com.google.inject.Singleton;
  * @version $Id$
  */
 @Singleton
-public final class SchedulerProvider implements Provider<Scheduler> {
+final class SchedulerProvider implements Provider<Scheduler> {
 
     private final Scheduler scheduler;
 
     @Inject
     public SchedulerProvider(SchedulerFactory schedulerFactory) throws SchedulerException {
         this.scheduler = schedulerFactory.getScheduler();
+        this.scheduler.start();
     }
 
     @Inject(optional = true)
@@ -84,15 +88,14 @@ public final class SchedulerProvider implements Provider<Scheduler> {
         }
     }
 
-    public Scheduler get() {
-        try {
-            if (!this.scheduler.isStarted()) {
-                this.scheduler.start();
-            }
-        } catch (SchedulerException e) {
-            throw new RuntimeException("Impossible to check if the Scheduler is started",
-                    e);
+    @Inject
+    public void addJobs(Map<JobDetail, Trigger> jobs) throws SchedulerException {
+        for (Entry<JobDetail, Trigger> job : jobs.entrySet()) {
+            this.scheduler.scheduleJob(job.getKey(), job.getValue());
         }
+    }
+
+    public Scheduler get() {
         return this.scheduler;
     }
 
