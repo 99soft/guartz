@@ -37,7 +37,6 @@ import org.quartz.spi.JobStore;
 import org.quartz.spi.SchedulerPlugin;
 import org.quartz.spi.SchedulerSignaler;
 import org.quartz.spi.ThreadPool;
-import org.slurry.quartz4guice.spi.SimpleInstanceIdGeneratorProvider;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
@@ -71,8 +70,7 @@ public final class QuartzModule extends AbstractModule {
 
     private Class<? extends ClassLoadHelper> classLoadHelperType;
 
-    private Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType
-            = SimpleInstanceIdGeneratorProvider.class;
+    private Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType;
 
     private Class<? extends Provider<JobStore>> jobStoreProviderType;
 
