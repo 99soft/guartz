@@ -68,7 +68,7 @@ public final class QuartzModule extends AbstractModule {
 
     // Quartz SPI
 
-    private Class<? extends Provider<ClassLoadHelper>> classLoadHelperProviderType;
+    private Class<? extends ClassLoadHelper> classLoadHelperType;
 
     private Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType;
 
@@ -171,9 +171,9 @@ public final class QuartzModule extends AbstractModule {
 
     // Quartz SPI
 
-    public QuartzModule setClassLoadHelperProviderType(
-            Class<? extends Provider<ClassLoadHelper>> classLoadHelperProviderType) {
-        this.classLoadHelperProviderType = classLoadHelperProviderType;
+    public QuartzModule setClassLoadHelperType(
+            Class<? extends ClassLoadHelper> classLoadHelperType) {
+        this.classLoadHelperType = classLoadHelperType;
         return this;
     }
 
@@ -218,8 +218,8 @@ public final class QuartzModule extends AbstractModule {
         this.bind(new TypeLiteral<Map<JobDetail, Trigger>>() {}).toInstance(this.jobMaps);
 
         // Quartz SPI
-        if (this.classLoadHelperProviderType != null) {
-            this.bind(ClassLoadHelper.class).toProvider(this.classLoadHelperProviderType);
+        if (this.classLoadHelperType != null) {
+            this.bind(ClassLoadHelper.class).to(this.classLoadHelperType);
         }
         if (this.instanceIdGeneratorProviderType != null) {
             this.bind(InstanceIdGenerator.class).toProvider(this.instanceIdGeneratorProviderType);
