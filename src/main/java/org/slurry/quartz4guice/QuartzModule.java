@@ -37,6 +37,7 @@ import org.quartz.spi.JobStore;
 import org.quartz.spi.SchedulerPlugin;
 import org.quartz.spi.SchedulerSignaler;
 import org.quartz.spi.ThreadPool;
+import org.slurry.quartz4guice.spi.SimpleInstanceIdGeneratorProvider;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
@@ -70,7 +71,8 @@ public final class QuartzModule extends AbstractModule {
 
     private Class<? extends ClassLoadHelper> classLoadHelperType;
 
-    private Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType;
+    private Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType
+            = SimpleInstanceIdGeneratorProvider.class;
 
     private Class<? extends Provider<JobStore>> jobStoreProviderType;
 
@@ -179,31 +181,34 @@ public final class QuartzModule extends AbstractModule {
 
     public QuartzModule setInstanceIdGeneratorProviderType(
             Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType) {
-        this.instanceIdGeneratorProviderType = instanceIdGeneratorProviderType;
-        return this;
+        return this.assign(instanceIdGeneratorProviderType, this.instanceIdGeneratorProviderType);
     }
 
     public QuartzModule setJobStoreProviderType(
             Class<? extends Provider<JobStore>> jobStoreProviderType) {
-        this.jobStoreProviderType = jobStoreProviderType;
-        return this;
+        return this.assign(jobStoreProviderType, this.jobStoreProviderType);
     }
 
     public QuartzModule setSchedulerPluginProviderType(
             Class<? extends Provider<SchedulerPlugin>> schedulerPluginProviderType) {
-        this.schedulerPluginProviderType = schedulerPluginProviderType;
-        return this;
+        return this.assign(schedulerPluginProviderType, this.schedulerPluginProviderType);
     }
 
     public QuartzModule setSchedulerSignalerProviderType(
             Class<? extends Provider<SchedulerSignaler>> schedulerSignalerProviderType) {
-        this.schedulerSignalerProviderType = schedulerSignalerProviderType;
-        return this;
+        return this.assign(schedulerSignalerProviderType, this.schedulerSignalerProviderType);
     }
 
     public QuartzModule setThreadPoolProviderType(
             Class<? extends Provider<ThreadPool>> threadPoolProviderType) {
-        this.threadPoolProviderType = threadPoolProviderType;
+        return this.assign(threadPoolProviderType, this.threadPoolProviderType);
+    }
+
+    private <I> QuartzModule assign(Class<? extends Provider<I>> source, Class<? extends Provider<I>> dest) {
+        if (source == null) {
+            throw new IllegalArgumentException("Provider can't be null");
+        }
+        dest = source;
         return this;
     }
 
