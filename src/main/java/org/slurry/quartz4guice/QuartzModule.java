@@ -30,7 +30,13 @@ import org.quartz.SchedulerFactory;
 import org.quartz.SchedulerListener;
 import org.quartz.Trigger;
 import org.quartz.TriggerListener;
+import org.quartz.spi.ClassLoadHelper;
+import org.quartz.spi.InstanceIdGenerator;
 import org.quartz.spi.JobFactory;
+import org.quartz.spi.JobStore;
+import org.quartz.spi.SchedulerPlugin;
+import org.quartz.spi.SchedulerSignaler;
+import org.quartz.spi.ThreadPool;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Binder;
@@ -59,6 +65,22 @@ public final class QuartzModule extends AbstractModule {
     private final Map<JobDetail, Trigger> jobMaps = new HashMap<JobDetail, Trigger>();
 
     private final Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass;
+
+    // Quartz SPI
+
+    private Class<? extends Provider<ClassLoadHelper>> classLoadHelperProviderType;
+
+    private Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType;
+
+    private Class<? extends Provider<JobStore>> jobStoreProviderType;
+
+    private Class<? extends Provider<SchedulerPlugin>> schedulerPluginProviderType;
+
+    private Class<? extends Provider<SchedulerSignaler>> schedulerSignalerProviderType;
+
+    private Class<? extends Provider<ThreadPool>> threadPoolProviderType;
+
+    // END Quartz SPI
 
     public QuartzModule() {
         this(DefaultSchedulerFactoryProvider.class);
@@ -147,14 +169,76 @@ public final class QuartzModule extends AbstractModule {
         return this;
     }
 
+    // Quartz SPI
+
+    public QuartzModule setClassLoadHelperProviderType(
+            Class<? extends Provider<ClassLoadHelper>> classLoadHelperProviderType) {
+        this.classLoadHelperProviderType = classLoadHelperProviderType;
+        return this;
+    }
+
+    public QuartzModule setInstanceIdGeneratorProviderType(
+            Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType) {
+        this.instanceIdGeneratorProviderType = instanceIdGeneratorProviderType;
+        return this;
+    }
+
+    public QuartzModule setJobStoreProviderType(
+            Class<? extends Provider<JobStore>> jobStoreProviderType) {
+        this.jobStoreProviderType = jobStoreProviderType;
+        return this;
+    }
+
+    public QuartzModule setSchedulerPluginProviderType(
+            Class<? extends Provider<SchedulerPlugin>> schedulerPluginProviderType) {
+        this.schedulerPluginProviderType = schedulerPluginProviderType;
+        return this;
+    }
+
+    public QuartzModule setSchedulerSignalerProviderType(
+            Class<? extends Provider<SchedulerSignaler>> schedulerSignalerProviderType) {
+        this.schedulerSignalerProviderType = schedulerSignalerProviderType;
+        return this;
+    }
+
+    public QuartzModule setThreadPoolProviderType(
+            Class<? extends Provider<ThreadPool>> threadPoolProviderType) {
+        this.threadPoolProviderType = threadPoolProviderType;
+        return this;
+    }
+
+    // END Quartz SPI
+
     /**
      * {@inheritDoc}
      */
     protected void configure() {
         this.bind(SchedulerFactory.class).toProvider(this.schedulerFactoryProviderClass).in(Scopes.SINGLETON);
-        this.bind(JobFactory.class).to(InjectorJobFactory.class);
         this.bind(Scheduler.class).toProvider(SchedulerProvider.class);
         this.bind(new TypeLiteral<Map<JobDetail, Trigger>>() {}).toInstance(this.jobMaps);
+
+        // Quartz SPI
+        if (this.classLoadHelperProviderType != null) {
+            this.bind(ClassLoadHelper.class).toProvider(this.classLoadHelperProviderType);
+        }
+        if (this.instanceIdGeneratorProviderType != null) {
+            this.bind(InstanceIdGenerator.class).toProvider(this.instanceIdGeneratorProviderType);
+        }
+        // use the Guice based JobFactory by default
+        this.bind(JobFactory.class).to(InjectorJobFactory.class);
+        if (this.jobStoreProviderType != null) {
+            this.bind(JobStore.class).toProvider(this.jobStoreProviderType);
+        }
+        if (this.schedulerPluginProviderType != null) {
+            this.bind(SchedulerPlugin.class).toProvider(this.schedulerPluginProviderType);
+        }
+        if (this.schedulerSignalerProviderType != null) {
+            this.bind(SchedulerSignaler.class).toProvider(this.schedulerSignalerProviderType);
+        }
+        if (this.threadPoolProviderType != null) {
+            this.bind(ThreadPool.class).toProvider(this.threadPoolProviderType);
+        }
+        // END Quartz SPI
 
         bind(this.binder(), this.globalJobListeners, JobListener.class, true);
         bind(this.binder(), this.jobListeners, JobListener.class, false);
