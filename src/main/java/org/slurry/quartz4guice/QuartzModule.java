@@ -70,11 +70,11 @@ public final class QuartzModule extends AbstractModule {
 
     private Class<? extends ClassLoadHelper> classLoadHelperType;
 
-    private Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType;
+    private Class<? extends InstanceIdGenerator> instanceIdGeneratorType;
 
-    private Class<? extends Provider<JobStore>> jobStoreProviderType;
+    private Class<? extends JobStore> jobStoreType;
 
-    private Class<? extends Provider<SchedulerPlugin>> schedulerPluginProviderType;
+    private Set<Class<? extends SchedulerPlugin>> schedulerPluginTypes = new HashSet<Class<? extends SchedulerPlugin>>();
 
     private Class<? extends Provider<SchedulerSignaler>> schedulerSignalerProviderType;
 
@@ -177,19 +177,21 @@ public final class QuartzModule extends AbstractModule {
         return this;
     }
 
-    public QuartzModule setInstanceIdGeneratorProviderType(
-            Class<? extends Provider<InstanceIdGenerator>> instanceIdGeneratorProviderType) {
-        return this.assign(instanceIdGeneratorProviderType, this.instanceIdGeneratorProviderType);
+    public QuartzModule setInstanceIdGeneratorType(
+            Class<? extends InstanceIdGenerator> instanceIdGeneratorType) {
+        this.instanceIdGeneratorType = instanceIdGeneratorType;
+        return this;
     }
 
-    public QuartzModule setJobStoreProviderType(
-            Class<? extends Provider<JobStore>> jobStoreProviderType) {
-        return this.assign(jobStoreProviderType, this.jobStoreProviderType);
+    public QuartzModule setJobStoreType(Class<? extends JobStore> jobStoreType) {
+        this.jobStoreType = jobStoreType;
+        return this;
     }
 
-    public QuartzModule setSchedulerPluginProviderType(
-            Class<? extends Provider<SchedulerPlugin>> schedulerPluginProviderType) {
-        return this.assign(schedulerPluginProviderType, this.schedulerPluginProviderType);
+    public QuartzModule addSchedulerPluginType(
+            Class<? extends SchedulerPlugin> schedulerPluginType) {
+        this.schedulerPluginTypes.add(schedulerPluginType);
+        return this;
     }
 
     public QuartzModule setSchedulerSignalerProviderType(
@@ -224,16 +226,16 @@ public final class QuartzModule extends AbstractModule {
         if (this.classLoadHelperType != null) {
             this.bind(ClassLoadHelper.class).to(this.classLoadHelperType);
         }
-        if (this.instanceIdGeneratorProviderType != null) {
-            this.bind(InstanceIdGenerator.class).toProvider(this.instanceIdGeneratorProviderType);
+        if (this.instanceIdGeneratorType != null) {
+            this.bind(InstanceIdGenerator.class).to(this.instanceIdGeneratorType);
         }
         // use the Guice based JobFactory by default
         this.bind(JobFactory.class).to(InjectorJobFactory.class);
-        if (this.jobStoreProviderType != null) {
-            this.bind(JobStore.class).toProvider(this.jobStoreProviderType);
+        if (this.jobStoreType != null) {
+            this.bind(JobStore.class).to(this.jobStoreType);
         }
-        if (this.schedulerPluginProviderType != null) {
-            this.bind(SchedulerPlugin.class).toProvider(this.schedulerPluginProviderType);
+        if (!this.schedulerPluginTypes.isEmpty()) {
+            bind(this.binder(), this.schedulerPluginTypes, SchedulerPlugin.class, false);
         }
         if (this.schedulerSignalerProviderType != null) {
             this.bind(SchedulerSignaler.class).toProvider(this.schedulerSignalerProviderType);
