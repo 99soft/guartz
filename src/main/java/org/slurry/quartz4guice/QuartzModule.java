@@ -234,9 +234,7 @@ public final class QuartzModule extends AbstractModule {
         if (this.jobStoreType != null) {
             this.bind(JobStore.class).to(this.jobStoreType);
         }
-        if (!this.schedulerPluginTypes.isEmpty()) {
-            bind(this.binder(), this.schedulerPluginTypes, SchedulerPlugin.class, false);
-        }
+        bind(this.binder(), this.schedulerPluginTypes, SchedulerPlugin.class, false);
         if (this.schedulerSignalerProviderType != null) {
             this.bind(SchedulerSignaler.class).toProvider(this.schedulerSignalerProviderType);
         }
