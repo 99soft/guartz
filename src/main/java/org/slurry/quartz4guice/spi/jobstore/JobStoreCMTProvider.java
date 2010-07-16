@@ -13,10 +13,10 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice.spi;
+package org.slurry.quartz4guice.spi.jobstore;
 
-import org.quartz.simpl.SimpleInstanceIdGenerator;
-import org.quartz.spi.InstanceIdGenerator;
+import org.quartz.impl.jdbcjobstore.JobStoreCMT;
+import org.quartz.spi.JobStore;
 
 import com.google.inject.Provider;
 
@@ -24,13 +24,12 @@ import com.google.inject.Provider;
  * 
  * @version $Id$
  */
-public final class SimpleInstanceIdGeneratorProvider
-        implements Provider<InstanceIdGenerator> {
+public final class JobStoreCMTProvider implements Provider<JobStore> {
 
-    private final InstanceIdGenerator generator = new SimpleInstanceIdGenerator();
+    private final JobStore jobStore = new JobStoreCMT();
 
-    public InstanceIdGenerator get() {
-        return this.generator;
+    public JobStore get() {
+        return this.jobStore;
     }
 
 }

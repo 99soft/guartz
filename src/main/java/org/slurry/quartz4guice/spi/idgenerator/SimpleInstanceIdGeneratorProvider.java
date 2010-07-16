@@ -13,9 +13,9 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice.spi;
+package org.slurry.quartz4guice.spi.idgenerator;
 
-import org.quartz.simpl.HostnameInstanceIdGenerator;
+import org.quartz.simpl.SimpleInstanceIdGenerator;
 import org.quartz.spi.InstanceIdGenerator;
 
 import com.google.inject.Provider;
@@ -24,10 +24,10 @@ import com.google.inject.Provider;
  * 
  * @version $Id$
  */
-public final class HostnameInstanceIdGeneratorProvider
+public final class SimpleInstanceIdGeneratorProvider
         implements Provider<InstanceIdGenerator> {
 
-    private final InstanceIdGenerator generator = new HostnameInstanceIdGenerator();
+    private final InstanceIdGenerator generator = new SimpleInstanceIdGenerator();
 
     public InstanceIdGenerator get() {
         return this.generator;
