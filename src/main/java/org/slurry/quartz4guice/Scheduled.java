@@ -56,4 +56,6 @@ public @interface Scheduled {
 
     String timeZoneId() default DEFAULT;
 
+    String schedulingContextId() default DEFAULT;
+
 }

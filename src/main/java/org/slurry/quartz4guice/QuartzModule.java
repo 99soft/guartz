@@ -30,6 +30,9 @@ import org.quartz.SchedulerFactory;
 import org.quartz.SchedulerListener;
 import org.quartz.Trigger;
 import org.quartz.TriggerListener;
+import org.quartz.core.QuartzScheduler;
+import org.quartz.core.QuartzSchedulerResources;
+import org.quartz.core.SchedulingContext;
 import org.quartz.spi.ClassLoadHelper;
 import org.quartz.spi.InstanceIdGenerator;
 import org.quartz.spi.JobFactory;
@@ -218,11 +221,17 @@ public final class QuartzModule extends AbstractModule {
      * {@inheritDoc}
      */
     protected void configure() {
+        // org.quartz support
         this.bind(SchedulerFactory.class).toProvider(this.schedulerFactoryProviderClass).in(Scopes.SINGLETON);
         this.bind(Scheduler.class).toProvider(SchedulerProvider.class);
+
+        // org.quartz.core support
+        this.bind(QuartzSchedulerResources.class).toProvider(QuartzSchedulerResourcesProvider.class);
+        this.bind(SchedulingContext.class).in(Scopes.SINGLETON);
+        this.bind(QuartzScheduler.class).toProvider(QuartzSchedulerProvider.class);
         this.bind(new TypeLiteral<Map<JobDetail, Trigger>>() {}).toInstance(this.jobMaps);
 
-        // Quartz SPI
+        // org.quartz.spi support
         if (this.classLoadHelperType != null) {
             this.bind(ClassLoadHelper.class).to(this.classLoadHelperType);
         }
