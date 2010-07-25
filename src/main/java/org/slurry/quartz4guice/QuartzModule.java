@@ -46,7 +46,6 @@ import com.google.inject.Binder;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-import com.google.inject.binder.ScopedBindingBuilder;
 import com.google.inject.multibindings.Multibinder;
 
 /**
@@ -261,12 +260,14 @@ public final class QuartzModule extends AbstractModule {
 
     private static <I> void bind(Binder binder, Set<Class<? extends I>> set, Class<I> type, boolean global) {
         if (!set.isEmpty()) {
-            Multibinder<I> multibinder = Multibinder.newSetBinder(binder, type);
+            Multibinder<I> multibinder;
+            if (global) {
+                multibinder = Multibinder.newSetBinder(binder, type);
+            } else {
+                multibinder = Multibinder.newSetBinder(binder, type, Global.class);
+            }
             for (Class<? extends I> currentType : set) {
-                ScopedBindingBuilder bindingBuilder = multibinder.addBinding().to(currentType);
-                if (global) {
-                    bindingBuilder.in(Global.class);
-                }
+                multibinder.addBinding().to(currentType);
             }
         }
     }
