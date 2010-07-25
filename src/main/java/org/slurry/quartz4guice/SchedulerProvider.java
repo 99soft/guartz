@@ -15,17 +15,18 @@
  */
 package org.slurry.quartz4guice;
 
-import java.util.Map;
+import java.text.ParseException;
 import java.util.Set;
-import java.util.Map.Entry;
+import java.util.TimeZone;
 
+import org.quartz.CronTrigger;
+import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.JobListener;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.SchedulerListener;
-import org.quartz.Trigger;
 import org.quartz.TriggerListener;
 import org.quartz.spi.JobFactory;
 
@@ -88,10 +89,48 @@ final class SchedulerProvider implements Provider<Scheduler> {
         }
     }
 
-    @Inject
-    public void addJobs(Map<JobDetail, Trigger> jobs) throws SchedulerException {
-        for (Entry<JobDetail, Trigger> job : jobs.entrySet()) {
-            this.scheduler.scheduleJob(job.getKey(), job.getValue());
+    @Inject(optional = true)
+    public void addJobs(Set<Class<? extends Job>> jobClasses) throws SchedulerException, ParseException {
+        for (Class<? extends Job> jobClass : jobClasses) {
+            Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
+
+            JobDetail jobDetail = new JobDetail(scheduled.jobName(), // job name
+                    scheduled.jobGroup(), // job group (you can also specify 'null'
+                                       // to use the default group)
+                    jobClass, // the java class to execute
+                    scheduled.volatility(),
+                    scheduled.durability(),
+                    scheduled.recover());
+
+            for (String jobListenerName : scheduled.jobListenerNames()) {
+                jobDetail.addJobListener(jobListenerName);
+            }
+
+            String triggerName = null;
+            if (Scheduled.DEFAULT.equals(scheduled.triggerName())) {
+                triggerName = jobClass.getCanonicalName();
+            } else {
+                triggerName = scheduled.triggerName();
+            }
+
+            TimeZone timeZone = null;
+            if (Scheduled.DEFAULT.equals(scheduled.timeZoneId())) {
+                timeZone = TimeZone.getDefault();
+            } else {
+                timeZone = TimeZone.getTimeZone(scheduled.timeZoneId());
+                if (timeZone == null) {
+                    timeZone = TimeZone.getDefault();
+                }
+            }
+
+            CronTrigger trigger = new CronTrigger(triggerName,
+                    scheduled.triggerGroup(),
+                    scheduled.jobName(),
+                    scheduled.jobGroup(),
+                    scheduled.cronExpression(),
+                    timeZone);
+
+            this.scheduler.scheduleJob(jobDetail, trigger);
         }
     }
 

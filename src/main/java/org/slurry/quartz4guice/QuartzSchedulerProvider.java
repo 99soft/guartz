@@ -33,6 +33,7 @@ import org.quartz.spi.JobFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 /**
  * 
@@ -46,8 +47,8 @@ final class QuartzSchedulerProvider implements Provider<QuartzScheduler> {
     @Inject
     public QuartzSchedulerProvider(QuartzSchedulerResources resources,
             SchedulingContext ctxt,
-            long idleWaitTime,
-            long dbRetryInterval) throws SchedulerException {
+            @Named("org.quartz.scheduler.idleWaitTime") long idleWaitTime,
+            @Named("org.quartz.scheduler.dbRetryInterval") long dbRetryInterval) throws SchedulerException {
         this.scheduler = new QuartzScheduler(resources, ctxt, idleWaitTime, dbRetryInterval);
         this.scheduler.start();
     }

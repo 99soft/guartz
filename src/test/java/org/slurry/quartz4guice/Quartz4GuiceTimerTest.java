@@ -53,7 +53,7 @@ public class Quartz4GuiceTimerTest {
 
     @Before
     public void setUp() throws Exception {
-        Injector injector = Guice.createInjector(new QuartzModule().addJob(TimedTask.class));
+        Injector injector = Guice.createInjector(new SchedulerModule().addJob(TimedTask.class));
         injector.injectMembers(this);
     }
 
