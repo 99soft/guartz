@@ -98,7 +98,7 @@ public final class QuartzModule extends AbstractScheduleModule {
 
         this.bind(QuartzSchedulerResources.class).toProvider(QuartzSchedulerResourcesProvider.class);
         this.bind(SchedulingContext.class).in(Scopes.SINGLETON);
-        this.bind(QuartzScheduler.class).toProvider(QuartzSchedulerProvider.class);
+        this.bind(QuartzScheduler.class).toProvider(QuartzSchedulerProvider.class).asEagerSingleton();
 
         if (this.classLoadHelperType != null) {
             this.bind(ClassLoadHelper.class).to(this.classLoadHelperType);
