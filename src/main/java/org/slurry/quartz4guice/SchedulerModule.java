@@ -46,7 +46,7 @@ public final class SchedulerModule extends AbstractScheduleModule {
         super.configure();
 
         this.bind(SchedulerFactory.class).toProvider(this.schedulerFactoryProviderClass).in(Scopes.SINGLETON);
-        this.bind(Scheduler.class).toProvider(SchedulerProvider.class);
+        this.bind(Scheduler.class).toProvider(SchedulerProvider.class).asEagerSingleton();
     }
 
 }

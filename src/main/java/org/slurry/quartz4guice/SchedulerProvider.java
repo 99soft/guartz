@@ -32,13 +32,11 @@ import org.quartz.spi.JobFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 /**
  * 
  * @version $Id$
  */
-@Singleton
 final class SchedulerProvider implements Provider<Scheduler> {
 
     private final Scheduler scheduler;
