@@ -21,7 +21,8 @@ import org.quartz.impl.DirectSchedulerFactory;
 import com.google.inject.Provider;
 
 /**
- * 
+ * WARNING this class is still a prototype.
+ *
  * @version $Id$
  */
 public final class DirectSchedulerFactoryProvider implements Provider<SchedulerFactory> {
