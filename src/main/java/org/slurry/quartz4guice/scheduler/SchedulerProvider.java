@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice;
+package org.slurry.quartz4guice.scheduler;
 
 import java.text.ParseException;
 import java.util.Set;
@@ -23,32 +23,29 @@ import org.quartz.CronTrigger;
 import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.JobListener;
+import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
 import org.quartz.SchedulerListener;
 import org.quartz.TriggerListener;
-import org.quartz.core.QuartzScheduler;
-import org.quartz.core.QuartzSchedulerResources;
-import org.quartz.core.SchedulingContext;
 import org.quartz.spi.JobFactory;
+import org.slurry.quartz4guice.Global;
+import org.slurry.quartz4guice.Scheduled;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.name.Named;
 
 /**
  * 
  * @version $Id$
  */
-final class QuartzSchedulerProvider implements Provider<QuartzScheduler> {
+final class SchedulerProvider implements Provider<Scheduler> {
 
-    private final QuartzScheduler scheduler;
+    private final Scheduler scheduler;
 
     @Inject
-    public QuartzSchedulerProvider(QuartzSchedulerResources resources,
-            SchedulingContext ctxt,
-            @Named("org.quartz.scheduler.idleWaitTime") long idleWaitTime,
-            @Named("org.quartz.scheduler.dbRetryInterval") long dbRetryInterval) throws SchedulerException {
-        this.scheduler = new QuartzScheduler(resources, ctxt, idleWaitTime, dbRetryInterval);
+    public SchedulerProvider(SchedulerFactory schedulerFactory) throws SchedulerException {
+        this.scheduler = schedulerFactory.getScheduler();
         this.scheduler.start();
     }
 
@@ -92,15 +89,10 @@ final class QuartzSchedulerProvider implements Provider<QuartzScheduler> {
         }
     }
 
-    @Inject
+    @Inject(optional = true)
     public void addJobs(Set<Class<? extends Job>> jobClasses) throws SchedulerException, ParseException {
         for (Class<? extends Job> jobClass : jobClasses) {
             Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
-
-            SchedulingContext schedulingContext = new SchedulingContext();
-            if (Scheduled.DEFAULT.equals(scheduled.schedulingContextId())) {
-                schedulingContext.setInstanceId(scheduled.schedulingContextId());
-            }
 
             JobDetail jobDetail = new JobDetail(scheduled.jobName(), // job name
                     scheduled.jobGroup(), // job group (you can also specify 'null'
@@ -138,11 +130,11 @@ final class QuartzSchedulerProvider implements Provider<QuartzScheduler> {
                     scheduled.cronExpression(),
                     timeZone);
 
-            this.scheduler.scheduleJob(schedulingContext, jobDetail, trigger);
+            this.scheduler.scheduleJob(jobDetail, trigger);
         }
     }
 
-    public QuartzScheduler get() {
+    public Scheduler get() {
         return this.scheduler;
     }
 
