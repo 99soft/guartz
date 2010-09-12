@@ -24,10 +24,13 @@ import com.google.inject.Provider;
  * 
  * @version $Id$
  */
-class DefaultSchedulerFactoryProvider implements Provider<SchedulerFactory> {
+public final class StdSchedulerFactoryProvider implements Provider<SchedulerFactory> {
 
     private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
+    /**
+     * {@inheritDoc}
+     */
     public SchedulerFactory get() {
         return this.schedulerFactory;
     }

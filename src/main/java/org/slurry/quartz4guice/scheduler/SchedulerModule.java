@@ -32,10 +32,10 @@ public final class SchedulerModule extends AbstractScheduleModule {
     private final Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass;
 
     public SchedulerModule() {
-        this(DefaultSchedulerFactoryProvider.class);
+        this(StdSchedulerFactoryProvider.class);
     }
 
-    public SchedulerModule(Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass) {
+    public <SF extends Provider<SchedulerFactory>> SchedulerModule(Class<SF> schedulerFactoryProviderClass) {
         this.schedulerFactoryProviderClass = schedulerFactoryProviderClass;
     }
 
