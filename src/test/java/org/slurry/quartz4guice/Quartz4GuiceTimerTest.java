@@ -28,7 +28,7 @@ import org.slurry.quartz4guice.scheduler.SchedulerModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.internal.Stopwatch;
+import com.google.inject.internal.util.$Stopwatch;
 
 /**
  * 
@@ -67,7 +67,7 @@ public class Quartz4GuiceTimerTest {
     public void minimalTest() throws InterruptedException {
         this.logger.info("Timer test starting");
 
-        Stopwatch stopwatch = new Stopwatch();
+        $Stopwatch stopwatch = new $Stopwatch();
         Thread.sleep(5000);
         Assert.assertTrue(this.timedTask.getInvocationsTimedTaskA() > 0);
 
