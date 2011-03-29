@@ -27,7 +27,7 @@ import com.google.inject.Singleton;
  */
 /*0/15*/
 @Singleton
-@Scheduled(jobName = "test", cronExpression = "0/3 * * * * ?")
+@Scheduled(jobName = "test", cronExpression = "0/2 * * * * ?")
 public class TimedTask implements Job {
 
     private int invocationsA = 0;
