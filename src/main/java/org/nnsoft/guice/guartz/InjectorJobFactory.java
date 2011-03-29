@@ -38,9 +38,10 @@ final class InjectorJobFactory implements JobFactory {
         this.injector = injector;
     }
 
-    @SuppressWarnings("unchecked")
     public Job newJob(TriggerFiredBundle bundle) throws SchedulerException {
+        @SuppressWarnings("unchecked")
         Class<? extends Job> jobClass = bundle.getJobDetail().getJobClass();
+
         return this.injector.getInstance(jobClass);
     }
 
