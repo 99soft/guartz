@@ -25,17 +25,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.nnsoft.guice.guartz.scheduler.SchedulerModule;
 import org.quartz.Scheduler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.internal.util.$Stopwatch;
 
 /**
  * 
  */
 public class GuartzTimerTestCase {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Inject
     private TimedTask timedTask;
@@ -70,13 +64,8 @@ public class GuartzTimerTestCase {
 
     @Test
     public void minimalTest() throws InterruptedException {
-        this.logger.info("Timer test starting");
-
-        $Stopwatch stopwatch = new $Stopwatch();
         Thread.sleep(5000);
         assertTrue(this.timedTask.getInvocationsTimedTaskA() > 0);
-
-        this.logger.info("Done checking task A {} ms ", stopwatch.reset());
     }
 
 }
