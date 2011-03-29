@@ -19,6 +19,8 @@ import java.text.ParseException;
 import java.util.Set;
 import java.util.TimeZone;
 
+import javax.inject.Provider;
+
 import org.nnsoft.guice.guartz.Global;
 import org.nnsoft.guice.guartz.Scheduled;
 import org.quartz.CronTrigger;
@@ -33,7 +35,6 @@ import org.quartz.TriggerListener;
 import org.quartz.spi.JobFactory;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 /**
  * 
