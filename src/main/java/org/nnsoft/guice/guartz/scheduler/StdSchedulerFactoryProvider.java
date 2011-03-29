@@ -15,23 +15,21 @@
  */
 package org.nnsoft.guice.guartz.scheduler;
 
+import javax.inject.Provider;
+
 import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
-
-import com.google.inject.Provider;
 
 /**
  * 
  */
 public final class StdSchedulerFactoryProvider implements Provider<SchedulerFactory> {
 
-    private final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
-
     /**
      * {@inheritDoc}
      */
     public SchedulerFactory get() {
-        return this.schedulerFactory;
+        return new StdSchedulerFactory();
     }
 
 }
