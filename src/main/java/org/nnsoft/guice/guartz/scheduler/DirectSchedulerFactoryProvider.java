@@ -1,5 +1,5 @@
 /*
- *    Copyright 2009-2010 The slurry Team
+ *    Copyright 2009-2011 The 99 Software Foundation
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -22,8 +22,6 @@ import com.google.inject.Provider;
 
 /**
  * WARNING this class is still a prototype.
- *
- * @version $Id$
  */
 public final class DirectSchedulerFactoryProvider implements Provider<SchedulerFactory> {
 
