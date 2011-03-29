@@ -32,16 +32,12 @@ public class TimedTask implements Job {
 
     private int invocationsA = 0;
 
-    public void timedTaskA() {
-        this.invocationsA++;
-    }
-
     public int getInvocationsTimedTaskA() {
         return this.invocationsA;
     }
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        this.timedTaskA();
+        this.invocationsA++;
     }
 
 }
