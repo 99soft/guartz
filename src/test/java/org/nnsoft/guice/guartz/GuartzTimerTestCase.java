@@ -63,7 +63,7 @@ public class GuartzTimerTestCase {
     }
 
     @Test
-    public void minimalTest() throws InterruptedException {
+    public void minimalTest() throws Exception {
         Thread.sleep(5000);
         assertTrue(this.timedTask.getInvocationsTimedTaskA() > 0);
     }
