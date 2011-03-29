@@ -15,14 +15,15 @@
  */
 package org.nnsoft.guice.guartz.internal;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import org.quartz.Job;
 import org.quartz.SchedulerException;
 import org.quartz.spi.JobFactory;
 import org.quartz.spi.TriggerFiredBundle;
 
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Singleton;
 
 /**
  * 
@@ -30,10 +31,10 @@ import com.google.inject.Singleton;
 @Singleton
 final class InjectorJobFactory implements JobFactory {
 
-    private final Injector injector;
-
     @Inject
-    public InjectorJobFactory(Injector injector) {
+    private Injector injector;
+
+    public void setInjector(Injector injector) {
         this.injector = injector;
     }
 
