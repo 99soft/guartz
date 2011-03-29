@@ -15,25 +15,22 @@
  */
 package org.nnsoft.guice.guartz.scheduler;
 
-import org.nnsoft.guice.guartz.internal.AbstractScheduleModule;
+import javax.inject.Provider;
+
+import org.nnsoft.guice.guartz.internal.AbstractGuartzModule;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerFactory;
 
-import com.google.inject.Provider;
 import com.google.inject.Scopes;
 
 /**
  * 
  */
-public final class SchedulerModule extends AbstractScheduleModule {
+public abstract class SchedulerModule extends AbstractGuartzModule {
 
-    private final Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass;
+    private Class<? extends Provider<SchedulerFactory>> schedulerFactoryProviderClass = StdSchedulerFactoryProvider.class;
 
-    public SchedulerModule() {
-        this(StdSchedulerFactoryProvider.class);
-    }
-
-    public <SF extends Provider<SchedulerFactory>> SchedulerModule(Class<SF> schedulerFactoryProviderClass) {
+    protected final <SF extends Provider<SchedulerFactory>> void bindSchedulerFactoryToProviderClass(Class<SF> schedulerFactoryProviderClass) {
         this.schedulerFactoryProviderClass = schedulerFactoryProviderClass;
     }
 
@@ -41,11 +38,16 @@ public final class SchedulerModule extends AbstractScheduleModule {
      * {@inheritDoc}
      */
     @Override
-    protected void configure() {
-        super.configure();
+    protected void configureGuartz() {
+        bind(SchedulerFactory.class).toProvider(this.schedulerFactoryProviderClass).in(Scopes.SINGLETON);
+        bind(Scheduler.class).toProvider(SchedulerProvider.class).asEagerSingleton();
 
-        this.bind(SchedulerFactory.class).toProvider(this.schedulerFactoryProviderClass).in(Scopes.SINGLETON);
-        this.bind(Scheduler.class).toProvider(SchedulerProvider.class).asEagerSingleton();
+        configureScheduler();
     }
+
+    /**
+     * 
+     */
+    protected abstract void configureScheduler();
 
 }

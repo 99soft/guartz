@@ -15,7 +15,10 @@
  */
 package org.nnsoft.guice.guartz;
 
-import junit.framework.Assert;
+import static com.google.inject.Guice.createInjector;
+import static junit.framework.Assert.assertTrue;
+
+import javax.inject.Inject;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,15 +28,12 @@ import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.internal.util.$Stopwatch;
 
 /**
  * 
  */
-public class Quartz4GuiceTimerTest {
+public class GuartzTimerTestCase {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -53,8 +53,14 @@ public class Quartz4GuiceTimerTest {
 
     @Before
     public void setUp() throws Exception {
-        Injector injector = Guice.createInjector(new SchedulerModule().addJob(TimedTask.class));
-        injector.injectMembers(this);
+        createInjector(new SchedulerModule() {
+
+            @Override
+            protected void configureScheduler() {
+                addJob(TimedTask.class);
+            }
+
+        }).injectMembers(this);
     }
 
     @After
@@ -68,7 +74,7 @@ public class Quartz4GuiceTimerTest {
 
         $Stopwatch stopwatch = new $Stopwatch();
         Thread.sleep(5000);
-        Assert.assertTrue(this.timedTask.getInvocationsTimedTaskA() > 0);
+        assertTrue(this.timedTask.getInvocationsTimedTaskA() > 0);
 
         this.logger.info("Done checking task A {} ms ", stopwatch.reset());
     }

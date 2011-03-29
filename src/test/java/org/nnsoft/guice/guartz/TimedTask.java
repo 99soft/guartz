@@ -30,7 +30,7 @@ import com.google.inject.Singleton;
 @Scheduled(jobName = "test", cronExpression = "0/3 * * * * ?")
 public class TimedTask implements Job {
 
-    private Integer invocationsA = 0;
+    private int invocationsA = 0;
 
     public void timedTaskA() {
         this.invocationsA++;
@@ -40,8 +40,7 @@ public class TimedTask implements Job {
         return this.invocationsA;
     }
 
-    public void execute(JobExecutionContext context)
-            throws JobExecutionException {
+    public void execute(JobExecutionContext context) throws JobExecutionException {
         this.timedTaskA();
     }
 
