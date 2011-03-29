@@ -22,7 +22,7 @@ import static com.google.inject.util.Providers.guicify;
 
 import javax.inject.Provider;
 
-import org.nnsoft.guice.guartz.internal.AbstractGuartzModule;
+import org.nnsoft.guice.guartz.AbstractGuartzModule;
 import org.quartz.core.QuartzScheduler;
 import org.quartz.core.QuartzSchedulerResources;
 import org.quartz.core.SchedulingContext;

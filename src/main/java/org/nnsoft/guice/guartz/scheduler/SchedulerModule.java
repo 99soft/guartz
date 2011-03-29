@@ -17,7 +17,7 @@ package org.nnsoft.guice.guartz.scheduler;
 
 import javax.inject.Provider;
 
-import org.nnsoft.guice.guartz.internal.AbstractGuartzModule;
+import org.nnsoft.guice.guartz.AbstractGuartzModule;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerFactory;
 

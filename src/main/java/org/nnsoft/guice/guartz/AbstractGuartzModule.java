@@ -13,15 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.nnsoft.guice.guartz.internal;
+package org.nnsoft.guice.guartz;
 
 import static com.google.inject.internal.util.$Preconditions.checkArgument;
 import static com.google.inject.internal.util.$Preconditions.checkNotNull;
 import static com.google.inject.internal.util.$Preconditions.checkState;
 import static com.google.inject.multibindings.Multibinder.newSetBinder;
 
-import org.nnsoft.guice.guartz.Global;
-import org.nnsoft.guice.guartz.Scheduled;
 import org.quartz.Job;
 import org.quartz.JobListener;
 import org.quartz.SchedulerListener;
