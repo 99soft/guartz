@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice;
+package org.nnsoft.guice.guartz;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

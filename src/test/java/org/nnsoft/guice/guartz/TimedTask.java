@@ -13,27 +13,37 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice.scheduler;
+package org.nnsoft.guice.guartz;
 
-import org.quartz.SchedulerFactory;
-import org.quartz.impl.DirectSchedulerFactory;
+import org.nnsoft.guice.guartz.Scheduled;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
-import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 /**
- * WARNING this class is still a prototype.
- *
+ * 
  * @version $Id$
  */
-public final class DirectSchedulerFactoryProvider implements Provider<SchedulerFactory> {
+/*0/15*/
+@Singleton
+@Scheduled(jobName = "test", cronExpression = "0/3 * * * * ?")
+public class TimedTask implements Job {
 
-    private final SchedulerFactory schedulerFactory = DirectSchedulerFactory.getInstance();
+    private Integer invocationsA = 0;
 
-    /**
-     * {@inheritDoc}
-     */
-    public SchedulerFactory get() {
-        return this.schedulerFactory;
+    public void timedTaskA() {
+        this.invocationsA++;
+    }
+
+    public int getInvocationsTimedTaskA() {
+        return this.invocationsA;
+    }
+
+    public void execute(JobExecutionContext context)
+            throws JobExecutionException {
+        this.timedTaskA();
     }
 
 }

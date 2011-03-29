@@ -13,17 +13,17 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice;
+package org.nnsoft.guice.guartz;
 
 import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.nnsoft.guice.guartz.scheduler.SchedulerModule;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slurry.quartz4guice.scheduler.SchedulerModule;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;

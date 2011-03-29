@@ -13,18 +13,18 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice.internal;
+package org.nnsoft.guice.guartz.internal;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import org.nnsoft.guice.guartz.Global;
+import org.nnsoft.guice.guartz.Scheduled;
 import org.quartz.Job;
 import org.quartz.JobListener;
 import org.quartz.SchedulerListener;
 import org.quartz.TriggerListener;
 import org.quartz.spi.JobFactory;
-import org.slurry.quartz4guice.Global;
-import org.slurry.quartz4guice.Scheduled;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Binder;

@@ -1,4 +1,4 @@
-package org.slurry.quartz4guice.core;
+package org.nnsoft.guice.guartz.core;
 
 import java.util.Set;
 

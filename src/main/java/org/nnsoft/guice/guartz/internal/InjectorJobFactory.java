@@ -13,36 +13,35 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice;
+package org.nnsoft.guice.guartz.internal;
 
 import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.quartz.SchedulerException;
+import org.quartz.spi.JobFactory;
+import org.quartz.spi.TriggerFiredBundle;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 /**
  * 
  * @version $Id$
  */
-/*0/15*/
 @Singleton
-@Scheduled(jobName = "test", cronExpression = "0/3 * * * * ?")
-public class TimedTask implements Job {
+final class InjectorJobFactory implements JobFactory {
 
-    private Integer invocationsA = 0;
+    private final Injector injector;
 
-    public void timedTaskA() {
-        this.invocationsA++;
+    @Inject
+    public InjectorJobFactory(Injector injector) {
+        this.injector = injector;
     }
 
-    public int getInvocationsTimedTaskA() {
-        return this.invocationsA;
-    }
-
-    public void execute(JobExecutionContext context)
-            throws JobExecutionException {
-        this.timedTaskA();
+    @SuppressWarnings("unchecked")
+    public Job newJob(TriggerFiredBundle bundle) throws SchedulerException {
+        Class<? extends Job> jobClass = bundle.getJobDetail().getJobClass();
+        return this.injector.getInstance(jobClass);
     }
 
 }

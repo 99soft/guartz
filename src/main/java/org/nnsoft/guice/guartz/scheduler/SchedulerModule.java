@@ -13,11 +13,11 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice.scheduler;
+package org.nnsoft.guice.guartz.scheduler;
 
+import org.nnsoft.guice.guartz.internal.AbstractScheduleModule;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerFactory;
-import org.slurry.quartz4guice.internal.AbstractScheduleModule;
 
 import com.google.inject.Provider;
 import com.google.inject.Scopes;

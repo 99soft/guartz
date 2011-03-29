@@ -13,11 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice.core;
+package org.nnsoft.guice.guartz.core;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import org.nnsoft.guice.guartz.internal.AbstractScheduleModule;
 import org.quartz.core.QuartzScheduler;
 import org.quartz.core.QuartzSchedulerResources;
 import org.quartz.core.SchedulingContext;
@@ -27,7 +28,6 @@ import org.quartz.spi.JobStore;
 import org.quartz.spi.SchedulerPlugin;
 import org.quartz.spi.SchedulerSignaler;
 import org.quartz.spi.ThreadPool;
-import org.slurry.quartz4guice.internal.AbstractScheduleModule;
 
 import com.google.inject.Provider;
 import com.google.inject.Scopes;

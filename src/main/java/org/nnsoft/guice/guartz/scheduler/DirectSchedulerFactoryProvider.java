@@ -13,24 +13,27 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.slurry.quartz4guice;
+package org.nnsoft.guice.guartz.scheduler;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.quartz.SchedulerFactory;
+import org.quartz.impl.DirectSchedulerFactory;
 
-import com.google.inject.ScopeAnnotation;
+import com.google.inject.Provider;
 
 /**
- * 
+ * WARNING this class is still a prototype.
+ *
  * @version $Id$
  */
-@Documented
-@ScopeAnnotation
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface Global {
+public final class DirectSchedulerFactoryProvider implements Provider<SchedulerFactory> {
+
+    private final SchedulerFactory schedulerFactory = DirectSchedulerFactory.getInstance();
+
+    /**
+     * {@inheritDoc}
+     */
+    public SchedulerFactory get() {
+        return this.schedulerFactory;
+    }
 
 }
