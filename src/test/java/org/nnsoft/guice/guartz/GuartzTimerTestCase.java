@@ -23,7 +23,6 @@ import javax.inject.Inject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.nnsoft.guice.guartz.scheduler.SchedulerModule;
 import org.quartz.Scheduler;
 
 /**
@@ -47,11 +46,11 @@ public class GuartzTimerTestCase {
 
     @Before
     public void setUp() throws Exception {
-        createInjector(new SchedulerModule() {
+        createInjector(new QuartzModule() {
 
             @Override
-            protected void configureScheduler() {
-                addJob(TimedTask.class);
+            protected void schedule() {
+                scheduleJob(TimedTask.class);
             }
 
         }).injectMembers(this);

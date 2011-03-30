@@ -15,14 +15,14 @@
  */
 package org.nnsoft.guice.guartz;
 
+import static org.quartz.utils.Key.DEFAULT_GROUP;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.quartz.Scheduler;
 
 /**
  * 
@@ -35,26 +35,65 @@ public @interface Scheduled {
 
     public static final String DEFAULT = "##default";
 
+    // Job
+
+    /**
+     * The name must be unique within the group.
+     *
+     * @return
+     */
     String jobName();
 
-    String jobGroup() default Scheduler.DEFAULT_GROUP;
+    /**
+     * 
+     *
+     * @return
+     */
+    String jobGroup() default DEFAULT_GROUP;
 
-    String[] jobListenerNames() default {};
+    /**
+     * Instructs the Scheduler whether or not the Job
+     * should be re-executed if a 'recovery' or 'fail-over' situation is
+     * encountered.
+     *
+     * @return
+     */
+    boolean requestRecovery() default false;
 
-    boolean volatility() default false;
+    /**
+     * Whether or not the Job should remain stored after it is
+     * orphaned
+     *
+     * @return
+     */
+    boolean storeDurably() default false;
 
-    boolean durability() default false;
+    // Trigger
 
-    boolean recover() default false;
-
+    /**
+     * The name must be unique within the group.
+     */
     String triggerName() default DEFAULT;
 
-    String triggerGroup() default Scheduler.DEFAULT_MANUAL_TRIGGERS;
+    String triggerGroup() default DEFAULT_GROUP;
 
     String cronExpression();
 
+    /**
+     * Returns the time zone for which the {@code cronExpression}
+     * of this {@code CronTrigger} will be resolved.
+     * 
+     * @return
+     */
     String timeZoneId() default DEFAULT;
 
-    String schedulingContextId() default DEFAULT;
+    /**
+     * Set the Trigger's priority.  When more than one Trigger have the same
+     * fire time, the scheduler will fire the one with the highest priority
+     * first.
+     *
+     * @return
+     */
+    int priority() default 0;
 
 }

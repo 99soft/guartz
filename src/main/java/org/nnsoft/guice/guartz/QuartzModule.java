@@ -15,13 +15,17 @@
  */
 package org.nnsoft.guice.guartz;
 
-import static com.google.inject.internal.util.$Preconditions.checkArgument;
+import static java.util.TimeZone.getTimeZone;
+import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.internal.util.$Preconditions.checkNotNull;
 import static com.google.inject.internal.util.$Preconditions.checkState;
 import static com.google.inject.multibindings.Multibinder.newSetBinder;
 
+import java.util.TimeZone;
+
 import org.quartz.Job;
 import org.quartz.JobListener;
+import org.quartz.Scheduler;
 import org.quartz.SchedulerListener;
 import org.quartz.TriggerListener;
 import org.quartz.spi.JobFactory;
@@ -32,62 +36,39 @@ import com.google.inject.multibindings.Multibinder;
 /**
  * 
  */
-public abstract class AbstractGuartzModule extends AbstractModule {
-
-    private Multibinder<JobListener> globalJobListeners;
+public abstract class QuartzModule extends AbstractModule {
 
     private Multibinder<JobListener> jobListeners;
-
-    private Multibinder<TriggerListener> globalTriggerListeners;
 
     private Multibinder<TriggerListener> triggerListeners;
 
     private Multibinder<SchedulerListener> schedulerListeners;
-
-    private Multibinder<Job> jobClasses;
 
     /**
      * {@inheritDoc}
      */
     @Override
     protected final void configure() {
-        checkState(globalJobListeners == null, "Re-entry is not allowed.");
         checkState(jobListeners == null, "Re-entry is not allowed.");
-        checkState(globalTriggerListeners == null, "Re-entry is not allowed.");
         checkState(triggerListeners == null, "Re-entry is not allowed.");
         checkState(schedulerListeners == null, "Re-entry is not allowed.");
-        checkState(jobClasses == null, "Re-entry is not allowed.");
 
-        globalJobListeners = newSetBinder(binder(), JobListener.class, Global.class);
         jobListeners = newSetBinder(binder(), JobListener.class);
-        globalTriggerListeners = newSetBinder(binder(), TriggerListener.class, Global.class);
         triggerListeners = newSetBinder(binder(), TriggerListener.class);
         schedulerListeners = newSetBinder(binder(), SchedulerListener.class);
-        jobClasses = newSetBinder(binder(), Job.class);
 
         try {
-            configureGuartz();
-            bind(JobFactory.class).to(InjectorJobFactory.class);
+            schedule();
+            bind(JobFactory.class).to(InjectorJobFactory.class).in(SINGLETON);
+            bind(Scheduler.class).toProvider(SchedulerProvider.class).asEagerSingleton();
         } finally {
-            globalJobListeners = null;
             jobListeners = null;
-            globalTriggerListeners = null;
             triggerListeners = null;
             schedulerListeners = null;
-            jobClasses = null;
         }
     }
 
-    protected abstract void configureGuartz();
-
-    /**
-     * 
-     *
-     * @param jobListenerType
-     */
-    protected final void addGlobalJobListener(Class<? extends JobListener> jobListenerType) {
-        doBind(globalJobListeners, jobListenerType);
-    }
+    protected abstract void schedule();
 
     /**
      * 
@@ -96,15 +77,6 @@ public abstract class AbstractGuartzModule extends AbstractModule {
      */
     protected final void addJobListener(Class<? extends JobListener> jobListenerType) {
         doBind(jobListeners, jobListenerType);
-    }
-
-    /**
-     * 
-     *
-     * @param triggerListenerType
-     */
-    protected final void addGlobalTriggerListener(Class<? extends TriggerListener> triggerListenerType) {
-        doBind(globalTriggerListeners, triggerListenerType);
     }
 
     /**
@@ -129,13 +101,39 @@ public abstract class AbstractGuartzModule extends AbstractModule {
      *
      * @param jobClass
      */
-    protected final void addJob(Class<? extends Job> jobClass) {
+    protected final JobSchedulerBuilder scheduleJob(Class<? extends Job> jobClass) {
         checkNotNull(jobClass, "Argument 'jobClass' must be not null.");
-        checkArgument(jobClass.isAnnotationPresent(Scheduled.class),
-                "This method allows only '%s' implementations annotated with @%s",
-                Job.class.getName(),
-                Scheduled.class.getName());
-        doBind(jobClasses, jobClass);
+
+        JobSchedulerBuilder builder = new JobSchedulerBuilder(jobClass);
+
+        if (jobClass.isAnnotationPresent(Scheduled.class)) {
+            Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
+
+            // job
+            builder.withJobName(scheduled.jobName())
+                   .withJobGroup(scheduled.jobGroup())
+                   .withRequestRecovery(scheduled.requestRecovery())
+                   .withStoreDurably(scheduled.storeDurably());
+
+            // trigger
+            builder.withCronExpression(scheduled.cronExpression());
+
+            if (Scheduled.DEFAULT.equals(scheduled.triggerName())) {
+                builder.withTriggerName(jobClass.getCanonicalName());
+            } else {
+                builder.withTriggerName(scheduled.triggerName());
+            }
+
+            if (!Scheduled.DEFAULT.equals(scheduled.timeZoneId())) {
+                TimeZone timeZone = getTimeZone(scheduled.timeZoneId());
+                if (timeZone != null) {
+                    builder.withTimeZone(timeZone);
+                }
+            }
+        }
+
+        requestInjection(builder);
+        return builder;
     }
 
     /**
