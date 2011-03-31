@@ -70,10 +70,8 @@ public abstract class QuartzModule extends AbstractModule {
     }
 
     /**
-     * Part of the EDSL builder language for configuring servlets
-     * and filters with guice-servlet. Think of this as an in-code replacement for web.xml.
-     * Filters and servlets are configured here using simple java method calls. Here is a typical
-     * example of registering a filter when creating your Guice injector:
+     * Part of the EDSL builder language for configuring {@code Job}s.
+     * Here is a typical example of scheduling {@code Job}s when creating your Guice injector:
      *
      * <pre>
      * Guice.createInjector(..., new QuartzModule() {
