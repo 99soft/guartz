@@ -23,7 +23,7 @@
     </properties>
 
     <body>
-        <release version="1.0" date="TBD" description="First release">
+        <release version="1.0" date="2011-04-01" description="First release">
             <action dev="simonetripodi" type="update">
                 First release.
             </action>
