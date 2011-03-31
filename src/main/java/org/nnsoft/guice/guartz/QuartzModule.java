@@ -85,39 +85,47 @@ public abstract class QuartzModule extends AbstractModule {
      *
      * }
      * </pre>
+     *
+     * @see JobSchedulerBuilder
      */
     protected abstract void schedule();
 
     /**
-     * 
+     * Add the {@code JobListener} binding.
      *
-     * @param jobListenerType
+     * @param jobListenerType The {@code JobListener} class has to be bound
      */
     protected final void addJobListener(Class<? extends JobListener> jobListenerType) {
         doBind(jobListeners, jobListenerType);
     }
 
     /**
-     * 
+     * Add the {@code TriggerListener} binding.
      *
-     * @param triggerListenerType
+     * @param triggerListenerType The {@code TriggerListener} class has to be bound
      */
     protected final void addTriggerListener(Class<? extends TriggerListener> triggerListenerType) {
         doBind(triggerListeners, triggerListenerType);
     }
 
     /**
-     * 
-     * @param schedulerListenerType
+     * Add the {@code SchedulerListener} binding.
+     *
+     * @param schedulerListenerType The {@code SchedulerListener} class has to be bound
      */
     protected final void addSchedulerListener(Class<? extends SchedulerListener> schedulerListenerType) {
         doBind(schedulerListeners, schedulerListenerType);
     }
 
     /**
-     * 
+     * Allows {@code Job} scheduling, delegating Guice create the {@code Job} instance
+     * and inject members.
      *
-     * @param jobClass
+     * If given {@code Job} class is annotated with {@link Scheduled}, then {@code Job}
+     * and related {@code Trigger} values will be extracted from it.
+     *
+     * @param jobClass The {@code Job} has to be scheduled
+     * @return The {@code Job} builder 
      */
     protected final JobSchedulerBuilder scheduleJob(Class<? extends Job> jobClass) {
         checkNotNull(jobClass, "Argument 'jobClass' must be not null.");
@@ -150,7 +158,7 @@ public abstract class QuartzModule extends AbstractModule {
     }
 
     /**
-     * 
+     * Utility method to respect the DRY principle.
      *
      * @param <T>
      * @param binder
