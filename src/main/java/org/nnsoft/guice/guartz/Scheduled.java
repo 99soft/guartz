@@ -40,7 +40,7 @@ public @interface Scheduled {
     /**
      * The {@code Job} name, must be unique within the group.
      */
-    String jobName();
+    String jobName() default DEFAULT;
 
     /**
      * The {@code Job} group.
