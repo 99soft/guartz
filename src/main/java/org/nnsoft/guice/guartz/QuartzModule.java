@@ -35,7 +35,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 
 /**
- * 
+ * Quartz (http://www.quartz-scheduler.org/) Module as Google-Guice extension.
  */
 public abstract class QuartzModule extends AbstractModule {
 
