@@ -27,9 +27,7 @@ import java.util.TimeZone;
 import javax.inject.Inject;
 
 import org.quartz.Job;
-import org.quartz.JobDetail;
 import org.quartz.Scheduler;
-import org.quartz.Trigger;
 
 /**
  * DSL to produce {@code Job} and add to a {@code Scheduler},
@@ -221,19 +219,16 @@ public final class JobSchedulerBuilder {
      */
     @Inject
     public void schedule(Scheduler scheduler) throws Exception {
-        JobDetail jobDetail = newJob(jobClass)
-            .withIdentity(jobName, jobGroup)
-            .requestRecovery(requestRecovery)
-            .storeDurably(storeDurably)
-            .build();
-
-        Trigger trigger = newTrigger()
-            .withIdentity(triggerName, triggerGroup)
-            .withSchedule(cronSchedule(cronExpression).inTimeZone(timeZone))
-            .withPriority(priority)
-            .build();
-
-        scheduler.scheduleJob(jobDetail, trigger);
+        scheduler.scheduleJob(newJob(jobClass)
+                    .withIdentity(jobName, jobGroup)
+                    .requestRecovery(requestRecovery)
+                    .storeDurably(storeDurably)
+                    .build(),
+                newTrigger()
+                    .withIdentity(triggerName, triggerGroup)
+                    .withSchedule(cronSchedule(cronExpression).inTimeZone(timeZone))
+                    .withPriority(priority)
+                    .build());
     }
 
 }
