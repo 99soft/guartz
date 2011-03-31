@@ -1,0 +1,274 @@
+<api>
+<package name="org.nnsoft.guice.guartz"
+>
+<class name="JobSchedulerBuilder"
+ extends="java.lang.Object"
+ abstract="false"
+ static="false"
+ final="true"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<method name="schedule"
+ return="void"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="scheduler" type="org.quartz.Scheduler">
+</parameter>
+<exception name="Exception" type="java.lang.Exception">
+</exception>
+</method>
+<method name="withCronExpression"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="cronExpression" type="java.lang.String">
+</parameter>
+</method>
+<method name="withJobGroup"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="jobGroup" type="java.lang.String">
+</parameter>
+</method>
+<method name="withJobName"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="jobName" type="java.lang.String">
+</parameter>
+</method>
+<method name="withPriority"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="priority" type="int">
+</parameter>
+</method>
+<method name="withRequestRecovery"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="requestRecovery" type="boolean">
+</parameter>
+</method>
+<method name="withStoreDurably"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="storeDurably" type="boolean">
+</parameter>
+</method>
+<method name="withTimeZone"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="timeZone" type="java.util.TimeZone">
+</parameter>
+</method>
+<method name="withTriggerGroup"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="triggerGroup" type="java.lang.String">
+</parameter>
+</method>
+<method name="withTriggerName"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="triggerName" type="java.lang.String">
+</parameter>
+</method>
+</class>
+<class name="QuartzModule"
+ extends="com.google.inject.AbstractModule"
+ abstract="true"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<constructor name="QuartzModule"
+ type="org.nnsoft.guice.guartz.QuartzModule"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+</constructor>
+<method name="addJobListener"
+ return="void"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="true"
+ deprecated="not deprecated"
+ visibility="protected"
+>
+<parameter name="jobListenerType" type="java.lang.Class&lt;? extends org.quartz.JobListener&gt;">
+</parameter>
+</method>
+<method name="addSchedulerListener"
+ return="void"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="true"
+ deprecated="not deprecated"
+ visibility="protected"
+>
+<parameter name="schedulerListenerType" type="java.lang.Class&lt;? extends org.quartz.SchedulerListener&gt;">
+</parameter>
+</method>
+<method name="addTriggerListener"
+ return="void"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="true"
+ deprecated="not deprecated"
+ visibility="protected"
+>
+<parameter name="triggerListenerType" type="java.lang.Class&lt;? extends org.quartz.TriggerListener&gt;">
+</parameter>
+</method>
+<method name="configure"
+ return="void"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="true"
+ deprecated="not deprecated"
+ visibility="protected"
+>
+</method>
+<method name="doBind"
+ return="void"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="true"
+ deprecated="not deprecated"
+ visibility="protected"
+>
+<parameter name="binder" type="com.google.inject.multibindings.Multibinder&lt;T&gt;">
+</parameter>
+<parameter name="type" type="java.lang.Class&lt;? extends T&gt;">
+</parameter>
+</method>
+<method name="schedule"
+ return="void"
+ abstract="true"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="protected"
+>
+</method>
+<method name="scheduleJob"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="true"
+ deprecated="not deprecated"
+ visibility="protected"
+>
+<parameter name="jobClass" type="java.lang.Class&lt;? extends org.quartz.Job&gt;">
+</parameter>
+</method>
+</class>
+<class name="Scheduled"
+ extends="java.lang.Object"
+ abstract="true"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<implements name="java.lang.annotation.Annotation">
+</implements>
+<field name="DEFAULT"
+ type="java.lang.String"
+ transient="false"
+ volatile="false"
+ value="&quot;##default&quot;"
+ static="true"
+ final="true"
+ deprecated="not deprecated"
+ visibility="public"
+>
+</field>
+</class>
+</package>
+</api>

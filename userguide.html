@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>99soft:: Guartz - Home</title>
+    <title>99soft:: Guartz - User Guide</title>
     <link rel="stylesheet" href="./css/maven-theme.css" type="text/css" />
     <link rel="stylesheet" href="./css/maven-base.css" type="text/css"/>
     <link rel="stylesheet" href="./css/prettify.css" type="text/css"/>
@@ -56,11 +56,11 @@
                                 <h5>99soft:: Guartz</h5>
                   <ul>
                   <li class="none">
-            <strong>Home</strong>
-          </li>
-                  <li class="none">
-                          <a href="userguide.html" title="User guide">User guide</a>
+                          <a href="index.html" title="Home">Home</a>
             </li>
+                  <li class="none">
+            <strong>User guide</strong>
+          </li>
           </ul>
                        <h5>External Links</h5>
                   <ul>
@@ -73,47 +73,9 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                                                                                                                    <li class="expanded">
+                                                                                                                                                                                                                                                                          <li class="collapsed">
                           <a href="project-info.html" title="Project Information">Project Information</a>
-                    <ul>
-                      <li class="none">
-            <strong>About</strong>
-          </li>
-                      <li class="none">
-                          <a href="integration.html" title="Continuous Integration">Continuous Integration</a>
-            </li>
-                      <li class="none">
-                          <a href="dependencies.html" title="Dependencies">Dependencies</a>
-            </li>
-                      <li class="none">
-                          <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
-            </li>
-                      <li class="none">
-                          <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
-            </li>
-                      <li class="none">
-                          <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
-            </li>
-                      <li class="none">
-                          <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
-            </li>
-                      <li class="none">
-                          <a href="license.html" title="Project License">Project License</a>
-            </li>
-                      <li class="none">
-                          <a href="plugins.html" title="Project Plugins">Project Plugins</a>
-            </li>
-                      <li class="none">
-                          <a href="project-summary.html" title="Project Summary">Project Summary</a>
-            </li>
-                      <li class="none">
-                          <a href="team-list.html" title="Project Team">Project Team</a>
-            </li>
-                      <li class="none">
-                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
-            </li>
-              </ul>
-        </li>
+                  </li>
                                                                                                                                                                                                                     <li class="collapsed">
                           <a href="project-reports.html" title="Project Reports">Project Reports</a>
                   </li>
@@ -157,15 +119,56 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <!--  --><!-- Copyright 2009-2011 The 99 Software Foundation --><!--  --><!-- Licensed under the Apache License, Version 2.0 (the "License"); --><!-- you may not use this file except in compliance with the License. --><!-- You may obtain a copy of the License at --><!--  --><!-- http://www.apache.org/licenses/LICENSE-2.0 --><!--  --><!-- Unless required by applicable law or agreed to in writing, software --><!-- distributed under the License is distributed on an "AS IS" BASIS, --><!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. --><!-- See the License for the specific language governing permissions and --><!-- limitations under the License. --><!--  --><div class="section"><h2>Welcome to Guartz!<a name="Welcome_to_Guartz"></a></h2><p>Guartz is the <a class="externalLink" href="http://code.google.com/p/google-guice/">Google Guice</a> extension for <a class="externalLink" href="http://www.quartz-scheduler.org/">Quartz</a>, originally developed by <a class="externalLink" href="http://ninomartinez.wordpress.com/">Nino Martinez Wael</a> on Google Code with the name of <a class="externalLink" href="http://code.google.com/p/slurry/">quartz4guice</a>.</p></div><div class="section"><h2>Before starting<a name="Before_starting"></a></h2><p>Guartz is available on the Maven Central repo, you just need to add the dependency below in your <tt>pom.xml</tt> file:</p><div class="source"><pre>&lt;dependencies&gt;
-    ...
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.99soft.guice&lt;/groupId&gt;
-        &lt;artifactId&gt;guartz&lt;/artifactId&gt;
-        &lt;version&gt;XX.XX&lt;/version&gt;
-    &lt;/dependency&gt;
-    ...
-&lt;/dependencies&gt;</pre></div></div>
+        <!--  --><!-- Copyright 2009-2011 The 99 Software Foundation --><!--  --><!-- Licensed under the Apache License, Version 2.0 (the "License"); --><!-- you may not use this file except in compliance with the License. --><!-- You may obtain a copy of the License at --><!--  --><!-- http://www.apache.org/licenses/LICENSE-2.0 --><!--  --><!-- Unless required by applicable law or agreed to in writing, software --><!-- distributed under the License is distributed on an "AS IS" BASIS, --><!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. --><!-- See the License for the specific language governing permissions and --><!-- limitations under the License. --><!--  --><div class="section"><h2>Guartz user's guide<a name="Guartz_users_guide"></a></h2><p><i>Guartz</i> provides the <tt>org.nnsoft.guice.guartz.QuartzModule</tt> that makes easier the <tt>org.quartz.Scheduler</tt> creation and <tt>org.quartz.Job</tt> creation and scheduling.</p><div class="section"><h3>Scheduler<a name="Scheduler"></a></h3><p>Once the Guice Injector will be created using the <tt>org.nnsoft.guice.guartz.QuartzModule</tt>, the <tt>org.quartz.Scheduler</tt> will be ready and started. Users can require the <tt>org.quartz.Scheduler</tt> injection for custom operations and for shutdown it.</p><div class="source"><pre>public class MyApplicationShutdownListener {
+
+    @Inject
+    private org.quartz.Scheduler scheduler;
+
+    public void shutdown() throws Exception {
+        ...
+        scheduler.shutdown();
+        ...
+    }
+
+}</pre></div><p>Users that need to register listeners, can us the <tt>org.nnsoft.guice.guartz.QuartzModule</tt> EDSL:</p><div class="source"><pre>Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule() {
+
+   @Override
+   protected void schedule() {
+       addJobListener(com.acme.MyJobListener.class);
+       addTriggerListener(com.acme.MyTriggerListener.class);
+       addSchedulerListener(com.acme.MySchedulerListener.class);
+   }
+
+});</pre></div><p>Don't create listeners instances manually, let Guice do the job for you!</p></div><div class="section"><h3>Job<a name="Job"></a></h3><p><i>Guartz</i> manages as well <tt>org.quartz.Job</tt> instances and scheduling, a typical example of scheduling <tt>org.quartz.Job</tt> is:</p><div class="source"><pre>Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule() {
+
+   @Override
+   protected void schedule() {
+       ...
+       scheduleJob(com.acme.MyJobImpl.class).withCronExpression(&quot;0/2 * * * * ?&quot;);
+       ...
+   }
+
+});</pre></div><p>Don't create jobs instances manually, let Guice do the job for you!</p><p>Please refer to <a href="./apidocs/reference/org/nnsoft/guice/guartz/JobSchedulerBuilder.html">JobSchedulerBuilder</a> Javadoc to see all the scheduling configuration parameters.</p><div class="section"><h4>Implicit scheduling<a name="Implicit_scheduling"></a></h4><p>Job classes annotated with <tt>org.nnsoft.guice.guartz.Scheduled</tt> will be automatically scheduled extracting configuration parameters, i.e. given the :</p><div class="source"><pre>@javax.inject.Singleton
+@org.nnsoft.guice.guartz.Scheduled(jobName = &quot;test&quot;, cronExpression = &quot;0/2 * * * * ?&quot;)
+public class com.acme.MyJobImpl implements org.quartz.Job {
+
+    @javax.inject.Inject
+    private MyCustomService service;
+
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        service.customOperation();
+    }
+
+}</pre></div><p>Then, when creating the <tt>Injector</tt> instance:</p><div class="source"><pre>Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule() {
+
+   @Override
+   protected void schedule() {
+       ...
+       scheduleJob(com.acme.MyJobImpl.class);
+       ...
+   }
+
+});</pre></div><p>Simple enough, uh?</p></div></div></div>
       </div>
     </div>
     <div class="clear">

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>99soft:: Guartz - Home</title>
+    <title>99soft:: Guartz - CPD Results</title>
     <link rel="stylesheet" href="./css/maven-theme.css" type="text/css" />
     <link rel="stylesheet" href="./css/maven-base.css" type="text/css"/>
     <link rel="stylesheet" href="./css/prettify.css" type="text/css"/>
@@ -19,7 +19,6 @@
             prettyPrint();
         }
     </script>
-      <meta name="author" content="The 99 Software Foundation" />
     <meta name="Date-Revision-yyyymmdd" content="20110401" />
     <meta http-equiv="Content-Language" content="en" />
         
@@ -56,8 +55,8 @@
                                 <h5>99soft:: Guartz</h5>
                   <ul>
                   <li class="none">
-            <strong>Home</strong>
-          </li>
+                          <a href="index.html" title="Home">Home</a>
+            </li>
                   <li class="none">
                           <a href="userguide.html" title="User guide">User guide</a>
             </li>
@@ -73,50 +72,41 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                                                                                                                    <li class="expanded">
+                                                                                                                                                                                                                                                                          <li class="collapsed">
                           <a href="project-info.html" title="Project Information">Project Information</a>
+                  </li>
+                                                                                                                                                                                                                              <li class="expanded">
+                          <a href="project-reports.html" title="Project Reports">Project Reports</a>
                     <ul>
                       <li class="none">
-            <strong>About</strong>
+                          <a href="clirr-report.html" title="Clirr">Clirr</a>
+            </li>
+                      <li class="none">
+            <strong>CPD Report</strong>
           </li>
                       <li class="none">
-                          <a href="integration.html" title="Continuous Integration">Continuous Integration</a>
+                          <a href="apidocs/index.html" title="JavaDocs">JavaDocs</a>
             </li>
                       <li class="none">
-                          <a href="dependencies.html" title="Dependencies">Dependencies</a>
+                          <a href="jdepend-report.html" title="JDepend">JDepend</a>
             </li>
                       <li class="none">
-                          <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
+                          <a href="pmd.html" title="PMD Report">PMD Report</a>
             </li>
                       <li class="none">
-                          <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
+                          <a href="xref/index.html" title="Source Xref">Source Xref</a>
             </li>
                       <li class="none">
-                          <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
+                          <a href="surefire-report.html" title="Surefire Report">Surefire Report</a>
             </li>
                       <li class="none">
-                          <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
+                          <a href="taglist.html" title="Tag List">Tag List</a>
             </li>
                       <li class="none">
-                          <a href="license.html" title="Project License">Project License</a>
-            </li>
-                      <li class="none">
-                          <a href="plugins.html" title="Project Plugins">Project Plugins</a>
-            </li>
-                      <li class="none">
-                          <a href="project-summary.html" title="Project Summary">Project Summary</a>
-            </li>
-                      <li class="none">
-                          <a href="team-list.html" title="Project Team">Project Team</a>
-            </li>
-                      <li class="none">
-                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
+                          <a href="xref-test/index.html" title="Test Source Xref">Test Source Xref</a>
             </li>
               </ul>
         </li>
-                                                                                                                                                                                                                    <li class="collapsed">
-                          <a href="project-reports.html" title="Project Reports">Project Reports</a>
-                  </li>
           </ul>
                        <h5>99soft</h5>
                   <ul>
@@ -157,15 +147,7 @@
     </div>
     <div id="bodyColumn">
       <div id="contentBox">
-        <!--  --><!-- Copyright 2009-2011 The 99 Software Foundation --><!--  --><!-- Licensed under the Apache License, Version 2.0 (the "License"); --><!-- you may not use this file except in compliance with the License. --><!-- You may obtain a copy of the License at --><!--  --><!-- http://www.apache.org/licenses/LICENSE-2.0 --><!--  --><!-- Unless required by applicable law or agreed to in writing, software --><!-- distributed under the License is distributed on an "AS IS" BASIS, --><!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. --><!-- See the License for the specific language governing permissions and --><!-- limitations under the License. --><!--  --><div class="section"><h2>Welcome to Guartz!<a name="Welcome_to_Guartz"></a></h2><p>Guartz is the <a class="externalLink" href="http://code.google.com/p/google-guice/">Google Guice</a> extension for <a class="externalLink" href="http://www.quartz-scheduler.org/">Quartz</a>, originally developed by <a class="externalLink" href="http://ninomartinez.wordpress.com/">Nino Martinez Wael</a> on Google Code with the name of <a class="externalLink" href="http://code.google.com/p/slurry/">quartz4guice</a>.</p></div><div class="section"><h2>Before starting<a name="Before_starting"></a></h2><p>Guartz is available on the Maven Central repo, you just need to add the dependency below in your <tt>pom.xml</tt> file:</p><div class="source"><pre>&lt;dependencies&gt;
-    ...
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.99soft.guice&lt;/groupId&gt;
-        &lt;artifactId&gt;guartz&lt;/artifactId&gt;
-        &lt;version&gt;XX.XX&lt;/version&gt;
-    &lt;/dependency&gt;
-    ...
-&lt;/dependencies&gt;</pre></div></div>
+        <div class="section"><h2>CPD Results<a name="CPD_Results"></a></h2><p>The following document contains the results of PMD's  <a class="externalLink" href="http://pmd.sourceforge.net/cpd.html">CPD</a> 4.2.5.</p></div><div class="section"><h2>Duplications<a name="Duplications"></a></h2><p>CPD found no problems in your source code.</p></div>
       </div>
     </div>
     <div class="clear">
