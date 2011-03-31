@@ -20,6 +20,7 @@ import static com.google.inject.internal.util.$Preconditions.checkNotNull;
 import static com.google.inject.internal.util.$Preconditions.checkState;
 import static com.google.inject.multibindings.Multibinder.newSetBinder;
 import static java.util.TimeZone.getTimeZone;
+import static org.nnsoft.guice.guartz.Scheduled.DEFAULT;
 
 import java.util.TimeZone;
 
@@ -136,7 +137,7 @@ public abstract class QuartzModule extends AbstractModule {
                    .withCronExpression(scheduled.cronExpression())
                    .withTriggerName(scheduled.triggerName());
 
-            if (!Scheduled.DEFAULT.equals(scheduled.timeZoneId())) {
+            if (!DEFAULT.equals(scheduled.timeZoneId())) {
                 TimeZone timeZone = getTimeZone(scheduled.timeZoneId());
                 if (timeZone != null) {
                     builder.withTimeZone(timeZone);
