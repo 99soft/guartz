@@ -25,7 +25,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 
+ * {@code Job} classes annotated with {@code Scheduled} will be automatically scheduled.
  */
 @Inherited
 @Documented
@@ -38,16 +38,12 @@ public @interface Scheduled {
     // Job
 
     /**
-     * The name must be unique within the group.
-     *
-     * @return
+     * The {@code Job} name, must be unique within the group.
      */
     String jobName();
 
     /**
-     * 
-     *
-     * @return
+     * The {@code Job} group.
      */
     String jobGroup() default DEFAULT_GROUP;
 
@@ -55,44 +51,42 @@ public @interface Scheduled {
      * Instructs the Scheduler whether or not the Job
      * should be re-executed if a 'recovery' or 'fail-over' situation is
      * encountered.
-     *
-     * @return
      */
     boolean requestRecovery() default false;
 
     /**
      * Whether or not the Job should remain stored after it is
-     * orphaned
-     *
-     * @return
+     * orphaned.
      */
     boolean storeDurably() default false;
 
     // Trigger
 
     /**
-     * The name must be unique within the group.
+     * The {@code Trigger} name, must be unique within the group.
      */
     String triggerName() default DEFAULT;
 
+    /**
+     * The {@code Trigger} group.
+     */
     String triggerGroup() default DEFAULT_GROUP;
 
+    /**
+     * The cron expression to base the schedule on.
+     */
     String cronExpression();
 
     /**
-     * Returns the time zone for which the {@code cronExpression}
+     * The time zone for which the {@code cronExpression}
      * of this {@code CronTrigger} will be resolved.
-     * 
-     * @return
      */
     String timeZoneId() default DEFAULT;
 
     /**
-     * Set the Trigger's priority.  When more than one Trigger have the same
+     * The Trigger's priority.  When more than one Trigger have the same
      * fire time, the scheduler will fire the one with the highest priority
      * first.
-     *
-     * @return
      */
     int priority() default 0;
 
