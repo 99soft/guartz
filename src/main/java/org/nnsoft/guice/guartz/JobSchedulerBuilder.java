@@ -32,88 +32,192 @@ import org.quartz.Scheduler;
 import org.quartz.Trigger;
 
 /**
- * 
+ * DSL to produce {@code Job} and add to a {@code Scheduler},
+ * and associate the related {@code Trigger} with it.
  */
 public final class JobSchedulerBuilder {
 
+    /**
+     * The type of the {@code Job} to be executed.
+     */
     private final Class<? extends Job> jobClass;
 
+    /**
+     * The {@code Job} name, must be unique within the group.
+     */
     private String jobName;
 
+    /**
+     * The {@code Job} group name.
+     */
     private String jobGroup = DEFAULT_GROUP;
 
+    /**
+     * Instructs the {@code Scheduler} whether or not the {@code Job} should
+     * be re-executed if a {@code recovery} or {@code fail-over} situation is
+     * encountered.
+     */
     private boolean requestRecovery = false;
 
+    /**
+     * Whether or not the {@code Job} should remain stored after it is
+     * orphaned (no {@code Trigger}s point to it).
+     */
     private boolean storeDurably = false;
 
+    /**
+     * The {@code Trigger} name, must be unique within the group.
+     */
     private String triggerName = DEFAULT;
 
+    /**
+     * The {@code Trigger} group.
+     */
     private String triggerGroup = DEFAULT_GROUP;
 
+    /**
+     * The cron expression to base the schedule on.
+     */
     private String cronExpression;
 
+    /**
+     * The time zone for which the {@code cronExpression}
+     * of this {@code CronTrigger} will be resolved.
+     */
     private TimeZone timeZone = getDefault();
 
+    /**
+     * The {@code Trigger}'s priority.  When more than one {@code Trigger} have the same
+     * fire time, the scheduler will fire the one with the highest priority
+     * first.
+     */
     private int priority = 0;
 
     /**
-     * 
+     * Creates a new {@code JobSchedulerBuilder} instance.
+     *
      * This class can't be instantiated by users.
+     *
+     * @param jobClass The type of the {@code Job} to be executed
      */
     JobSchedulerBuilder(final Class<? extends Job> jobClass) {
         this.jobClass = jobClass;
     }
 
+    /**
+     * Sets the {@code Job} name, must be unique within the group.
+     *
+     * @param jobName The {@code Job} name, must be unique within the group
+     * @return This builder instance
+     */
     public JobSchedulerBuilder withJobName(String jobName) {
         this.jobName = jobName;
         return this;
     }
 
+    /**
+     * Sets the {@code Job} group.
+     *
+     * @param jobGroup The {@code Job} group
+     * @return This builder instance
+     */
     public JobSchedulerBuilder withJobGroup(String jobGroup) {
         this.jobGroup = jobGroup;
         return this;
     }
 
+    /**
+     * Instructs the {@code Scheduler} whether or not the {@code Job} should
+     * be re-executed if a {@code recovery} or {@code fail-over} situation is
+     * encountered.
+     *
+     * @param requestRecovery The activation flag
+     * @return This builder instance
+     */
     public JobSchedulerBuilder withRequestRecovery(boolean requestRecovery) {
         this.requestRecovery = requestRecovery;
         return this;
     }
 
+    /**
+     * Whether or not the {@code Job} should remain stored after it is
+     * orphaned (no {@code Trigger}s point to it).
+     *
+     * @param storeDurably The activation flag
+     * @return This builder instance
+     */
     public JobSchedulerBuilder withStoreDurably(boolean storeDurably) {
         this.storeDurably = storeDurably;
         return this;
     }
 
+    /**
+     * Sets the {@code Trigger} name, must be unique within the group.
+     *
+     * @param triggerName The {@code Trigger} name, must be unique within the group
+     * @return This builder instance
+     */
     public JobSchedulerBuilder withTriggerName(String triggerName) {
         this.triggerName = triggerName;
         return this;
     }
 
+    /**
+     * Sets the {@code Trigger} group.
+     *
+     * @param triggerGroup The {@code Trigger} group
+     * @return This builder instance
+     */
     public JobSchedulerBuilder withTriggerGroup(String triggerGroup) {
         this.triggerGroup = triggerGroup;
         return this;
     }
 
+    /**
+     * Sets the cron expression to base the schedule on.
+     *
+     * @param cronExpression The cron expression to base the schedule on
+     * @return This builder instance
+     */
     public JobSchedulerBuilder withCronExpression(String cronExpression) {
         this.cronExpression = cronExpression;
         return this;
     }
 
+    /**
+     * Sets the time zone for which the {@code cronExpression} of this
+     * {@code CronTrigger} will be resolved.
+     *
+     * @param timeZone The time zone for which the {@code cronExpression}
+     *        of this {@code CronTrigger} will be resolved.
+     * @return This builder instance
+     */
     public JobSchedulerBuilder withTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
         return this;
     }
 
+    /**
+     * Sets the {@code Trigger}'s priority.  When more than one {@code Trigger} have the same
+     * fire time, the scheduler will fire the one with the highest priority
+     * first.
+     *
+     * @param priority The {@code Trigger}'s priority
+     * @return This builder instance
+     */
     public JobSchedulerBuilder withPriority(int priority) {
         this.priority = priority;
         return this;
     }
 
     /**
-     * Users MUST NOT use this method!
+     * Add the produced {@code Job} to the given {@code Scheduler},
+     * and associate the related {@code Trigger} with it.
      *
-     * @param scheduler
-     * @throws Exception 
+     * Users <b>MUST NOT</b> use this method!
+     *
+     * @param scheduler The given {@code Scheduler}
+     * @throws Exception If any error occurs
      */
     @Inject
     public void schedule(Scheduler scheduler) throws Exception {
