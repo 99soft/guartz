@@ -29,22 +29,42 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.spi.JobFactory;
 
 /**
- * 
+ * Provides a {@code Scheduler} instance.
  */
 final class SchedulerProvider implements Provider<Scheduler> {
 
+    /**
+     * The {@code Scheduler} instance will be provided.
+     */
     private final Scheduler scheduler;
 
-    protected SchedulerProvider() throws SchedulerException {
+    /**
+     * Initialized a new {@code Provider&lt;Scheduler&gt;} instance.
+     *
+     * @throws SchedulerException If any error occurs
+     */
+    public SchedulerProvider() throws SchedulerException {
         this.scheduler = new StdSchedulerFactory().getScheduler();
         this.scheduler.start();
     }
 
+    /**
+     * Sets the {@code JobFactory} instance (it will be a {@link InjectorJobFactory} instance).
+     *
+     * @param jobFactory The {@code JobFactory} instance.
+     * @throws SchedulerException If any error occurs
+     */
     @Inject
     public void setJobFactory(JobFactory jobFactory) throws SchedulerException {
         this.scheduler.setJobFactory(jobFactory);
     }
 
+    /**
+     * Sets the {@code JobListener}s.
+     *
+     * @param jobListeners The {@code JobListener}s
+     * @throws SchedulerException If any error occurs
+     */
     @com.google.inject.Inject(optional = true)
     public void addJobListeners(Set<JobListener> jobListeners) throws SchedulerException {
         for (JobListener jobListener : jobListeners) {
@@ -52,6 +72,12 @@ final class SchedulerProvider implements Provider<Scheduler> {
         }
     }
 
+    /**
+     * Sets the {@code SchedulerListener}s.
+     *
+     * @param schedulerListeners The {@code SchedulerListener}s
+     * @throws SchedulerException If any error occurs
+     */
     @com.google.inject.Inject(optional = true)
     public void addSchedulerListeners(Set<SchedulerListener> schedulerListeners) throws SchedulerException {
         for (SchedulerListener schedulerListener : schedulerListeners) {
@@ -59,6 +85,12 @@ final class SchedulerProvider implements Provider<Scheduler> {
         }
     }
 
+    /**
+     * Sets the {@code TriggerListener}s.
+     *
+     * @param triggerListeners The {@code TriggerListener}s
+     * @throws SchedulerException If any error occurs
+     */
     @com.google.inject.Inject(optional = true)
     public void addTriggerListeners(Set<TriggerListener> triggerListeners) throws SchedulerException {
         for (TriggerListener triggerListener : triggerListeners) {
@@ -66,6 +98,9 @@ final class SchedulerProvider implements Provider<Scheduler> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Scheduler get() {
         return this.scheduler;
     }
