@@ -48,15 +48,15 @@ public @interface Scheduled {
     String jobGroup() default DEFAULT_GROUP;
 
     /**
-     * Instructs the Scheduler whether or not the Job
-     * should be re-executed if a 'recovery' or 'fail-over' situation is
+     * Instructs the {@code Scheduler} whether or not the {@code Job} should
+     * be re-executed if a {@code recovery} or {@code fail-over} situation is
      * encountered.
      */
     boolean requestRecovery() default false;
 
     /**
-     * Whether or not the Job should remain stored after it is
-     * orphaned.
+     * Whether or not the {@code Job} should remain stored after it is
+     * orphaned (no {@code Trigger}s point to it).
      */
     boolean storeDurably() default false;
 
@@ -84,7 +84,7 @@ public @interface Scheduled {
     String timeZoneId() default DEFAULT;
 
     /**
-     * The Trigger's priority.  When more than one Trigger have the same
+     * The {@code Trigger}'s priority.  When more than one {@code Trigger} have the same
      * fire time, the scheduler will fire the one with the highest priority
      * first.
      */
