@@ -25,7 +25,7 @@ Welcome to Guartz!
 
   Guartz is the {{{http://code.google.com/p/google-guice/}Google Guice}} extension for
   {{{http://www.quartz-scheduler.org/}Quartz}}, originally developed by
-  {{{http://ninomartinez.wordpress.com/}Nino Martinez Wael} on Google Code with the name of
+  {{{http://ninomartinez.wordpress.com/}Nino Martinez Wael}} on Google Code with the name of
   {{{http://code.google.com/p/slurry/}quartz4guice}}.
 
 Before starting
