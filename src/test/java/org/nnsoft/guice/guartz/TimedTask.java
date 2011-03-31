@@ -15,17 +15,15 @@
  */
 package org.nnsoft.guice.guartz;
 
-import org.nnsoft.guice.guartz.Scheduled;
+import javax.inject.Singleton;
+
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.google.inject.Singleton;
-
 /**
  * 
  */
-/*0/15*/
 @Singleton
 @Scheduled(jobName = "test", cronExpression = "0/2 * * * * ?")
 public class TimedTask implements Job {
