@@ -26,7 +26,7 @@
     <groupId>org.99soft.guice</groupId>
     <artifactId>guartz</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>99soft:: Guartz</name>
     <url>https://github.com/99soft/guartz</url>
     <description>Guartz is the Google Guice extension for Quartz Scheduler,
