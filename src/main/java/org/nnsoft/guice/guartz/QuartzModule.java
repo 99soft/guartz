@@ -81,7 +81,7 @@ public abstract class QuartzModule extends AbstractModule {
      *       <b>scheduleJob(MyJobImpl.class).withCronExpression("0/2 * * * * ?");</b>
      *     }
      *
-     * }
+     * });
      * </pre>
      *
      * @see JobSchedulerBuilder
