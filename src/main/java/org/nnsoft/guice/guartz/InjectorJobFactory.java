@@ -26,24 +26,31 @@ import org.quartz.spi.TriggerFiredBundle;
 import com.google.inject.Injector;
 
 /**
- * 
+ * A {@code JobFactory} implementation that delegates Guice creating {@code Job} instances.
  */
 final class InjectorJobFactory implements JobFactory {
 
+    /**
+     * The delegated {@link Injector}.
+     */
     @Inject
     private Injector injector;
 
+    /**
+     * Set the delegated {@link Injector}.
+     *
+     * @param injector The delegated {@link Injector}
+     */
     public void setInjector(Injector injector) {
         this.injector = injector;
     }
 
-    public Job newJob(TriggerFiredBundle bundle) throws SchedulerException {
+    /**
+     * {@inheritDoc}
+     */
+    public Job newJob(TriggerFiredBundle bundle, Scheduler scheduler) throws SchedulerException {
         Class<? extends Job> jobClass = bundle.getJobDetail().getJobClass();
         return this.injector.getInstance(jobClass);
-    }
-
-    public Job newJob(TriggerFiredBundle bundle, Scheduler scheduler) throws SchedulerException {
-        return newJob(bundle);
     }
 
 }
