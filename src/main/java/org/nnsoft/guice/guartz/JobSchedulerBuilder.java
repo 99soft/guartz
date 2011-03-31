@@ -15,6 +15,7 @@
  */
 package org.nnsoft.guice.guartz;
 
+import static java.lang.String.format;
 import static java.util.TimeZone.getDefault;
 import static org.nnsoft.guice.guartz.Scheduled.DEFAULT;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
@@ -28,6 +29,8 @@ import javax.inject.Inject;
 
 import org.quartz.Job;
 import org.quartz.Scheduler;
+
+import com.google.inject.ProvisionException;
 
 /**
  * DSL to produce {@code Job} and add to a {@code Scheduler},
@@ -219,6 +222,11 @@ public final class JobSchedulerBuilder {
      */
     @Inject
     public void schedule(Scheduler scheduler) throws Exception {
+        if (cronExpression == null) {
+            throw new ProvisionException(format("Impossible to schedule Job '%s' without cron expression",
+                    jobClass.getName()));
+        }
+
         scheduler.scheduleJob(newJob(jobClass)
                     .withIdentity(DEFAULT.equals(jobName) ? jobClass.getName() : jobName, jobGroup)
                     .requestRecovery(requestRecovery)
