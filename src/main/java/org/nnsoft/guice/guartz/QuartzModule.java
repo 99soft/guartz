@@ -15,11 +15,11 @@
  */
 package org.nnsoft.guice.guartz;
 
-import static java.util.TimeZone.getTimeZone;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.internal.util.$Preconditions.checkNotNull;
 import static com.google.inject.internal.util.$Preconditions.checkState;
 import static com.google.inject.multibindings.Multibinder.newSetBinder;
+import static java.util.TimeZone.getTimeZone;
 
 import java.util.TimeZone;
 
@@ -68,6 +68,23 @@ public abstract class QuartzModule extends AbstractModule {
         }
     }
 
+    /**
+     * Part of the EDSL builder language for configuring servlets
+     * and filters with guice-servlet. Think of this as an in-code replacement for web.xml.
+     * Filters and servlets are configured here using simple java method calls. Here is a typical
+     * example of registering a filter when creating your Guice injector:
+     *
+     * <pre>
+     * Guice.createInjector(..., new QuartzModule() {
+     *
+     *     {@literal @}Override
+     *     protected void schedule() {
+     *       <b>scheduleJob(MyJobImpl.class).withCronExpression("0/2 * * * * ?");</b>
+     *     }
+     *
+     * }
+     * </pre>
+     */
     protected abstract void schedule();
 
     /**
@@ -109,20 +126,15 @@ public abstract class QuartzModule extends AbstractModule {
         if (jobClass.isAnnotationPresent(Scheduled.class)) {
             Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
 
-            // job
-            builder.withJobName(scheduled.jobName())
+            builder
+                   // job
+                   .withJobName(scheduled.jobName())
                    .withJobGroup(scheduled.jobGroup())
                    .withRequestRecovery(scheduled.requestRecovery())
-                   .withStoreDurably(scheduled.storeDurably());
-
-            // trigger
-            builder.withCronExpression(scheduled.cronExpression());
-
-            if (Scheduled.DEFAULT.equals(scheduled.triggerName())) {
-                builder.withTriggerName(jobClass.getCanonicalName());
-            } else {
-                builder.withTriggerName(scheduled.triggerName());
-            }
+                   .withStoreDurably(scheduled.storeDurably())
+                   // trigger
+                   .withCronExpression(scheduled.cronExpression())
+                   .withTriggerName(scheduled.triggerName());
 
             if (!Scheduled.DEFAULT.equals(scheduled.timeZoneId())) {
                 TimeZone timeZone = getTimeZone(scheduled.timeZoneId());
