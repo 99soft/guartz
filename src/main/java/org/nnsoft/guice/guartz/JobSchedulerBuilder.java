@@ -43,7 +43,7 @@ public final class JobSchedulerBuilder {
     /**
      * The {@code Job} name, must be unique within the group.
      */
-    private String jobName;
+    private String jobName = DEFAULT;
 
     /**
      * The {@code Job} group name.
@@ -220,12 +220,12 @@ public final class JobSchedulerBuilder {
     @Inject
     public void schedule(Scheduler scheduler) throws Exception {
         scheduler.scheduleJob(newJob(jobClass)
-                    .withIdentity(jobName, jobGroup)
+                    .withIdentity(DEFAULT.equals(jobName) ? jobClass.getName() : jobName, jobGroup)
                     .requestRecovery(requestRecovery)
                     .storeDurably(storeDurably)
                     .build(),
                 newTrigger()
-                    .withIdentity(triggerName, triggerGroup)
+                    .withIdentity(DEFAULT.equals(triggerName) ? jobClass.getCanonicalName() : triggerName, triggerGroup)
                     .withSchedule(cronSchedule(cronExpression).inTimeZone(timeZone))
                     .withPriority(priority)
                     .build());
