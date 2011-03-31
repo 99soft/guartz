@@ -15,6 +15,6 @@
  */
 
 /**
- * 
+ * Guartz is the Google Guice extension for Quartz Scheduler, originally developed by Nino Martinez Wael.
  */
 package org.nnsoft.guice.guartz;
