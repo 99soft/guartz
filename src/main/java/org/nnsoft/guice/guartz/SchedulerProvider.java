@@ -1,3 +1,5 @@
+package org.nnsoft.guice.guartz;
+
 /*
  *    Copyright 2009-2011 The 99 Software Foundation
  *
@@ -13,7 +15,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.nnsoft.guice.guartz;
 
 import java.util.Set;
 
@@ -31,7 +32,9 @@ import org.quartz.spi.JobFactory;
 /**
  * Provides a {@code Scheduler} instance.
  */
-final class SchedulerProvider implements Provider<Scheduler> {
+final class SchedulerProvider
+    implements Provider<Scheduler>
+{
 
     /**
      * The {@code Scheduler} instance will be provided.
@@ -43,7 +46,9 @@ final class SchedulerProvider implements Provider<Scheduler> {
      *
      * @throws SchedulerException If any error occurs
      */
-    public SchedulerProvider() throws SchedulerException {
+    public SchedulerProvider()
+        throws SchedulerException
+    {
         this.scheduler = new StdSchedulerFactory().getScheduler();
         this.scheduler.start();
     }
@@ -55,8 +60,10 @@ final class SchedulerProvider implements Provider<Scheduler> {
      * @throws SchedulerException If any error occurs
      */
     @Inject
-    public void setJobFactory(JobFactory jobFactory) throws SchedulerException {
-        this.scheduler.setJobFactory(jobFactory);
+    public void setJobFactory( JobFactory jobFactory )
+        throws SchedulerException
+    {
+        this.scheduler.setJobFactory( jobFactory );
     }
 
     /**
@@ -65,10 +72,13 @@ final class SchedulerProvider implements Provider<Scheduler> {
      * @param jobListeners The {@code JobListener}s
      * @throws SchedulerException If any error occurs
      */
-    @com.google.inject.Inject(optional = true)
-    public void addJobListeners(Set<JobListener> jobListeners) throws SchedulerException {
-        for (JobListener jobListener : jobListeners) {
-            this.scheduler.getListenerManager().addJobListener(jobListener);
+    @com.google.inject.Inject( optional = true )
+    public void addJobListeners( Set<JobListener> jobListeners )
+        throws SchedulerException
+    {
+        for ( JobListener jobListener : jobListeners )
+        {
+            this.scheduler.getListenerManager().addJobListener( jobListener );
         }
     }
 
@@ -78,10 +88,13 @@ final class SchedulerProvider implements Provider<Scheduler> {
      * @param schedulerListeners The {@code SchedulerListener}s
      * @throws SchedulerException If any error occurs
      */
-    @com.google.inject.Inject(optional = true)
-    public void addSchedulerListeners(Set<SchedulerListener> schedulerListeners) throws SchedulerException {
-        for (SchedulerListener schedulerListener : schedulerListeners) {
-            this.scheduler.getListenerManager().addSchedulerListener(schedulerListener);
+    @com.google.inject.Inject( optional = true )
+    public void addSchedulerListeners( Set<SchedulerListener> schedulerListeners )
+        throws SchedulerException
+    {
+        for ( SchedulerListener schedulerListener : schedulerListeners )
+        {
+            this.scheduler.getListenerManager().addSchedulerListener( schedulerListener );
         }
     }
 
@@ -91,17 +104,21 @@ final class SchedulerProvider implements Provider<Scheduler> {
      * @param triggerListeners The {@code TriggerListener}s
      * @throws SchedulerException If any error occurs
      */
-    @com.google.inject.Inject(optional = true)
-    public void addTriggerListeners(Set<TriggerListener> triggerListeners) throws SchedulerException {
-        for (TriggerListener triggerListener : triggerListeners) {
-            this.scheduler.getListenerManager().addTriggerListener(triggerListener);
+    @com.google.inject.Inject( optional = true )
+    public void addTriggerListeners( Set<TriggerListener> triggerListeners )
+        throws SchedulerException
+    {
+        for ( TriggerListener triggerListener : triggerListeners )
+        {
+            this.scheduler.getListenerManager().addTriggerListener( triggerListener );
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public Scheduler get() {
+    public Scheduler get()
+    {
         return this.scheduler;
     }
 

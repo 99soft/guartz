@@ -1,3 +1,5 @@
+package org.nnsoft.guice.guartz;
+
 /*
  *    Copyright 2009-2011 The 99 Software Foundation
  *
@@ -13,7 +15,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.nnsoft.guice.guartz;
 
 import javax.inject.Singleton;
 
@@ -25,16 +26,21 @@ import org.quartz.JobExecutionException;
  * 
  */
 @Singleton
-@Scheduled(jobName = "test", cronExpression = "0/2 * * * * ?")
-public class TimedTask implements Job {
+@Scheduled( jobName = "test", cronExpression = "0/2 * * * * ?" )
+public class TimedTask
+    implements Job
+{
 
     private int invocationsA = 0;
 
-    public int getInvocationsTimedTaskA() {
+    public int getInvocationsTimedTaskA()
+    {
         return this.invocationsA;
     }
 
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute( JobExecutionContext context )
+        throws JobExecutionException
+    {
         this.invocationsA++;
     }
 

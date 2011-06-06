@@ -1,3 +1,5 @@
+package org.nnsoft.guice.guartz;
+
 /*
  *    Copyright 2009-2011 The 99 Software Foundation
  *
@@ -13,7 +15,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.nnsoft.guice.guartz;
 
 import static org.quartz.utils.Key.DEFAULT_GROUP;
 
@@ -31,7 +32,8 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Scheduled {
+public @interface Scheduled
+{
 
     public static final String DEFAULT = "##default";
 

@@ -1,3 +1,5 @@
+package org.nnsoft.guice.guartz;
+
 /*
  *    Copyright 2009-2011 The 99 Software Foundation
  *
@@ -13,7 +15,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.nnsoft.guice.guartz;
 
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.internal.util.$Preconditions.checkNotNull;
@@ -37,7 +38,9 @@ import com.google.inject.multibindings.Multibinder;
 /**
  * Quartz (http://www.quartz-scheduler.org/) Module as Google-Guice extension.
  */
-public abstract class QuartzModule extends AbstractModule {
+public abstract class QuartzModule
+    extends AbstractModule
+{
 
     private Multibinder<JobListener> jobListeners;
 
@@ -49,20 +52,24 @@ public abstract class QuartzModule extends AbstractModule {
      * {@inheritDoc}
      */
     @Override
-    protected final void configure() {
-        checkState(jobListeners == null, "Re-entry is not allowed.");
-        checkState(triggerListeners == null, "Re-entry is not allowed.");
-        checkState(schedulerListeners == null, "Re-entry is not allowed.");
+    protected final void configure()
+    {
+        checkState( jobListeners == null, "Re-entry is not allowed." );
+        checkState( triggerListeners == null, "Re-entry is not allowed." );
+        checkState( schedulerListeners == null, "Re-entry is not allowed." );
 
-        jobListeners = newSetBinder(binder(), JobListener.class);
-        triggerListeners = newSetBinder(binder(), TriggerListener.class);
-        schedulerListeners = newSetBinder(binder(), SchedulerListener.class);
+        jobListeners = newSetBinder( binder(), JobListener.class );
+        triggerListeners = newSetBinder( binder(), TriggerListener.class );
+        schedulerListeners = newSetBinder( binder(), SchedulerListener.class );
 
-        try {
+        try
+        {
             schedule();
-            bind(JobFactory.class).to(InjectorJobFactory.class).in(SINGLETON);
-            bind(Scheduler.class).toProvider(SchedulerProvider.class).asEagerSingleton();
-        } finally {
+            bind( JobFactory.class ).to( InjectorJobFactory.class ).in( SINGLETON );
+            bind( Scheduler.class ).toProvider( SchedulerProvider.class ).asEagerSingleton();
+        }
+        finally
+        {
             jobListeners = null;
             triggerListeners = null;
             schedulerListeners = null;
@@ -93,8 +100,9 @@ public abstract class QuartzModule extends AbstractModule {
      *
      * @param jobListenerType The {@code JobListener} class has to be bound
      */
-    protected final void addJobListener(Class<? extends JobListener> jobListenerType) {
-        doBind(jobListeners, jobListenerType);
+    protected final void addJobListener( Class<? extends JobListener> jobListenerType )
+    {
+        doBind( jobListeners, jobListenerType );
     }
 
     /**
@@ -102,8 +110,9 @@ public abstract class QuartzModule extends AbstractModule {
      *
      * @param triggerListenerType The {@code TriggerListener} class has to be bound
      */
-    protected final void addTriggerListener(Class<? extends TriggerListener> triggerListenerType) {
-        doBind(triggerListeners, triggerListenerType);
+    protected final void addTriggerListener( Class<? extends TriggerListener> triggerListenerType )
+    {
+        doBind( triggerListeners, triggerListenerType );
     }
 
     /**
@@ -111,8 +120,9 @@ public abstract class QuartzModule extends AbstractModule {
      *
      * @param schedulerListenerType The {@code SchedulerListener} class has to be bound
      */
-    protected final void addSchedulerListener(Class<? extends SchedulerListener> schedulerListenerType) {
-        doBind(schedulerListeners, schedulerListenerType);
+    protected final void addSchedulerListener( Class<? extends SchedulerListener> schedulerListenerType )
+    {
+        doBind( schedulerListeners, schedulerListenerType );
     }
 
     /**
@@ -125,33 +135,37 @@ public abstract class QuartzModule extends AbstractModule {
      * @param jobClass The {@code Job} has to be scheduled
      * @return The {@code Job} builder 
      */
-    protected final JobSchedulerBuilder scheduleJob(Class<? extends Job> jobClass) {
-        checkNotNull(jobClass, "Argument 'jobClass' must be not null.");
+    protected final JobSchedulerBuilder scheduleJob( Class<? extends Job> jobClass )
+    {
+        checkNotNull( jobClass, "Argument 'jobClass' must be not null." );
 
-        JobSchedulerBuilder builder = new JobSchedulerBuilder(jobClass);
+        JobSchedulerBuilder builder = new JobSchedulerBuilder( jobClass );
 
-        if (jobClass.isAnnotationPresent(Scheduled.class)) {
-            Scheduled scheduled = jobClass.getAnnotation(Scheduled.class);
+        if ( jobClass.isAnnotationPresent( Scheduled.class ) )
+        {
+            Scheduled scheduled = jobClass.getAnnotation( Scheduled.class );
 
             builder
-                   // job
-                   .withJobName(scheduled.jobName())
-                   .withJobGroup(scheduled.jobGroup())
-                   .withRequestRecovery(scheduled.requestRecovery())
-                   .withStoreDurably(scheduled.storeDurably())
-                   // trigger
-                   .withCronExpression(scheduled.cronExpression())
-                   .withTriggerName(scheduled.triggerName());
+            // job
+            .withJobName( scheduled.jobName() )
+            .withJobGroup( scheduled.jobGroup() )
+            .withRequestRecovery( scheduled.requestRecovery() )
+            .withStoreDurably( scheduled.storeDurably() )
+            // trigger
+            .withCronExpression( scheduled.cronExpression() )
+            .withTriggerName( scheduled.triggerName() );
 
-            if (!DEFAULT.equals(scheduled.timeZoneId())) {
-                TimeZone timeZone = getTimeZone(scheduled.timeZoneId());
-                if (timeZone != null) {
-                    builder.withTimeZone(timeZone);
+            if ( !DEFAULT.equals( scheduled.timeZoneId() ) )
+            {
+                TimeZone timeZone = getTimeZone( scheduled.timeZoneId() );
+                if ( timeZone != null )
+                {
+                    builder.withTimeZone( timeZone );
                 }
             }
         }
 
-        requestInjection(builder);
+        requestInjection( builder );
         return builder;
     }
 
@@ -162,9 +176,10 @@ public abstract class QuartzModule extends AbstractModule {
      * @param binder
      * @param type
      */
-    protected final <T> void doBind(Multibinder<T> binder, Class<? extends T> type) {
-        checkNotNull(type);
-        binder.addBinding().to(type);
+    protected final <T> void doBind( Multibinder<T> binder, Class<? extends T> type )
+    {
+        checkNotNull( type );
+        binder.addBinding().to( type );
     }
 
 }

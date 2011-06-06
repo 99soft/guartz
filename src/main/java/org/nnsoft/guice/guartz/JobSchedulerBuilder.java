@@ -1,3 +1,5 @@
+package org.nnsoft.guice.guartz;
+
 /*
  *    Copyright 2009-2011 The 99 Software Foundation
  *
@@ -13,7 +15,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.nnsoft.guice.guartz;
 
 import static java.lang.String.format;
 import static java.util.TimeZone.getDefault;
@@ -101,7 +102,8 @@ public final class JobSchedulerBuilder {
      *
      * @param jobClass The type of the {@code Job} to be executed
      */
-    JobSchedulerBuilder(final Class<? extends Job> jobClass) {
+    JobSchedulerBuilder( final Class<? extends Job> jobClass )
+    {
         this.jobClass = jobClass;
     }
 
@@ -111,7 +113,8 @@ public final class JobSchedulerBuilder {
      * @param jobName The {@code Job} name, must be unique within the group
      * @return This builder instance
      */
-    public JobSchedulerBuilder withJobName(String jobName) {
+    public JobSchedulerBuilder withJobName( String jobName )
+    {
         this.jobName = jobName;
         return this;
     }
@@ -122,7 +125,8 @@ public final class JobSchedulerBuilder {
      * @param jobGroup The {@code Job} group
      * @return This builder instance
      */
-    public JobSchedulerBuilder withJobGroup(String jobGroup) {
+    public JobSchedulerBuilder withJobGroup( String jobGroup )
+    {
         this.jobGroup = jobGroup;
         return this;
     }
@@ -135,7 +139,8 @@ public final class JobSchedulerBuilder {
      * @param requestRecovery The activation flag
      * @return This builder instance
      */
-    public JobSchedulerBuilder withRequestRecovery(boolean requestRecovery) {
+    public JobSchedulerBuilder withRequestRecovery( boolean requestRecovery )
+    {
         this.requestRecovery = requestRecovery;
         return this;
     }
@@ -147,7 +152,8 @@ public final class JobSchedulerBuilder {
      * @param storeDurably The activation flag
      * @return This builder instance
      */
-    public JobSchedulerBuilder withStoreDurably(boolean storeDurably) {
+    public JobSchedulerBuilder withStoreDurably( boolean storeDurably )
+    {
         this.storeDurably = storeDurably;
         return this;
     }
@@ -158,7 +164,8 @@ public final class JobSchedulerBuilder {
      * @param triggerName The {@code Trigger} name, must be unique within the group
      * @return This builder instance
      */
-    public JobSchedulerBuilder withTriggerName(String triggerName) {
+    public JobSchedulerBuilder withTriggerName( String triggerName )
+    {
         this.triggerName = triggerName;
         return this;
     }
@@ -169,7 +176,8 @@ public final class JobSchedulerBuilder {
      * @param triggerGroup The {@code Trigger} group
      * @return This builder instance
      */
-    public JobSchedulerBuilder withTriggerGroup(String triggerGroup) {
+    public JobSchedulerBuilder withTriggerGroup( String triggerGroup )
+    {
         this.triggerGroup = triggerGroup;
         return this;
     }
@@ -180,7 +188,8 @@ public final class JobSchedulerBuilder {
      * @param cronExpression The cron expression to base the schedule on
      * @return This builder instance
      */
-    public JobSchedulerBuilder withCronExpression(String cronExpression) {
+    public JobSchedulerBuilder withCronExpression( String cronExpression )
+    {
         this.cronExpression = cronExpression;
         return this;
     }
@@ -193,7 +202,8 @@ public final class JobSchedulerBuilder {
      *        of this {@code CronTrigger} will be resolved.
      * @return This builder instance
      */
-    public JobSchedulerBuilder withTimeZone(TimeZone timeZone) {
+    public JobSchedulerBuilder withTimeZone( TimeZone timeZone )
+    {
         this.timeZone = timeZone;
         return this;
     }
@@ -206,7 +216,8 @@ public final class JobSchedulerBuilder {
      * @param priority The {@code Trigger}'s priority
      * @return This builder instance
      */
-    public JobSchedulerBuilder withPriority(int priority) {
+    public JobSchedulerBuilder withPriority( int priority )
+    {
         this.priority = priority;
         return this;
     }
@@ -221,22 +232,26 @@ public final class JobSchedulerBuilder {
      * @throws Exception If any error occurs
      */
     @Inject
-    public void schedule(Scheduler scheduler) throws Exception {
-        if (cronExpression == null) {
-            throw new ProvisionException(format("Impossible to schedule Job '%s' without cron expression",
-                    jobClass.getName()));
+    public void schedule( Scheduler scheduler )
+        throws Exception
+    {
+        if ( cronExpression == null )
+        {
+            throw new ProvisionException( format( "Impossible to schedule Job '%s' without cron expression",
+                                                  jobClass.getName() ) );
         }
 
-        scheduler.scheduleJob(newJob(jobClass)
-                    .withIdentity(DEFAULT.equals(jobName) ? jobClass.getName() : jobName, jobGroup)
-                    .requestRecovery(requestRecovery)
-                    .storeDurably(storeDurably)
-                    .build(),
-                newTrigger()
-                    .withIdentity(DEFAULT.equals(triggerName) ? jobClass.getCanonicalName() : triggerName, triggerGroup)
-                    .withSchedule(cronSchedule(cronExpression).inTimeZone(timeZone))
-                    .withPriority(priority)
-                    .build());
+        scheduler.scheduleJob( newJob( jobClass )
+                               .withIdentity( DEFAULT.equals( jobName ) ? jobClass.getName() : jobName, jobGroup )
+                               .requestRecovery( requestRecovery )
+                               .storeDurably( storeDurably ).build(),
+                               newTrigger()
+                               .withIdentity( DEFAULT.equals( triggerName ) ? jobClass.getCanonicalName() : triggerName,
+                                              triggerGroup )
+                               .withSchedule( cronSchedule( cronExpression )
+                                              .inTimeZone( timeZone ) )
+                                              .withPriority( priority )
+                                              .build() );
     }
 
 }

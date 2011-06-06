@@ -1,3 +1,5 @@
+package org.nnsoft.guice.guartz;
+
 /*
  *    Copyright 2009-2011 The 99 Software Foundation
  *
@@ -13,7 +15,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.nnsoft.guice.guartz;
 
 import static com.google.inject.Guice.createInjector;
 import static junit.framework.Assert.assertTrue;
@@ -28,7 +29,8 @@ import org.quartz.Scheduler;
 /**
  * 
  */
-public class GuartzTimerTestCase {
+public class GuartzTimerTestCase
+{
 
     @Inject
     private TimedTask timedTask;
@@ -36,35 +38,45 @@ public class GuartzTimerTestCase {
     @Inject
     private Scheduler scheduler;
 
-    public void setTimedTask(TimedTask timedTask) {
+    public void setTimedTask( TimedTask timedTask )
+    {
         this.timedTask = timedTask;
     }
 
-    public void setScheduler(Scheduler scheduler) {
+    public void setScheduler( Scheduler scheduler )
+    {
         this.scheduler = scheduler;
     }
 
     @Before
-    public void setUp() throws Exception {
-        createInjector(new QuartzModule() {
+    public void setUp()
+        throws Exception
+    {
+        createInjector( new QuartzModule()
+        {
 
             @Override
-            protected void schedule() {
-                scheduleJob(TimedTask.class);
+            protected void schedule()
+            {
+                scheduleJob( TimedTask.class );
             }
 
-        }).injectMembers(this);
+        } ).injectMembers( this );
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown()
+        throws Exception
+    {
         this.scheduler.shutdown();
     }
 
     @Test
-    public void minimalTest() throws Exception {
-        Thread.sleep(5000);
-        assertTrue(this.timedTask.getInvocationsTimedTaskA() > 0);
+    public void minimalTest()
+        throws Exception
+    {
+        Thread.sleep( 5000 );
+        assertTrue( this.timedTask.getInvocationsTimedTaskA() > 0 );
     }
 
 }

@@ -1,3 +1,5 @@
+package org.nnsoft.guice.guartz;
+
 /*
  *    Copyright 2009-2011 The 99 Software Foundation
  *
@@ -13,7 +15,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.nnsoft.guice.guartz;
 
 import javax.inject.Inject;
 
@@ -28,7 +29,9 @@ import com.google.inject.Injector;
 /**
  * A {@code JobFactory} implementation that delegates Guice creating {@code Job} instances.
  */
-final class InjectorJobFactory implements JobFactory {
+final class InjectorJobFactory
+    implements JobFactory
+{
 
     /**
      * The delegated {@link Injector}.
@@ -41,16 +44,19 @@ final class InjectorJobFactory implements JobFactory {
      *
      * @param injector The delegated {@link Injector}
      */
-    public void setInjector(Injector injector) {
+    public void setInjector( Injector injector )
+    {
         this.injector = injector;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Job newJob(TriggerFiredBundle bundle, Scheduler scheduler) throws SchedulerException {
+    public Job newJob( TriggerFiredBundle bundle, Scheduler scheduler )
+        throws SchedulerException
+    {
         Class<? extends Job> jobClass = bundle.getJobDetail().getJobClass();
-        return this.injector.getInstance(jobClass);
+        return this.injector.getInstance( jobClass );
     }
 
 }
