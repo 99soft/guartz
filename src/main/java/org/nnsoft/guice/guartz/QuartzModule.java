@@ -103,6 +103,17 @@ public abstract class QuartzModule
     
     /**
      * Allows to configure the scheduler.
+     * 
+     * <pre>
+     * Guice.createInjector(..., new QuartzModule() {
+     *
+     *     {@literal @}Override
+     *     protected void schedule() {
+     *       configureScheduler().withManualStart();
+     *     }
+     *
+     * });
+     * </pre> 
      */
     protected final SchedulerConfigurationBuilder configureScheduler() {
     	return schedulerConfiguration;
