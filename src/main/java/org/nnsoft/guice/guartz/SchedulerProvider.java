@@ -46,11 +46,14 @@ final class SchedulerProvider
      *
      * @throws SchedulerException If any error occurs
      */
-    public SchedulerProvider()
+    @Inject
+    public SchedulerProvider(SchedulerConfiguration schedulerConfiguration)
         throws SchedulerException
     {
         this.scheduler = new StdSchedulerFactory().getScheduler();
-        this.scheduler.start();
+        if (!schedulerConfiguration.startManually()) {
+        	this.scheduler.start();
+        }
     }
 
     /**
