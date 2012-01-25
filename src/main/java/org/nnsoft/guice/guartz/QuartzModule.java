@@ -48,6 +48,8 @@ public abstract class QuartzModule
 
     private Multibinder<SchedulerListener> schedulerListeners;
 
+	private SchedulerConfiguration schedulerConfiguration;
+
     /**
      * {@inheritDoc}
      */
@@ -57,22 +59,26 @@ public abstract class QuartzModule
         checkState( jobListeners == null, "Re-entry is not allowed." );
         checkState( triggerListeners == null, "Re-entry is not allowed." );
         checkState( schedulerListeners == null, "Re-entry is not allowed." );
+        checkState( schedulerConfiguration == null, "Re-entry is not allowed." );
 
         jobListeners = newSetBinder( binder(), JobListener.class );
         triggerListeners = newSetBinder( binder(), TriggerListener.class );
         schedulerListeners = newSetBinder( binder(), SchedulerListener.class );
-
+        schedulerConfiguration = new SchedulerConfiguration();
+        
         try
         {
             schedule();
             bind( JobFactory.class ).to( InjectorJobFactory.class ).in( SINGLETON );
             bind( Scheduler.class ).toProvider( SchedulerProvider.class ).asEagerSingleton();
+            bind( SchedulerConfiguration.class ).toInstance(schedulerConfiguration);
         }
         finally
         {
             jobListeners = null;
             triggerListeners = null;
             schedulerListeners = null;
+            schedulerConfiguration = null;
         }
     }
 
@@ -94,6 +100,24 @@ public abstract class QuartzModule
      * @see JobSchedulerBuilder
      */
     protected abstract void schedule();
+    
+    /**
+     * Allows to configure the scheduler.
+     * 
+     * <pre>
+     * Guice.createInjector(..., new QuartzModule() {
+     *
+     *     {@literal @}Override
+     *     protected void schedule() {
+     *       configureScheduler().withManualStart();
+     *     }
+     *
+     * });
+     * </pre> 
+     */
+    protected final SchedulerConfigurationBuilder configureScheduler() {
+    	return schedulerConfiguration;
+    }
 
     /**
      * Add the {@code JobListener} binding.
