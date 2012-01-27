@@ -1,7 +1,7 @@
 package org.nnsoft.guice.guartz;
 
 /*
- *    Copyright 2009-2011 The 99 Software Foundation
+ *    Copyright 2009-2012 The 99 Software Foundation
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -65,13 +65,13 @@ public abstract class QuartzModule
         triggerListeners = newSetBinder( binder(), TriggerListener.class );
         schedulerListeners = newSetBinder( binder(), SchedulerListener.class );
         schedulerConfiguration = new SchedulerConfiguration();
-        
+
         try
         {
             schedule();
             bind( JobFactory.class ).to( InjectorJobFactory.class ).in( SINGLETON );
             bind( Scheduler.class ).toProvider( SchedulerProvider.class ).asEagerSingleton();
-            bind( SchedulerConfiguration.class ).toInstance(schedulerConfiguration);
+            bind( SchedulerConfiguration.class ).toInstance( schedulerConfiguration );
         }
         finally
         {
@@ -100,10 +100,10 @@ public abstract class QuartzModule
      * @see JobSchedulerBuilder
      */
     protected abstract void schedule();
-    
+
     /**
      * Allows to configure the scheduler.
-     * 
+     *
      * <pre>
      * Guice.createInjector(..., new QuartzModule() {
      *
@@ -113,10 +113,11 @@ public abstract class QuartzModule
      *     }
      *
      * });
-     * </pre> 
+     * </pre>
      */
-    protected final SchedulerConfigurationBuilder configureScheduler() {
-    	return schedulerConfiguration;
+    protected final SchedulerConfigurationBuilder configureScheduler()
+    {
+        return schedulerConfiguration;
     }
 
     /**
@@ -157,7 +158,7 @@ public abstract class QuartzModule
      * and related {@code Trigger} values will be extracted from it.
      *
      * @param jobClass The {@code Job} has to be scheduled
-     * @return The {@code Job} builder 
+     * @return The {@code Job} builder
      */
     protected final JobSchedulerBuilder scheduleJob( Class<? extends Job> jobClass )
     {
