@@ -114,6 +114,8 @@ public abstract class QuartzModule
      *
      * });
      * </pre>
+     *
+     * @since 1.1
      */
     protected final SchedulerConfigurationBuilder configureScheduler()
     {

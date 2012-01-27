@@ -18,6 +18,8 @@ package org.nnsoft.guice.guartz;
 
 /**
  * Contains methods to change scheduler configuration by subclasses of QuartzModule.
+ *
+ * @since 1.1
  */
 public interface SchedulerConfigurationBuilder
 {

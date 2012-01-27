@@ -18,6 +18,8 @@ package org.nnsoft.guice.guartz;
 
 /**
  * Configuration of scheduler.
+ *
+ * @since 1.1
  */
 class SchedulerConfiguration
     implements SchedulerConfigurationBuilder
