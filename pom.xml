@@ -41,6 +41,13 @@
     </license>
   </licenses>
 
+  <contributors>
+    <contributor>
+      <name>Pawel Poltorak</name>
+      <email>pawel dot poltorak at gmail dot com</email>
+    </contributor>
+  </contributors>
+
   <scm>
     <url>http://github.com/99soft/guartz</url>
     <connection>scm:git:ssh://github.com/99soft/guartz.git</connection>
