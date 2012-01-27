@@ -150,6 +150,11 @@
           <div id="classes-nav">
             <ul>
               
+    <li><h2>Interfaces</h2>
+      <ul>
+          <li class="api apilevel-"><a href="../../../../org/nnsoft/guice/guartz/SchedulerConfigurationBuilder.html">SchedulerConfigurationBuilder</a></li>
+      </ul>
+    </li>
               
     <li><h2>Classes</h2>
       <ul>
@@ -501,6 +506,24 @@ Summary:
             
             final
             
+            
+            <a href="../../../../org/nnsoft/guice/guartz/SchedulerConfigurationBuilder.html">SchedulerConfigurationBuilder</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../org/nnsoft/guice/guartz/QuartzModule.html#configureScheduler()">configureScheduler</a></span>()</nobr>
+        
+        <div class="jd-descrdiv">Allows to configure the scheduler.</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            final
+            
             &lt;T&gt;
             void</nobr>
         </td>
@@ -513,7 +536,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             abstract
             
@@ -531,7 +554,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1454,6 +1477,48 @@ From interface
 </div>
 
 
+<A NAME="configureScheduler()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+        final 
+         
+         
+        <a href="../../../../org/nnsoft/guice/guartz/SchedulerConfigurationBuilder.html">SchedulerConfigurationBuilder</a>
+      </span>
+      <span class="sympad">configureScheduler</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Allows to configure the scheduler.
+
+ <pre>
+ Guice.createInjector(..., new QuartzModule() {
+
+     @Override
+     protected void schedule() {
+       configureScheduler().withManualStart();
+     }
+
+ });
+ </pre></p></div>
+
+    </div>
+</div>
+
+
 <A NAME="doBind(com.google.inject.multibindings.Multibinder<T>, java.lang.Class<? extends T>)"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -1574,7 +1639,7 @@ From interface
   </div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Returns</h5>
-      <ul class="nolist"><li>The <code>Job</code> builder 
+      <ul class="nolist"><li>The <code>Job</code> builder
 </li></ul>
   </div>
 

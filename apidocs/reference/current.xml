@@ -208,6 +208,17 @@
  visibility="protected"
 >
 </method>
+<method name="configureScheduler"
+ return="org.nnsoft.guice.guartz.SchedulerConfigurationBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="true"
+ deprecated="not deprecated"
+ visibility="protected"
+>
+</method>
 <method name="doBind"
  return="void"
  abstract="false"
@@ -270,5 +281,24 @@
 >
 </field>
 </class>
+<interface name="SchedulerConfigurationBuilder"
+ abstract="true"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<method name="withManualStart"
+ return="org.nnsoft.guice.guartz.SchedulerConfiguration"
+ abstract="true"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+</method>
+</interface>
 </package>
 </api>
