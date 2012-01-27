@@ -34,12 +34,12 @@ Before starting
 
 +--------------------------------------+
 <dependencies>
-    ...
-    <dependency>
-        <groupId>org.99soft.guice</groupId>
-        <artifactId>guartz</artifactId>
-        <version>XX.XX</version>
-    </dependency>
-    ...
+  ...
+  <dependency>
+    <groupId>org.99soft.guice</groupId>
+    <artifactId>guartz</artifactId>
+    <version>XX.XX</version>
+  </dependency>
+  ...
 </dependencies>
 +--------------------------------------+
