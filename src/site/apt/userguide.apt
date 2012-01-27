@@ -3,10 +3,10 @@
                                     ------
                                     The 99 Software Foundation
                                     ------
-                                     2011
+                                     2011-2012
 
 ~~
-~~   Copyright 2009-2011 The 99 Software Foundation
+~~   Copyright 2009-2012 The 99 Software Foundation
 ~~
 ~~   Licensed under the Apache License, Version 2.0 (the "License");
 ~~   you may not use this file except in compliance with the License.
@@ -33,12 +33,15 @@ Guartz user's guide
   for custom operations and for shutdown it.
 
 +--------------------------------------+
-public class MyApplicationShutdownListener {
+public class MyApplicationShutdownListener
+{
 
     @Inject
     private org.quartz.Scheduler scheduler;
 
-    public void shutdown() throws Exception {
+    public void shutdown()
+        throws Exception
+    {
         ...
         scheduler.shutdown();
         ...
@@ -50,13 +53,15 @@ public class MyApplicationShutdownListener {
   Users that need to register listeners, can us the <<<org.nnsoft.guice.guartz.QuartzModule>>> EDSL:
 
 +--------------------------------------+
-Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule() {
+Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule()
+{
 
    @Override
-   protected void schedule() {
-       addJobListener(com.acme.MyJobListener.class);
-       addTriggerListener(com.acme.MyTriggerListener.class);
-       addSchedulerListener(com.acme.MySchedulerListener.class);
+   protected void schedule()
+   {
+       addJobListener( com.acme.MyJobListener.class );
+       addTriggerListener( com.acme.MyTriggerListener.class );
+       addSchedulerListener( com.acme.MySchedulerListener.class );
    }
 
 });
@@ -70,12 +75,14 @@ Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule() {
   scheduling <<<org.quartz.Job>>> is:
 
 +--------------------------------------+
-Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule() {
+Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule()
+{
 
    @Override
-   protected void schedule() {
+   protected void schedule()
+   {
        ...
-       scheduleJob(com.acme.MyJobImpl.class).withCronExpression("0/2 * * * * ?");
+       scheduleJob( com.acme.MyJobImpl.class ).withCronExpression( "0/2 * * * * ?" );
        ...
    }
 
@@ -94,13 +101,17 @@ Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule() {
 
 +--------------------------------------+
 @javax.inject.Singleton
-@org.nnsoft.guice.guartz.Scheduled(jobName = "test", cronExpression = "0/2 * * * * ?")
-public class com.acme.MyJobImpl implements org.quartz.Job {
+@org.nnsoft.guice.guartz.Scheduled( jobName = "test", cronExpression = "0/2 * * * * ?" )
+public class com.acme.MyJobImpl
+    implements org.quartz.Job
+{
 
     @javax.inject.Inject
     private MyCustomService service;
 
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute( JobExecutionContext context )
+        throws JobExecutionException
+    {
         service.customOperation();
     }
 
@@ -110,12 +121,14 @@ public class com.acme.MyJobImpl implements org.quartz.Job {
   Then, when creating the <<<Injector>>> instance:
 
 +--------------------------------------+
-Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule() {
+Guice.createInjector(..., new org.nnsoft.guice.guartz.QuartzModule()
+{
 
    @Override
-   protected void schedule() {
+   protected void schedule()
+   {
        ...
-       scheduleJob(com.acme.MyJobImpl.class);
+       scheduleJob( com.acme.MyJobImpl.class );
        ...
    }
 
