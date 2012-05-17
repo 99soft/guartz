@@ -47,7 +47,7 @@ public class ManualStartTestCase
                 configureScheduler().withManualStart();
                 scheduleJob( TimedTask.class );
             }
-        } ).injectMembers( this );
+        } ).getMembersInjector( ManualStartTestCase.class ).injectMembers( this );
     }
 
     @After

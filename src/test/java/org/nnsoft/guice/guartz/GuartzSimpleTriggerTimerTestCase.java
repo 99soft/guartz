@@ -33,66 +33,67 @@ import org.quartz.TriggerBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-public class GuartzSimpleTriggerTimerTestCase {
+public class GuartzSimpleTriggerTimerTestCase
+{
 
-  @Inject
-  private SimpleTask timedTask;
+    @Inject
+    private SimpleTask timedTask;
 
-  @Inject
-  private Scheduler scheduler;
+    @Inject
+    private Scheduler scheduler;
 
-  @Before
-  public void setUp()
-      throws Exception
-  {
-      createInjector( new QuartzModule()
-      {
+    @Before
+    public void setUp()
+        throws Exception
+    {
+        createInjector( new QuartzModule()
+        {
 
-          @Override
-          protected void schedule()
-          {
-              Trigger trigger = TriggerBuilder
-                  .newTrigger()
-                  .withSchedule( SimpleScheduleBuilder.repeatSecondlyForever() )
-                  .build();
-              
-              scheduleJob( SimpleTask.class ).withTrigger( trigger );
-          }
+            @Override
+            protected void schedule()
+            {
+                Trigger trigger =
+                    TriggerBuilder.newTrigger().withSchedule( SimpleScheduleBuilder.repeatSecondlyForever() ).build();
 
-      } ).injectMembers( this );
-  }
+                scheduleJob( SimpleTask.class ).withTrigger( trigger );
+            }
 
-  @After
-  public void tearDown()
-      throws Exception
-  {
-      this.scheduler.shutdown();
-  }
+        } ).getMembersInjector( GuartzSimpleTriggerTimerTestCase.class ).injectMembers( this );
+    }
 
-  @Test
-  public void minimalTest()
-      throws Exception
-  {
-      Thread.sleep( 5000 );
-      assertTrue( this.timedTask.getInvocation() > 0 );
-  }
-  
-  @Singleton
-  private static class SimpleTask implements Job 
-  {
+    @After
+    public void tearDown()
+        throws Exception
+    {
+        this.scheduler.shutdown();
+    }
 
-      private int invocation = 0;
-    
-      public void execute( JobExecutionContext context ) 
-          throws JobExecutionException {
-       invocation++;   
-      }
-      
-      public int getInvocation() {
-        return invocation;
-      }
-    
-  }
+    @Test
+    public void minimalTest()
+        throws Exception
+    {
+        Thread.sleep( 5000 );
+        assertTrue( this.timedTask.getInvocation() > 0 );
+    }
 
-  
+    @Singleton
+    private static class SimpleTask
+        implements Job
+    {
+
+        private int invocation = 0;
+
+        public void execute( JobExecutionContext context )
+            throws JobExecutionException
+        {
+            invocation++;
+        }
+
+        public int getInvocation()
+        {
+            return invocation;
+        }
+
+    }
+
 }

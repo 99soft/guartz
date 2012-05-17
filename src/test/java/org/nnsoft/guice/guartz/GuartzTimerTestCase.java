@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.quartz.Scheduler;
 
 /**
- * 
+ *
  */
 public class GuartzTimerTestCase
 {
@@ -61,7 +61,7 @@ public class GuartzTimerTestCase
                 scheduleJob( TimedTask.class );
             }
 
-        } ).injectMembers( this );
+        } ).getMembersInjector( GuartzTimerTestCase.class ).injectMembers( this );
     }
 
     @After
