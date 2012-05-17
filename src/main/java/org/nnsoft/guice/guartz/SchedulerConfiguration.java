@@ -29,7 +29,7 @@ class SchedulerConfiguration
 
     public SchedulerConfiguration withManualStart()
     {
-        this.manualStart = true;
+        manualStart = true;
         return this;
     }
 
