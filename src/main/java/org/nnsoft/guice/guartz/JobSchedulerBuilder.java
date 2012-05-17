@@ -95,9 +95,11 @@ public final class JobSchedulerBuilder {
      * first.
      */
     private int priority = 0;
-    
+
     /**
      * The {@code Trigger} to be used to schedule the {@code Job}
+     *
+     * @since 1.2
      */
     private Trigger trigger;
 
@@ -227,20 +229,21 @@ public final class JobSchedulerBuilder {
         this.priority = priority;
         return this;
     }
-    
+
     /**
      * Sets the {@code Trigger} that will be used to schedule
      * the {@code Job}.
-     * 
+     *
      * <p>
      * Be aware that using using this method will override any other
-     * {@code Trigger}-related operation, like {@link #withTriggerGroup(String)} 
+     * {@code Trigger}-related operation, like {@link #withTriggerGroup(String)}
      * or {@link #withTimeZone(TimeZone)}
      *
      * @param trigger The {@code Trigger} to associate with the {@code Job}
      * @return This builder instance
+     * @since 1.2
      */
-    public JobSchedulerBuilder withTrigger(Trigger trigger) 
+    public JobSchedulerBuilder withTrigger(Trigger trigger)
     {
         this.trigger = trigger;
         return this;
@@ -281,9 +284,9 @@ public final class JobSchedulerBuilder {
                                .withSchedule( cronSchedule( cronExpression )
                                               .inTimeZone( timeZone ) )
                                               .withPriority( priority )
-                                              .build() 
+                                              .build()
                                 : trigger);
-        
+
     }
 
 }
