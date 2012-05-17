@@ -529,6 +529,25 @@ Summary:
             <a href="../../../../org/nnsoft/guice/guartz/JobSchedulerBuilder.html">JobSchedulerBuilder</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../org/nnsoft/guice/guartz/JobSchedulerBuilder.html#withTrigger(org.quartz.Trigger)">withTrigger</a></span>(Trigger trigger)</nobr>
+        
+        <div class="jd-descrdiv">Sets the <code>Trigger</code> that will be used to schedule
+ the <code>Job</code>.</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            <a href="../../../../org/nnsoft/guice/guartz/JobSchedulerBuilder.html">JobSchedulerBuilder</a></nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../org/nnsoft/guice/guartz/JobSchedulerBuilder.html#withTriggerGroup(java.lang.String)">withTriggerGroup</a></span>(String triggerGroup)</nobr>
         
         <div class="jd-descrdiv">Sets the <code>Trigger</code> group.</div>
@@ -537,7 +556,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1181,6 +1200,56 @@ From class
       <h5 class="jd-tagtitle">Returns</h5>
       <ul class="nolist"><li>This builder instance
 </li></ul>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="withTrigger(org.quartz.Trigger)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        <a href="../../../../org/nnsoft/guice/guartz/JobSchedulerBuilder.html">JobSchedulerBuilder</a>
+      </span>
+      <span class="sympad">withTrigger</span>
+      <span class="normal">(Trigger trigger)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Sets the <code>Trigger</code> that will be used to schedule
+ the <code>Job</code>.
+
+ <p>
+ Be aware that using using this method will override any other
+ <code>Trigger</code>-related operation, like <code><a href="../../../../org/nnsoft/guice/guartz/JobSchedulerBuilder.html#withTriggerGroup(java.lang.String)">withTriggerGroup(String)</a></code>
+ or <code><a href="../../../../org/nnsoft/guice/guartz/JobSchedulerBuilder.html#withTimeZone(java.util.TimeZone)">withTimeZone(TimeZone)</a></code></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>trigger</td>
+          <td>The <code>Trigger</code> to associate with the <code>Job</code></td>
+        </tr>
+      </table>
+  </div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Returns</h5>
+      <ul class="nolist"><li>This builder instance</li></ul>
   </div>
 
     </div>

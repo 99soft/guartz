@@ -63,7 +63,7 @@
 <a class="jxr_linenumber" name="53" href="#53">53</a>          <strong class="jxr_keyword">this</strong>.scheduler = <strong class="jxr_keyword">new</strong> StdSchedulerFactory().getScheduler();
 <a class="jxr_linenumber" name="54" href="#54">54</a>          <strong class="jxr_keyword">if</strong> ( !schedulerConfiguration.startManually() )
 <a class="jxr_linenumber" name="55" href="#55">55</a>          {
-<a class="jxr_linenumber" name="56" href="#56">56</a>              <strong class="jxr_keyword">this</strong>.scheduler.start();
+<a class="jxr_linenumber" name="56" href="#56">56</a>              scheduler.start();
 <a class="jxr_linenumber" name="57" href="#57">57</a>          }
 <a class="jxr_linenumber" name="58" href="#58">58</a>      }
 <a class="jxr_linenumber" name="59" href="#59">59</a>  
@@ -77,7 +77,7 @@
 <a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setJobFactory( JobFactory jobFactory )
 <a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">throws</strong> SchedulerException
 <a class="jxr_linenumber" name="69" href="#69">69</a>      {
-<a class="jxr_linenumber" name="70" href="#70">70</a>          <strong class="jxr_keyword">this</strong>.scheduler.setJobFactory( jobFactory );
+<a class="jxr_linenumber" name="70" href="#70">70</a>          scheduler.setJobFactory( jobFactory );
 <a class="jxr_linenumber" name="71" href="#71">71</a>      }
 <a class="jxr_linenumber" name="72" href="#72">72</a>  
 <a class="jxr_linenumber" name="73" href="#73">73</a>      <em class="jxr_javadoccomment">/**</em>
@@ -92,7 +92,7 @@
 <a class="jxr_linenumber" name="82" href="#82">82</a>      {
 <a class="jxr_linenumber" name="83" href="#83">83</a>          <strong class="jxr_keyword">for</strong> ( JobListener jobListener : jobListeners )
 <a class="jxr_linenumber" name="84" href="#84">84</a>          {
-<a class="jxr_linenumber" name="85" href="#85">85</a>              <strong class="jxr_keyword">this</strong>.scheduler.getListenerManager().addJobListener( jobListener );
+<a class="jxr_linenumber" name="85" href="#85">85</a>              scheduler.getListenerManager().addJobListener( jobListener );
 <a class="jxr_linenumber" name="86" href="#86">86</a>          }
 <a class="jxr_linenumber" name="87" href="#87">87</a>      }
 <a class="jxr_linenumber" name="88" href="#88">88</a>  
@@ -108,7 +108,7 @@
 <a class="jxr_linenumber" name="98" href="#98">98</a>      {
 <a class="jxr_linenumber" name="99" href="#99">99</a>          <strong class="jxr_keyword">for</strong> ( SchedulerListener schedulerListener : schedulerListeners )
 <a class="jxr_linenumber" name="100" href="#100">100</a>         {
-<a class="jxr_linenumber" name="101" href="#101">101</a>             <strong class="jxr_keyword">this</strong>.scheduler.getListenerManager().addSchedulerListener( schedulerListener );
+<a class="jxr_linenumber" name="101" href="#101">101</a>             scheduler.getListenerManager().addSchedulerListener( schedulerListener );
 <a class="jxr_linenumber" name="102" href="#102">102</a>         }
 <a class="jxr_linenumber" name="103" href="#103">103</a>     }
 <a class="jxr_linenumber" name="104" href="#104">104</a> 
@@ -124,7 +124,7 @@
 <a class="jxr_linenumber" name="114" href="#114">114</a>     {
 <a class="jxr_linenumber" name="115" href="#115">115</a>         <strong class="jxr_keyword">for</strong> ( TriggerListener triggerListener : triggerListeners )
 <a class="jxr_linenumber" name="116" href="#116">116</a>         {
-<a class="jxr_linenumber" name="117" href="#117">117</a>             <strong class="jxr_keyword">this</strong>.scheduler.getListenerManager().addTriggerListener( triggerListener );
+<a class="jxr_linenumber" name="117" href="#117">117</a>             scheduler.getListenerManager().addTriggerListener( triggerListener );
 <a class="jxr_linenumber" name="118" href="#118">118</a>         }
 <a class="jxr_linenumber" name="119" href="#119">119</a>     }
 <a class="jxr_linenumber" name="120" href="#120">120</a> 
@@ -133,7 +133,7 @@
 <a class="jxr_linenumber" name="123" href="#123">123</a> <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="124" href="#124">124</a>     <strong class="jxr_keyword">public</strong> Scheduler get()
 <a class="jxr_linenumber" name="125" href="#125">125</a>     {
-<a class="jxr_linenumber" name="126" href="#126">126</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">this</strong>.scheduler;
+<a class="jxr_linenumber" name="126" href="#126">126</a>         <strong class="jxr_keyword">return</strong> scheduler;
 <a class="jxr_linenumber" name="127" href="#127">127</a>     }
 <a class="jxr_linenumber" name="128" href="#128">128</a> 
 <a class="jxr_linenumber" name="129" href="#129">129</a> }

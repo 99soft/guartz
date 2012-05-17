@@ -115,6 +115,19 @@
 <parameter name="timeZone" type="java.util.TimeZone">
 </parameter>
 </method>
+<method name="withTrigger"
+ return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
+ abstract="false"
+ native="false"
+ synchronized="false"
+ static="false"
+ final="false"
+ deprecated="not deprecated"
+ visibility="public"
+>
+<parameter name="trigger" type="org.quartz.Trigger">
+</parameter>
+</method>
 <method name="withTriggerGroup"
  return="org.nnsoft.guice.guartz.JobSchedulerBuilder"
  abstract="false"

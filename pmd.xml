@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.5" timestamp="2012-01-27T12:11:39.520">
+<pmd version="4.2.5" timestamp="2012-05-17T21:20:29.878">
 <file name="/Users/simonetripodi/Documents/workspace/guartz/target/checkout/src/main/java/org/nnsoft/guice/guartz/JobSchedulerBuilder.java">
-<violation beginline="1" endline="257" begincolumn="1" endcolumn="2" rule="TooManyStaticImports" ruleset="Import Statement Rules" package="org.nnsoft.guice.guartz" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#TooManyStaticImports" priority="3">
+<violation beginline="1" endline="292" begincolumn="1" endcolumn="2" rule="TooManyStaticImports" ruleset="Import Statement Rules" package="org.nnsoft.guice.guartz" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#TooManyStaticImports" priority="3">
 Too many static imports may lead to messy code
 </violation>
 </file>
