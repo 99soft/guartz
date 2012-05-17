@@ -30,6 +30,7 @@ import javax.inject.Inject;
 
 import org.quartz.Job;
 import org.quartz.Scheduler;
+import org.quartz.Trigger;
 
 import com.google.inject.ProvisionException;
 
@@ -94,6 +95,11 @@ public final class JobSchedulerBuilder {
      * first.
      */
     private int priority = 0;
+    
+    /**
+     * The {@code Trigger} to be used to schedule the {@code Job}
+     */
+    private Trigger trigger;
 
     /**
      * Creates a new {@code JobSchedulerBuilder} instance.
@@ -221,6 +227,24 @@ public final class JobSchedulerBuilder {
         this.priority = priority;
         return this;
     }
+    
+    /**
+     * Sets the {@code Trigger} that will be used to schedule
+     * the {@code Job}.
+     * 
+     * <p>
+     * Be aware that using using this method will override any other
+     * {@code Trigger}-related operation, like {@link #withTriggerGroup(String)} 
+     * or {@link #withTimeZone(TimeZone)}
+     *
+     * @param trigger The {@code Trigger} to associate with the {@code Job}
+     * @return This builder instance
+     */
+    public JobSchedulerBuilder withTrigger(Trigger trigger) 
+    {
+        this.trigger = trigger;
+        return this;
+    }
 
     /**
      * Add the produced {@code Job} to the given {@code Scheduler},
@@ -235,23 +259,31 @@ public final class JobSchedulerBuilder {
     public void schedule( Scheduler scheduler )
         throws Exception
     {
-        if ( cronExpression == null )
+        if ( cronExpression == null && trigger == null )
         {
             throw new ProvisionException( format( "Impossible to schedule Job '%s' without cron expression",
                                                   jobClass.getName() ) );
+        }
+        if ( cronExpression != null && trigger != null )
+        {
+          throw new ProvisionException( format( "Impossible to schedule Job '%s' with cron expression " +
+                                                "and an associated Trigger at the same time", jobClass.getName() ) );
         }
 
         scheduler.scheduleJob( newJob( jobClass )
                                .withIdentity( DEFAULT.equals( jobName ) ? jobClass.getName() : jobName, jobGroup )
                                .requestRecovery( requestRecovery )
                                .storeDurably( storeDurably ).build(),
+                               ( trigger == null ) ?
                                newTrigger()
                                .withIdentity( DEFAULT.equals( triggerName ) ? jobClass.getCanonicalName() : triggerName,
                                               triggerGroup )
                                .withSchedule( cronSchedule( cronExpression )
                                               .inTimeZone( timeZone ) )
                                               .withPriority( priority )
-                                              .build() );
+                                              .build() 
+                                : trigger);
+        
     }
 
 }
