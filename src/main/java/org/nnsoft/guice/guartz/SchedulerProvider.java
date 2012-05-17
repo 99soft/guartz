@@ -53,7 +53,7 @@ final class SchedulerProvider
         this.scheduler = new StdSchedulerFactory().getScheduler();
         if ( !schedulerConfiguration.startManually() )
         {
-            this.scheduler.start();
+            scheduler.start();
         }
     }
 
@@ -67,7 +67,7 @@ final class SchedulerProvider
     public void setJobFactory( JobFactory jobFactory )
         throws SchedulerException
     {
-        this.scheduler.setJobFactory( jobFactory );
+        scheduler.setJobFactory( jobFactory );
     }
 
     /**
@@ -82,7 +82,7 @@ final class SchedulerProvider
     {
         for ( JobListener jobListener : jobListeners )
         {
-            this.scheduler.getListenerManager().addJobListener( jobListener );
+            scheduler.getListenerManager().addJobListener( jobListener );
         }
     }
 
@@ -98,7 +98,7 @@ final class SchedulerProvider
     {
         for ( SchedulerListener schedulerListener : schedulerListeners )
         {
-            this.scheduler.getListenerManager().addSchedulerListener( schedulerListener );
+            scheduler.getListenerManager().addSchedulerListener( schedulerListener );
         }
     }
 
@@ -114,7 +114,7 @@ final class SchedulerProvider
     {
         for ( TriggerListener triggerListener : triggerListeners )
         {
-            this.scheduler.getListenerManager().addTriggerListener( triggerListener );
+            scheduler.getListenerManager().addTriggerListener( triggerListener );
         }
     }
 
@@ -123,7 +123,7 @@ final class SchedulerProvider
      */
     public Scheduler get()
     {
-        return this.scheduler;
+        return scheduler;
     }
 
 }
