@@ -298,8 +298,8 @@ public final class JobSchedulerBuilder {
                                                 "and an associated Trigger at the same time", jobClass.getName() ) );
         }
 
-        JobKey jobKey = jobKey(DEFAULT.equals(jobName) ? jobClass.getName() : jobName, jobGroup);
-        TriggerKey triggerKey = triggerKey(DEFAULT.equals(triggerName) ? jobClass.getCanonicalName() : triggerName, triggerGroup);
+        JobKey jobKey = jobKey( DEFAULT.equals( jobName ) ? jobClass.getName() : jobName, jobGroup );
+        TriggerKey triggerKey = triggerKey( DEFAULT.equals( triggerName ) ? jobClass.getCanonicalName() : triggerName, triggerGroup );
 
         if ( updateExistingTrigger && scheduler.checkExists( triggerKey ) ) {
             scheduler.unscheduleJob( triggerKey );
