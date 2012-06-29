@@ -16,23 +16,21 @@ package org.nnsoft.guice.guartz;
  *    limitations under the License.
  */
 
+import com.google.inject.ProvisionException;
+import org.quartz.*;
+
+import javax.inject.Inject;
+import java.util.TimeZone;
+
 import static java.lang.String.format;
 import static java.util.TimeZone.getDefault;
 import static org.nnsoft.guice.guartz.Scheduled.DEFAULT;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
+import static org.quartz.JobKey.jobKey;
 import static org.quartz.TriggerBuilder.newTrigger;
+import static org.quartz.TriggerKey.triggerKey;
 import static org.quartz.utils.Key.DEFAULT_GROUP;
-
-import java.util.TimeZone;
-
-import javax.inject.Inject;
-
-import org.quartz.Job;
-import org.quartz.Scheduler;
-import org.quartz.Trigger;
-
-import com.google.inject.ProvisionException;
 
 /**
  * DSL to produce {@code Job} and add to a {@code Scheduler},
@@ -102,6 +100,14 @@ public final class JobSchedulerBuilder {
      * @since 1.2
      */
     private Trigger trigger;
+
+    /**
+     * Indicates whether the job's trigger should be updated if it is already existing when being
+     * scheduled (which is typically the case with a persistent {@link org.quartz.spi.JobStore}.
+     *
+     * @since 1.3
+     */
+    private boolean updateExistingTrigger = false;
 
     /**
      * Creates a new {@code JobSchedulerBuilder} instance.
@@ -250,6 +256,19 @@ public final class JobSchedulerBuilder {
     }
 
     /**
+     * Requests an existing trigger (sharing the same key as the new trigger) for this job to
+     * be replaced with the new trigger.
+     *
+     * @return This builder instance
+     * @since 1.3
+     */
+    public JobSchedulerBuilder updateExistingTrigger()
+    {
+        this.updateExistingTrigger = true;
+        return this;
+    }
+
+    /**
      * Add the produced {@code Job} to the given {@code Scheduler},
      * and associate the related {@code Trigger} with it.
      *
@@ -273,20 +292,25 @@ public final class JobSchedulerBuilder {
                                                 "and an associated Trigger at the same time", jobClass.getName() ) );
         }
 
+        JobKey jobKey = jobKey(DEFAULT.equals(jobName) ? jobClass.getName() : jobName, jobGroup);
+        TriggerKey triggerKey = triggerKey(DEFAULT.equals(triggerName) ? jobClass.getCanonicalName() : triggerName, triggerGroup);
+
+        if ( updateExistingTrigger && scheduler.checkExists( triggerKey ) ) {
+            scheduler.unscheduleJob( triggerKey );
+        }
+
         scheduler.scheduleJob( newJob( jobClass )
-                               .withIdentity( DEFAULT.equals( jobName ) ? jobClass.getName() : jobName, jobGroup )
+                               .withIdentity( jobKey )
                                .requestRecovery( requestRecovery )
                                .storeDurably( storeDurably ).build(),
                                ( trigger == null ) ?
                                newTrigger()
-                               .withIdentity( DEFAULT.equals( triggerName ) ? jobClass.getCanonicalName() : triggerName,
-                                              triggerGroup )
+                               .withIdentity( triggerKey )
                                .withSchedule( cronSchedule( cronExpression )
                                               .inTimeZone( timeZone ) )
                                               .withPriority( priority )
                                               .build()
                                 : trigger);
-
     }
 
 }
