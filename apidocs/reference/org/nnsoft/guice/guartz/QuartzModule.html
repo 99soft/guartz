@@ -1509,7 +1509,7 @@ From interface
 
      @Override
      protected void schedule() {
-       configureScheduler().withManualStart();
+       configureScheduler().withManualStart().withProperties(...);
      }
 
  });
