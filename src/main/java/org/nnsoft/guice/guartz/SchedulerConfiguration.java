@@ -28,6 +28,10 @@ class SchedulerConfiguration
 {
 
     private boolean manualStart = false;
+
+    /**
+     * @since 1.3
+     */
     private Properties properties;
 
     public SchedulerConfigurationBuilder withManualStart()
@@ -36,7 +40,10 @@ class SchedulerConfiguration
         return this;
     }
 
-    public SchedulerConfigurationBuilder withProperties(Properties properties)
+    /**
+     * @since 1.3
+     */
+    public SchedulerConfigurationBuilder withProperties( Properties properties )
     {
         this.properties = properties;
         return this;
@@ -47,7 +54,12 @@ class SchedulerConfiguration
         return manualStart;
     }
 
+    /**
+     * @since 1.3
+     * @return
+     */
     Properties getProperties() {
         return properties;
     }
+
 }

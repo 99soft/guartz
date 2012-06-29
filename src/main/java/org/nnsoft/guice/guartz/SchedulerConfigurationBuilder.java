@@ -28,6 +28,11 @@ public interface SchedulerConfigurationBuilder
 
     SchedulerConfigurationBuilder withManualStart();
 
-    SchedulerConfigurationBuilder withProperties(Properties properties);
+    /**
+     * @since 1.3
+     * @param properties
+     * @return
+     */
+    SchedulerConfigurationBuilder withProperties( Properties properties );
 
 }
