@@ -16,6 +16,8 @@ package org.nnsoft.guice.guartz;
  *    limitations under the License.
  */
 
+import java.util.Properties;
+
 /**
  * Configuration of scheduler.
  *
@@ -26,10 +28,17 @@ class SchedulerConfiguration
 {
 
     private boolean manualStart = false;
+    private Properties properties;
 
-    public SchedulerConfiguration withManualStart()
+    public SchedulerConfigurationBuilder withManualStart()
     {
         manualStart = true;
+        return this;
+    }
+
+    public SchedulerConfigurationBuilder withProperties(Properties properties)
+    {
+        this.properties = properties;
         return this;
     }
 
@@ -38,4 +47,7 @@ class SchedulerConfiguration
         return manualStart;
     }
 
+    Properties getProperties() {
+        return properties;
+    }
 }

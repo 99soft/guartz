@@ -109,7 +109,7 @@ public abstract class QuartzModule
      *
      *     {@literal @}Override
      *     protected void schedule() {
-     *       configureScheduler().withManualStart();
+     *       configureScheduler().withManualStart().withProperties(...);
      *     }
      *
      * });
