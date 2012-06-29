@@ -68,7 +68,7 @@ public class WithPropertiesTestCase
     public void testPropertiesConfiguredInstanceName()
         throws Exception
     {
-
+        assertEquals( scheduler.getSchedulerName(), INSTANCE_NAME );
     }
 
 }
