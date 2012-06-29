@@ -16,6 +16,8 @@ package org.nnsoft.guice.guartz;
  *    limitations under the License.
  */
 
+import java.util.Properties;
+
 /**
  * Contains methods to change scheduler configuration by subclasses of QuartzModule.
  *
@@ -24,6 +26,8 @@ package org.nnsoft.guice.guartz;
 public interface SchedulerConfigurationBuilder
 {
 
-    SchedulerConfiguration withManualStart();
+    SchedulerConfigurationBuilder withManualStart();
+
+    SchedulerConfigurationBuilder withProperties(Properties properties);
 
 }

@@ -16,18 +16,13 @@ package org.nnsoft.guice.guartz;
  *    limitations under the License.
  */
 
-import java.util.Set;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.spi.JobFactory;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
-
-import org.quartz.JobListener;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerListener;
-import org.quartz.TriggerListener;
-import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.spi.JobFactory;
+import java.util.Set;
 
 /**
  * Provides a {@code Scheduler} instance.
@@ -50,7 +45,10 @@ final class SchedulerProvider
     public SchedulerProvider(SchedulerConfiguration schedulerConfiguration)
         throws SchedulerException
     {
-        this.scheduler = new StdSchedulerFactory().getScheduler();
+        StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
+        if ( schedulerConfiguration.getProperties() != null )
+            schedulerFactory.initialize( schedulerConfiguration.getProperties() );
+        this.scheduler = schedulerFactory.getScheduler();
         if ( !schedulerConfiguration.startManually() )
         {
             scheduler.start();
