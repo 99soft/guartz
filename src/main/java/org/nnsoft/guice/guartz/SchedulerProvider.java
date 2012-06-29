@@ -16,13 +16,18 @@ package org.nnsoft.guice.guartz;
  *    limitations under the License.
  */
 
-import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.spi.JobFactory;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
-import java.util.Set;
+
+import org.quartz.JobListener;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerListener;
+import org.quartz.TriggerListener;
+import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.spi.JobFactory;
 
 /**
  * Provides a {@code Scheduler} instance.
