@@ -45,6 +45,8 @@ public class WithPropertiesTestCase
             {
                 Properties properties = new Properties()
                 {
+                    private static final long serialVersionUID = 1L;
+
                     {
                         put( "org.quartz.scheduler.instanceName", INSTANCE_NAME );
                         put( "org.quartz.threadPool.class", "org.quartz.simpl.ZeroSizeThreadPool" );
