@@ -68,6 +68,8 @@ public abstract class QuartzModule
 
         try
         {
+        	bindScope(QuartzJobScoped.class, QuartzScopes.QUARTZ_JOB);
+        	bind(QuartzJobScope.class).toInstance(QuartzScopes.QUARTZ_JOB);
             schedule();
             bind( JobFactory.class ).to( InjectorJobFactory.class ).in( SINGLETON );
             bind( Scheduler.class ).toProvider( SchedulerProvider.class ).asEagerSingleton();

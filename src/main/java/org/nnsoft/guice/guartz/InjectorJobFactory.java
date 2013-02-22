@@ -19,6 +19,8 @@ package org.nnsoft.guice.guartz;
 import javax.inject.Inject;
 
 import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.spi.JobFactory;
@@ -33,7 +35,7 @@ final class InjectorJobFactory
     implements JobFactory
 {
 
-    /**
+	/**
      * The delegated {@link Injector}.
      */
     @Inject
@@ -55,8 +57,36 @@ final class InjectorJobFactory
     public Job newJob( TriggerFiredBundle bundle, Scheduler scheduler )
         throws SchedulerException
     {
-        Class<? extends Job> jobClass = bundle.getJobDetail().getJobClass();
-        return this.injector.getInstance( jobClass );
+        final Class<? extends Job> jobClass = bundle.getJobDetail().getJobClass();
+        
+		Job decorator = new JobScopeDecorator(jobClass);
+        
+		return decorator;
+    }
+    
+    private final class JobScopeDecorator implements Job {
+    	
+    	private final Class<? extends Job> decoratedJobClass;
+    	
+    	Job decorated;
+    	
+    	private JobScopeDecorator(Class<? extends Job> jobClass) {
+    		this.decoratedJobClass = jobClass;
+    	}
+    	
+    	public void execute(JobExecutionContext context) throws JobExecutionException 
+    	{
+    		// See http://code.google.com/p/google-guice/wiki/CustomScopes#Triggering_the_Scope
+    		final QuartzJobScope scope = InjectorJobFactory.this.injector.getInstance( QuartzJobScope.class );
+    		scope.enter();
+    		try 
+    		{
+				decorated = InjectorJobFactory.this.injector.getInstance( decoratedJobClass );
+    			decorated.execute( context );
+    		} finally {
+    			scope.exit();
+    		}
+    	}
     }
 
 }
