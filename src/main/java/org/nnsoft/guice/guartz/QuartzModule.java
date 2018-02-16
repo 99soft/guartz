@@ -17,8 +17,8 @@ package org.nnsoft.guice.guartz;
  */
 
 import static com.google.inject.Scopes.SINGLETON;
-import static com.google.inject.internal.util.$Preconditions.checkNotNull;
-import static com.google.inject.internal.util.$Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.multibindings.Multibinder.newSetBinder;
 import static java.util.TimeZone.getTimeZone;
 import static org.nnsoft.guice.guartz.Scheduled.DEFAULT;
