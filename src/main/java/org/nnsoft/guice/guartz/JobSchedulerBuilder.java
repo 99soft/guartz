@@ -16,6 +16,17 @@ package org.nnsoft.guice.guartz;
  *    limitations under the License.
  */
 
+import com.google.inject.Inject;
+import com.google.inject.ProvisionException;
+
+import org.quartz.Job;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.Trigger;
+import org.quartz.TriggerKey;
+
+import java.util.TimeZone;
+
 import static java.lang.String.format;
 import static java.util.TimeZone.getDefault;
 import static org.nnsoft.guice.guartz.Scheduled.DEFAULT;
@@ -25,18 +36,6 @@ import static org.quartz.JobKey.jobKey;
 import static org.quartz.TriggerBuilder.newTrigger;
 import static org.quartz.TriggerKey.triggerKey;
 import static org.quartz.utils.Key.DEFAULT_GROUP;
-
-import java.util.TimeZone;
-
-import javax.inject.Inject;
-
-import org.quartz.Job;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.Trigger;
-import org.quartz.TriggerKey;
-
-import com.google.inject.ProvisionException;
 
 /**
  * DSL to produce {@code Job} and add to a {@code Scheduler},

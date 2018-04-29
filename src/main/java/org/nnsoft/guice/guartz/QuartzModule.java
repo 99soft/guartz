@@ -16,14 +16,8 @@ package org.nnsoft.guice.guartz;
  *    limitations under the License.
  */
 
-import static com.google.inject.Scopes.SINGLETON;
-import static com.google.inject.internal.util.$Preconditions.checkNotNull;
-import static com.google.inject.internal.util.$Preconditions.checkState;
-import static com.google.inject.multibindings.Multibinder.newSetBinder;
-import static java.util.TimeZone.getTimeZone;
-import static org.nnsoft.guice.guartz.Scheduled.DEFAULT;
-
-import java.util.TimeZone;
+import com.google.inject.AbstractModule;
+import com.google.inject.multibindings.Multibinder;
 
 import org.quartz.Job;
 import org.quartz.JobListener;
@@ -32,8 +26,14 @@ import org.quartz.SchedulerListener;
 import org.quartz.TriggerListener;
 import org.quartz.spi.JobFactory;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.Multibinder;
+import java.util.TimeZone;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.inject.Scopes.SINGLETON;
+import static com.google.inject.multibindings.Multibinder.newSetBinder;
+import static java.util.TimeZone.getTimeZone;
+import static org.nnsoft.guice.guartz.Scheduled.DEFAULT;
 
 /**
  * Quartz (http://www.quartz-scheduler.org/) Module as Google-Guice extension.
